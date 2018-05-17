@@ -135,8 +135,8 @@ export const constantRouterMap = [
       {
         path: 'index',
         name: 'merchant_binding_index',
-        component: () => import('@/views/form/index'),
-        meta: { title: '商人绑定', icon: 'form' }
+        component: () => import('@/views/merchant/binding'),
+        meta: { title: '商人绑定', icon: 'table' }
       }
 
     ]

@@ -11,20 +11,25 @@
   <el-col :span="23">
       <div class="form-content">
  <el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium" >
-  <el-form-item>
-     <el-button icon="el-icon-circle-plus" size="medium" type="danger" @click="centerDialogVisible = true">新增</el-button>
-  </el-form-item>
-  <el-form-item label="留言类别">
-    <el-select v-model="formInline.region" placeholder="留言类别" style="width:100px;">
+
+  <el-form-item label="状态">
+    <el-select v-model="formInline.region" placeholder="状态" style="width:100px;">
       <el-option label="全部" value="0"></el-option>
       <el-option label="正常" value="1"></el-option>
       <el-option label="已封" value="2"></el-option>
     </el-select>
   </el-form-item>
 
- <el-form-item label="留言时间">
-    <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>-
-      <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>
+  <el-form-item label="商人ID">
+    <el-input v-model="formInline.user" placeholder="商人ID"  style="width:100px;"></el-input>
+  </el-form-item>
+     
+  <el-form-item label="商人QQ">
+    <el-input v-model="formInline.user" placeholder="商人QQ" style="width:150px;"></el-input>
+  </el-form-item>
+
+ <el-form-item label="商人微信">
+    <el-input v-model="formInline.user" placeholder="绑定手机" style="width:150px;"></el-input>
   </el-form-item>
 
   <el-form-item>
@@ -33,7 +38,9 @@
   <el-form-item>
    <el-button type="info" plain>清空查询</el-button>
   </el-form-item>
-
+  <el-form-item>
+     <el-button icon="el-icon-circle-plus" size="medium" type="danger" @click="centerDialogVisible = true">新增</el-button>
+  </el-form-item>
 
   </el-form>
   </div>
@@ -45,13 +52,20 @@
   <el-col :span="23">
       <div class="table-content"> 
   <el-table border :data="tableData"  style="width: 100%" >
-    <el-table-column prop="date" label="时间" width="200" >
+    <el-table-column prop="name" label="商人ID" width="140" >
     </el-table-column>
-    <el-table-column prop="city" label="信息ID" width="120">
+    <el-table-column prop="city" label="状态" width="120">
     </el-table-column>
-    <el-table-column prop="province" label="留言类别" width="240">
+    <el-table-column prop="province" label="商人QQ" width="240">
     </el-table-column>
-    <el-table-column prop="date" label="留言内容" >
+    <el-table-column prop="date" label="商人微信" width="240">
+    </el-table-column>
+
+     <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button @click="editRow(scope.row)" type="text" size="small">修改</el-button>
+        <el-button type="text" size="small">删除</el-button>
+      </template>
     </el-table-column>
   </el-table>
 
