@@ -43,7 +43,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'dashboard',
+  name: 'promote',
   computed: {
     ...mapGetters(['name', 'roles'])
   },

@@ -40,8 +40,8 @@
               <el-input v-model="formInline.user" placeholder="绑定手机" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="注册时间">
-              <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date" placeholder="开始日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date" placeholder="结束日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" icon="el-icon-search" @click="showReport">查询</el-button>
