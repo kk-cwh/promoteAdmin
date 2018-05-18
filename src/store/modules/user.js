@@ -27,7 +27,6 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       // const username = userInfo.username.trim()
-      console.log(234243)
       return new Promise((resolve, reject) => {
         if (userInfo.username === 'admin') {
           setToken('123123')
