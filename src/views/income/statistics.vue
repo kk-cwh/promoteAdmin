@@ -56,7 +56,6 @@
 
 <script>
 export default {
-  name: 'dashboard',
   data() {
     return {
       loading: false,
