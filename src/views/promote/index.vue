@@ -1,5 +1,5 @@
 <template>
-  <div class="promote-container">
+  <div class="app-container">
 
 <!-- 统计信息 -->
   <el-card class="box-card">
@@ -99,10 +99,7 @@ export default {
 </script>
 
 <style scoped>
-.promote-container {
-  width: 1000px;
-  margin: 0 auto;
-}
+
 .box-card {
   width: 480px;
 }
