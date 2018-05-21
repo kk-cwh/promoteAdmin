@@ -1,8 +1,9 @@
-import { getToken, setToken, removeToken } from '@/utils/auth'
-
+import { getToken, setToken, setKey, removeToken } from '@/utils/auth'
+import http from '@/utils/request'
 const user = {
   state: {
     token: getToken(),
+    expired_at: '',
     name: '',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     roles: []
@@ -26,42 +27,40 @@ const user = {
   actions: {
     // 登录
     Login({ commit }, userInfo) {
-      // const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        if (userInfo.username === 'admin') {
-          setToken('123123')
-          commit('SET_TOKEN', 123123)
-          resolve()
-        } else {
-          reject('用户密码不对')
-        }
-        // login(username, userInfo.password).then(response => {
-        //   const data = response.data
-        //   setToken(data.token)
-        //   commit('SET_TOKEN', data.token)
-        //   resolve()
-        // }).catch(error => {
-        //   reject(error)
-        // })
+        http({
+          url: '/api/auth/login',
+          method: 'post',
+          data: { name: userInfo.username, password: userInfo.password }
+        }).then(response => {
+          if (response.data) {
+            const data = response.data
+            commit('SET_TOKEN', data.token)
+
+            setToken(data.token)
+            setKey('expired_at', data.expired_at)
+            resolve()
+          }
+        }).catch(error => {
+          reject(error)
+        })
       })
     },
 
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        // getInfo(state.token).then(response => {
-        //   const data = response.data
-        //   if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-        //     commit('SET_ROLES', data.roles)
-        //   } else {
-        //     reject('getInfo: roles must be a non-null array !')
-        //   }
-        //   commit('SET_NAME', data.name)
-        //   commit('SET_AVATAR', data.avatar)
-        //   resolve(response)
-        // }).catch(error => {
-        //   reject(error)
-        // })
+        http({
+          url: '/api/user',
+          method: 'get'
+        }).then(response => {
+          if (response.user) {
+            commit('SET_NAME', response.user.name)
+            resolve()
+          }
+        }).catch(error => {
+          reject(error)
+        })
       })
     },
 

@@ -10,7 +10,17 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+       //匹配代理的url
+     '/api': {
+    // 目标服务器地址
+    target: "http://dev.agency.com",
+    pathRewrite: {"^/api" : "/api"},
+    secure: false, // 接受 运行在 https 上的服务
+    changeOrigin: true
+    }
+
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
