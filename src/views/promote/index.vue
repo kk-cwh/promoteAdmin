@@ -1,41 +1,44 @@
 <template>
   <div class="app-container">
 
-<!-- 统计信息 -->
-  <el-card class="box-card">
-  <div slot="header" class="clearfix">
-    <span>统计信息</span>
-    <el-button style="float: right; padding: 3px 0" type="text" :loading="loading">刷新</el-button>
-  </div>
-  <div class="statistics-box">
-      <div class="statistics-item">下属玩家:35,465</div>
-      <div class="statistics-item">历史收益:35,465</div>
-      <div class="statistics-item">昨日注册:35,465</div>
-      <div class="statistics-item">昨日收益:35,465</div>
-      <div class="statistics-item">今日注册:35,465</div>
-      <div class="statistics-item">今日收益:35,465</div>
-      <div class="statistics-item">下级代理:35,465</div>
-      <div class="statistics-item">非直属代理:35,465</div>
-  </div>
-</el-card>
-<br>
-<!-- 公告信息 -->
+    <!-- 统计信息 -->
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>统计信息</span>
+        <el-button style="float: right; padding: 3px 0" type="text" :loading="loading">刷新</el-button>
+      </div>
+      <div class="statistics-box">
+        <div class="statistics-item">下属玩家:35,465</div>
+        <div class="statistics-item">历史收益:35,465</div>
+        <div class="statistics-item">昨日注册:35,465</div>
+        <div class="statistics-item">昨日收益:35,465</div>
+        <div class="statistics-item">今日注册:35,465</div>
+        <div class="statistics-item">今日收益:35,465</div>
+        <div class="statistics-item">下级代理:35,465</div>
+        <div class="statistics-item">非直属代理:35,465</div>
+      </div>
+    </el-card>
+    <br>
+    <!-- 公告信息 -->
 
-<div class="public-report clearfloat">
-  <div class="report-title"> 公告信息 </div>
-  <div class="report-publish">  <el-button>发布公告</el-button> </div>
-</div>
+    <div class="public-report clearfloat">
+      <div class="report-title"> 公告信息 </div>
+      <div class="report-publish">
+        <el-button @click="toRoute">发布公告</el-button>
+      </div>
+    </div>
 
-  <el-table :data="tableData" style="width: 100%" :show-header="false" row-class-name="report-row-item" cell-class-name="report-cell-item" >
-    <el-table-column prop="name" label="标题">
-       <template slot-scope="scope">
-        <a style="margin-left: 10px" href="javascript:void"  @click="showReport(scope.row)">{{ scope.row.name }}</a>
-      </template>
-    </el-table-column>
-     
-    <el-table-column prop="date" label="日期" width="180">
-    </el-table-column>
-  </el-table>
+    <el-table :data="tableData" style="width: 100%" :show-header="false" row-class-name="report-row-item" cell-class-name="report-cell-item">
+      <el-table-column prop="name" label="标题">
+        <template slot-scope="scope">
+          <a style="margin-left: 10px" href="javascript:void" @click="showReport(scope.row)">{{ scope.row.name }}</a>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="date" label="日期" width="180">
+      </el-table-column>
+    </el-table>
+
   </div>
 </template>
 
@@ -47,9 +50,15 @@ export default {
   computed: {
     ...mapGetters(['name', 'roles'])
   },
+  mounted() {
+
+  },
   data() {
     return {
+      editorContent: '',
+      show: false,
       loading: false,
+      centerDialogVisible: false,
       tableData: [
         {
           date: '2016-05-03',
@@ -93,6 +102,9 @@ export default {
   methods: {
     showReport(row) {
       console.log(row)
+    },
+    toRoute() {
+      this.$router.push({ name: 'promote_publish' })
     }
   }
 }

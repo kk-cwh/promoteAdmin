@@ -33,12 +33,22 @@ export const constantRouterMap = [
     path: '/home',
     component: Layout,
     name: 'home',
+    meta: { title: '推广首页', icon: 'home' },
     children: [{
       path: 'index',
       name: 'promote_index',
       meta: { title: '推广首页', icon: 'home' },
       component: () => import('@/views/promote/index')
-    }]
+    },
+    {
+      path: 'promote-publish',
+      name: 'promote_publish',
+      hidden: true,
+      meta: { title: '发布公告', icon: 'form' },
+      component: () => import('@/views/promote/publish')
+    }
+
+    ]
   },
 
   {
