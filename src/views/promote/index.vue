@@ -3,7 +3,7 @@
 
     <!-- 统计信息 -->
     <el-card class="box-card">
-      <div slot="header" class="clearfix">
+      <div slot="header" >
         <span>统计信息</span>
         <el-button style="float: right; padding: 3px 0" type="text" :loading="loading">刷新</el-button>
       </div>
@@ -20,6 +20,9 @@
     </el-card>
     <br>
     <!-- 公告信息 -->
+<el-row>
+<el-col :span="16" >
+
 
     <div class="public-report clearfloat">
       <div class="report-title"> 公告信息 </div>
@@ -38,7 +41,8 @@
       <el-table-column prop="date" label="日期" width="180">
       </el-table-column>
     </el-table>
-
+</el-col>
+</el-row>
   </div>
 </template>
 
