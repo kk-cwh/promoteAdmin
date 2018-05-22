@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '../store'
-import { getToken, getKey } from '@/utils/auth'
+import { getToken, setToken, getKey, setKey } from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
@@ -10,17 +10,41 @@ const service = axios.create({
 })
 
 function needRefreshToken() {
-  const oData = new Date(getKey('expired_at')).getTime() // 过期时间 的戳
-  const nData = new Date().getTime()
+  const expired_at = getKey('expired_at')
+  const oData = +new Date(expired_at) // 过期时间的戳
+  const nData = +new Date()
   const stamp = oData - nData
-  const minutes = parseInt((stamp % (1000 * 60 * 60)) / (1000 * 60))
-  return minutes >= 30
+  const minutes = parseInt(stamp / (1000 * 60))
+  return !(minutes >= 30)
+}
+
+function getRefreshToken() {
+  // 刷新token 注意这里用到的service
+  return service.get('/api/auth/refresh')
+    .then((res) => { return Promise.resolve(res.data) })
 }
 
 // request拦截器
 service.interceptors.request.use(config => {
   if (store.getters.token) {
-    config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+    config.headers['Authorization'] = 'Bearer' + ' ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+
+    if (needRefreshToken() && config.url.indexOf('/api/auth/refresh') === -1) {
+      getRefreshToken().then(res => {
+        console.log(res, '---------------------======')
+        // window.isRefreshing = false
+        setKey('expired_at', res.expired_at)
+        setToken(res.token)
+        config.headers.Authorization = 'Bearer' + ' ' + res.token
+      }).catch(() => {
+        Message({
+          message: '登陆已过期,请重新登陆！',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        window.location.href = '#/login'
+      })
+    }
   }
   return config
 }, error => {
@@ -41,7 +65,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('error.response:', error.response)// for debug
+    console.log('2 error.response:', error.response)// for debug
     Message({
       message: error.response.statusText,
       type: 'error',
