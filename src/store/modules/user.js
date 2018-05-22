@@ -1,12 +1,10 @@
-import { getToken, setToken, setKey, removeToken } from '@/utils/auth'
+import { getToken, setToken, setKey, clearAllCache } from '@/utils/auth'
 import http from '@/utils/request'
 const user = {
   state: {
     token: getToken(),
-    expired_at: '',
     name: '',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    roles: []
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
   },
 
   mutations: {
@@ -18,9 +16,6 @@ const user = {
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
-    },
-    SET_ROLES: (state, roles) => {
-      state.roles = roles
     }
   },
 
@@ -36,7 +31,6 @@ const user = {
           if (response.data) {
             const data = response.data
             commit('SET_TOKEN', data.token)
-
             setToken(data.token)
             setKey('expired_at', data.expired_at)
             resolve()
@@ -46,8 +40,7 @@ const user = {
         })
       })
     },
-
-    // 获取用户信息
+    // 获取登陆用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         http({
@@ -63,22 +56,34 @@ const user = {
         })
       })
     },
+    SysUserList({ commit, state }, query) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: '/api/users',
+          method: 'get',
+          params: query
+        }).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
 
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resolve()
-        // logout(state.token).then(() => {
-        //   commit('SET_TOKEN', '')
-        //   commit('SET_ROLES', [])
-        //   removeToken()
-        //   resolve()
-        // }).catch(error => {
-        //   reject(error)
-        // })
+        http({
+          url: '/api/logout',
+          method: 'delete'
+        }).then(response => {
+          commit('SET_TOKEN', '')
+          clearAllCache()
+          resolve(response)
+        }).catch(error => {
+          clearAllCache()
+          reject(error)
+        })
       })
     },
 
@@ -86,7 +91,7 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
-        removeToken()
+        clearAllCache()
         resolve()
       })
     }

@@ -29,7 +29,7 @@ service.interceptors.request.use(config => {
   if (store.getters.token) {
     config.headers['Authorization'] = 'Bearer' + ' ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
 
-    if (needRefreshToken() && config.url.indexOf('/api/auth/refresh') === -1) {
+    if (needRefreshToken() && config.url.indexOf('/api/auth/refresh') === -1 && config.url.indexOf('/api/logout') === -1) {
       getRefreshToken().then(res => {
         console.log(res, '---------------------======')
         // window.isRefreshing = false
@@ -56,9 +56,10 @@ service.interceptors.request.use(config => {
 // respone拦截器
 service.interceptors.response.use(
   response => {
-    console.log(response)
     const status = response.status
     if (status === 200 || status === 201 || status === 204) {
+      console.log(response.data)
+
       return response.data
     } else {
       return Promise.reject('error')

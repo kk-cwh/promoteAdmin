@@ -153,6 +153,20 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/user',
+    component: Layout,
+    name: 'user',
+    children: [
+      {
+        path: 'index',
+        name: 'user_index',
+        component: () => import('@/views/user/index'),
+        meta: { title: '系统用户', icon: 'record' }
+      }
+
+    ]
+  },
+  {
     path: '/red-envelope-record',
     component: Layout,
     name: 'red_envelope_record',
