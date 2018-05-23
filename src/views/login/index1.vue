@@ -126,8 +126,8 @@ export default {
         password: ''
       },
       loginRules1: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+        username: [{ required: true, trigger: 'blur', validator: validateUsername }]
+        // password: [{ required: true, trigger: 'blur', validator: validatePass }]
       },
       loginForm2: {
         username: '',
@@ -180,12 +180,19 @@ export default {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm1).then(() => {
             this.loading = false
+            // this.$store.dispatch('GetInfo', this.loginForm).then(() => {
             this.$router.push({ path: '/' })
+            // })
           }).catch(() => {
             this.loading = false
+            this.$message({
+              showClose: true,
+              message: '账号或者密码有误!',
+              type: 'error',
+              duration: 5 * 1000
+            })
           })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
