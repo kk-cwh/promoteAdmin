@@ -5,7 +5,7 @@
       <el-col :span="24">
         <div class="agent-count">
           <span style="display:inline-block;margin-right:20px;"> 下级代理数：{{number}} </span>
-          <el-button icon="el-icon-circle-plus" size="small" type="danger" @click="centerDialogVisible = true">新增</el-button>
+          <el-button icon="el-icon-circle-plus" size="small" type="danger" @click="toAdd">新增</el-button>
         </div>
       </el-col>
     </el-row>
@@ -44,7 +44,7 @@
               <el-date-picker type="date" placeholder="结束日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="queryList" :loading="loading">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="init" :loading="loading">查询</el-button>
             </el-form-item>
 
           </el-form>
@@ -56,33 +56,33 @@
       <el-col :span="24">
         <div class="table-content">
           <el-table border v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
-            <el-table-column prop="name" label="代理ID">
+            <el-table-column prop="id" label="代理ID" width="60px">
             </el-table-column>
-            <el-table-column prop="city" label="账号状态">
+            <el-table-column prop="status" label="账号状态" width="80px">
             </el-table-column>
-            <el-table-column prop="province" label="等级">
+            <el-table-column prop="grade" label="等级" width="60px" >
             </el-table-column>
-            <el-table-column prop="date" label="代理账号">
+            <el-table-column prop="agency_name" label="代理账号">
             </el-table-column>
-            <el-table-column prop="date" label="代理名">
+            <el-table-column prop="agency_name" label="代理名">
             </el-table-column>
-            <el-table-column prop="province" label="提成比例">
+            <el-table-column prop="rate" label="提成比例" width="80px">
             </el-table-column>
-            <el-table-column prop="date" label="绑定手机">
+            <el-table-column prop="phone" label="绑定手机">
             </el-table-column>
-            <el-table-column prop="date" label="账户余额">
+            <el-table-column prop="balance" label="账户余额">
             </el-table-column>
-            <el-table-column prop="date" label="历史收入">
+            <el-table-column prop="history_sum" label="历史收入">
             </el-table-column>
-            <el-table-column prop="date" label="下属玩家">
+            <el-table-column prop="players" label="下属玩家" width="80px">
             </el-table-column>
-            <el-table-column prop="date" label="今日注册">
+            <el-table-column prop="today_new_member" label="今日注册">
             </el-table-column>
-            <el-table-column prop="date" label="今日收益">
+            <el-table-column prop="today_sum" label="今日收益">
             </el-table-column>
-            <el-table-column prop="date" label="注册时间">
+            <el-table-column prop="created_at" label="注册时间">
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
                 <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button>
                 <el-button type="text" size="small">编辑</el-button>
@@ -91,26 +91,38 @@
           </el-table>
         </div>
       </el-col>
+      <el-col :span="24" style="text-align:right;padding-right:30px;">
+        <el-pagination background @size-change="handleSizeChange"
+         @current-change="handleCurrentChange"
+          :current-page="currentPage" 
+         :page-sizes="[10, 20, 30, 40, 50]" 
+         :page-size="per_page" 
+         layout="   total , prev, pager, next, jumper" 
+         :total="total">
+          </el-pagination>
+          </el-col>
     </el-row>
 
-    <el-dialog title="添加推广链接" :visible.sync="centerDialogVisible" width="480px" center>
-      <el-form ref="form" :model="form" label-width="100px" size="small">
-        <el-form-item label="配置名称">
-          <el-input v-model="form.name"></el-input>
+<!-- 添加代理 dialog -->
+    <el-dialog title="添加代理" :visible.sync="addDialogVisible" width="500px" center>
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" size="small">
+        <el-form-item label="代理名称" prop="agency_name">
+          <el-input v-model="ruleForm.agency_name" name="agency_name"></el-input>
         </el-form-item>
-        <el-form-item label="推广模板">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="ruleForm.phone" name="phone"></el-input>
         </el-form-item>
-        <el-form-item label="二维码模板">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="代理用户密码" prop="password">
+          <el-input v-model="ruleForm.password" name="password"></el-input>
         </el-form-item>
-        <el-form-item label="备注">
-          <el-input type="textarea" v-model="form.desc"></el-input>
+        <el-form-item label="税率" prop="rate">
+          <el-input type="textarea" v-model="ruleForm.rate" name="rate"></el-input>
         </el-form-item>
       </el-form>
+      
       <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false" size="small">关 闭</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false" size="small">保 存</el-button>
+        <el-button @click="addDialogVisible = false" size="small">关 闭</el-button>
+        <el-button type="primary" @click="addAgency('agency_form')" size="small">保 存</el-button>
       </span>
     </el-dialog>
 
@@ -121,13 +133,34 @@
 export default {
   data() {
     return {
+      currentPage: 1,
+      per_page: 15,
+      total: 0,
       loading: false,
       number: 0,
       formInline: {},
-      form: {},
-      centerDialogVisible: false,
+      ruleForm: {
+        agency_name: '',
+        phone: '',
+        password: '',
+        rate: ''
+      },
+      rules: {
+        agency_name: [
+          { required: true, message: '请输入代理名称', trigger: 'blur' }
+        ],
+        phone: [
+          { required: true, message: '请输入手机号', trigger: 'change' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ],
+        rate: [
+          { required: true, message: '请输入税率', trigger: 'blur' }
+        ]
+      },
+      addDialogVisible: false,
       tableData: [
-
       ]
     }
   },
@@ -136,34 +169,82 @@ export default {
   },
   methods: {
     init() {
+      this.per_page = 15
+      this.currentPage = 1
       this.number = parseInt(Math.random() * 1000)
+      this.queryList()
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
+      this.per_page = val
+      this.currentPage = 1
+      this.queryList()
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`)
+      this.currentPage = val
       this.queryList()
     },
     queryList() {
       this.loading = true
       this.tableData = []
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.tableData.push(
-            {
-              date: '2016-05-03',
-              name: '王小虎',
-              province: '上海',
-              city: i + 1,
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333,
-              tag: '家'
-            }
-          )
+      this.$store.dispatch('AgencyList', this.formInline).then((res) => {
+        this.tableData = []
+        if (res.data && res.data.length) {
+          res.data.forEach((item, index) => {
+            this.tableData.push(
+              {
+                id: item.id,
+                agency_amount: item.agency_amount,
+                agency_name: item.agency_name,
+                phone: item.phone,
+                balance: item.balance,
+                children: item.children,
+                grade: item.grade,
+                rate: item.rate,
+                history_sum: item.history_sum,
+                players: item.players,
+                son: item.son,
+                status: item.status ? '正常' : '已封',
+                today_new_member: item.today_new_member,
+                today_sum: item.today_sum,
+                created_at: item.created_at
+              }
+            )
+          })
+        }
+        if (res.meta && res.meta.pagination) {
+          this.total = res.meta.pagination.total
+          this.per_page = res.meta.pagination.per_page
         }
         this.loading = false
-      }, 1000)
-
-      // this.$store.dispatch('Login', this.loginForm).then(() => {
-      //   this.loading = false
-      // }).catch(() => {
-      //   this.loading = false
-      // })
+      }).catch(() => {
+        this.loading = false
+      })
+    },
+    toAdd() {
+      this.addDialogVisible = true
+      // this.ruleForm = {}
+    },
+    addAgency() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.addDialogVisible = false
+          this.$store.dispatch('AddAgency', this.ruleForm).then((res) => {
+            console.log(res)
+          }).catch((err) => {
+            this.$message({
+              showClose: true,
+              message: err.response.data.message,
+              type: 'error',
+              duration: 5 * 1000
+            })
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
     showReport(row) {
       console.log(row)

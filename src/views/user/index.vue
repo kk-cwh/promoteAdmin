@@ -105,7 +105,6 @@ export default {
       formInline: {},
       form: {},
       addDialogVisible: false,
-      currentPage4: 2,
       tableData: [
       ]
     }

@@ -69,6 +69,46 @@ const user = {
         })
       })
     },
+    AgencyList({ commit, state }, query) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: '/api/agencies',
+          method: 'get',
+          params: query
+        }).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    AddAgency({ commit, state }, query) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: '/api/agencies/create',
+          method: 'post',
+          data: query
+        }).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 推广首页数据
+    GetAgencyHome({ commit, state }, query) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: '/api/agencies/home',
+          method: 'get',
+          params: query
+        }).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
 
     // 登出
     LogOut({ commit, state }) {

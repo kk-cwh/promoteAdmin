@@ -3,46 +3,47 @@
 
     <!-- 统计信息 -->
     <el-card class="box-card">
-      <div slot="header" >
+      <div slot="header">
         <span>统计信息</span>
-        <el-button style="float: right; padding: 3px 0" type="text" :loading="loading" @click="queryStatistic">刷新</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" :loading="loading" @click="init">刷新</el-button>
       </div>
       <div class="statistics-box">
-        <div class="statistics-item">下属玩家:{{statistic.a1}}</div>
-        <div class="statistics-item">历史收益:{{statistic.a2}}</div>
-        <div class="statistics-item">昨日注册:{{statistic.a3}}</div>
-        <div class="statistics-item">昨日收益:{{statistic.a4}}</div>
-        <div class="statistics-item">今日注册:{{statistic.a5}}</div>
-        <div class="statistics-item">今日收益:{{statistic.a6}}</div>
-        <div class="statistics-item">下级代理:{{statistic.a7}}</div>
-        <div class="statistics-item">非直属代理:{{statistic.a8}}</div>
+        <div class="statistics-item">下属玩家:{{statistic.players}}</div>
+        <div class="statistics-item">历史收益:{{statistic.history_sum}}</div>
+        <div class="statistics-item">昨日注册:{{statistic.yesterday_member}}</div>
+        <div class="statistics-item">昨日收益:{{statistic.yesterday_sum}}</div>
+        <div class="statistics-item">今日注册:{{statistic.today_new_member}}</div>
+        <div class="statistics-item">今日收益:{{statistic.today_sum}}</div>
+        <div class="statistics-item">下级代理:{{statistic.son}}</div>
+        <div class="statistics-item">非直属代理:{{statistic.children}}</div>
       </div>
     </el-card>
     <br>
     <!-- 公告信息 -->
-<el-row>
-<el-col :span="16" >
+    <el-row>
+      <el-col :span="16">
 
+        <div class="public-report clearfloat">
+          <div class="report-title"> 公告信息 </div>
+          <div class="report-publish">
+            <el-button type="text" @click="moreReport">更多公告</el-button>
+            <el-button @click="toRoute">发布公告</el-button>
+          </div>
+        </div>
 
-    <div class="public-report clearfloat">
-      <div class="report-title"> 公告信息 </div>
-      <div class="report-publish">
-        <el-button @click="toRoute">发布公告</el-button>
-      </div>
-    </div>
+        <el-table :data="tableData" height="400" style="width: 100%" :show-header="false"  row-class-name="report-row-item" cell-class-name="report-cell-item">
+          <el-table-column prop="title" label="标题">
+            <template slot-scope="scope">
+              <a style="margin-left: 10px" href="javascript:void" @click="showReport(scope.row)">{{ scope.row.title }}</a>
+            </template>
+          </el-table-column>
 
-    <el-table :data="tableData" style="width: 100%" :show-header="false" row-class-name="report-row-item" cell-class-name="report-cell-item">
-      <el-table-column prop="name" label="标题">
-        <template slot-scope="scope">
-          <a style="margin-left: 10px" href="javascript:void" @click="showReport(scope.row)">{{ scope.row.name }}</a>
-        </template>
-      </el-table-column>
-
-      <el-table-column prop="date" label="日期" width="180">
-      </el-table-column>
-    </el-table>
-</el-col>
-</el-row>
+          <el-table-column prop="created_at" label="日期" width="180">
+          </el-table-column>
+        </el-table>
+      </el-col>
+      
+    </el-row>
   </div>
 </template>
 
@@ -58,8 +59,9 @@ export default {
       show: false,
       loading: false,
       centerDialogVisible: false,
+      current_page: 1,
+      total_pages: 1,
       tableData: [
-
       ]
     }
   },
@@ -68,48 +70,77 @@ export default {
   },
   methods: {
     init() {
+      this.current_page = 1
+      this.tableData = []
       this.queryStatistic()
-      this.queryReport()
     },
     queryStatistic() {
       this.loading = true
-      this.$store.dispatch('GetUserInfo').then((res) => {
-        if (res) {
-          setTimeout(() => {
-            this.statistic = {
-              a1: parseInt(Math.random() * 10000).toLocaleString(),
-              a2: parseInt(Math.random() * 10000).toLocaleString(),
-              a3: parseInt(Math.random() * 10000).toLocaleString(),
-              a4: parseInt(Math.random() * 10000).toLocaleString(),
-              a5: parseInt(Math.random() * 10000).toLocaleString(),
-              a6: parseInt(Math.random() * 10000).toLocaleString(),
-              a7: parseInt(Math.random() * 10000).toLocaleString(),
-              a8: parseInt(Math.random() * 10000).toLocaleString()
-            }
-            this.loading = false
-          }, 1000)
+      const query = { page: this.current_page }
+      this.$store.dispatch('GetAgencyHome', query).then((res) => {
+        if (res.data && res.data.length) {
+          res.data.forEach((item, index) => {
+            this.tableData.push(
+              {
+                id: item.id,
+                agency_id: item.agency_id,
+                content: item.content,
+                title: item.title,
+                status: item.status,
+                updated_at: item.updated_at,
+                created_at: item.created_at
+              }
+            )
+          })
         }
+
+        if (res.meta && res.meta.info) {
+          const info = res.meta.info
+          this.statistic = {
+            children: info.children,
+            history_sum: '￥' + (info.history_sum / 100),
+            players: info.players,
+            son: info.son,
+            today_new_member: info.today_new_member,
+            today_sum: '￥' + (info.today_sum / 100),
+            yesterday_member: info.yesterday_member,
+            yesterday_sum: '￥' + (info.yesterday_sum / 100)
+          }
+          this.total_pages = res.meta.pagination.total_pages
+        }
+        this.loading = false
       }).catch(() => {
 
       })
     },
     queryReport() {
-      this.$store.dispatch('GetUserInfo').then((res) => {
-        if (res) {
-          this.tableData = [{
-            name: 'this is title',
-            date: '2018-05-22'
-          }, {
-            name: 'this is title',
-            date: '2018-05-22'
-          }, {
-            name: 'this is title',
-            date: '2018-05-22'
-          }]
-        }
-      }).catch(() => {
+      // this.$store.dispatch('GetUserInfo').then((res) => {
+      //   if (res) {
+      //     this.tableData = [{
+      //       name: 'this is title',
+      //       date: '2018-05-22'
+      //     }, {
+      //       name: 'this is title',
+      //       date: '2018-05-22'
+      //     }, {
+      //       name: 'this is title',
+      //       date: '2018-05-22'
+      //     }]
+      //   }
+      // }).catch(() => {
 
-      })
+      // })
+    },
+    moreReport() {
+      this.current_page += 1
+      if (this.current_page <= this.total_pages) {
+        this.queryStatistic()
+      } else {
+        this.$notify.info({
+          title: '提示',
+          message: '没有更多公告了!'
+        })
+      }
     },
     showReport(row) {
       console.log(row)

@@ -57,9 +57,10 @@ service.interceptors.request.use(config => {
 // respone拦截器
 service.interceptors.response.use(
   response => {
+    console.log(response)
     const status = response.status
     if (status === 200 || status === 201 || status === 204) {
-      console.log(response.data)
+      // console.log(response.data)
 
       return response.data
     } else {
@@ -68,11 +69,11 @@ service.interceptors.response.use(
   },
   error => {
     console.log('2 error.response:', error.response)// for debug
-    Message({
-      message: error.response.statusText,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    // Message({
+    //   message: error.response.statusText,
+    //   type: 'error',
+    //   duration: 5 * 1000
+    // })
     return Promise.reject(error)
   }
 )
