@@ -34,7 +34,6 @@ export const constantRouterMap = [
     path: '/home',
     component: Layout,
     name: 'home',
-    meta: { title: '推广首页', icon: 'home' },
     children: [{
       path: 'index',
       name: 'promote_index',
@@ -174,8 +173,8 @@ export const constantRouterMap = [
       {
         path: 'index',
         name: 'red_envelope_record_index',
-        component: () => import('@/views/form/index'),
-        meta: { title: '红包记录', icon: 'record' }
+        component: () => import('@/views/tree/index'),
+        meta: { title: '红包记录', icon: 'manage' }
       }
 
     ]

@@ -5,17 +5,17 @@
     <el-card class="box-card">
       <div slot="header" >
         <span>统计信息</span>
-        <el-button style="float: right; padding: 3px 0" type="text" :loading="loading">刷新</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" :loading="loading" @click="queryStatistic">刷新</el-button>
       </div>
       <div class="statistics-box">
-        <div class="statistics-item">下属玩家:35,465</div>
-        <div class="statistics-item">历史收益:35,465</div>
-        <div class="statistics-item">昨日注册:35,465</div>
-        <div class="statistics-item">昨日收益:35,465</div>
-        <div class="statistics-item">今日注册:35,465</div>
-        <div class="statistics-item">今日收益:35,465</div>
-        <div class="statistics-item">下级代理:35,465</div>
-        <div class="statistics-item">非直属代理:35,465</div>
+        <div class="statistics-item">下属玩家:{{statistic.a1}}</div>
+        <div class="statistics-item">历史收益:{{statistic.a2}}</div>
+        <div class="statistics-item">昨日注册:{{statistic.a3}}</div>
+        <div class="statistics-item">昨日收益:{{statistic.a4}}</div>
+        <div class="statistics-item">今日注册:{{statistic.a5}}</div>
+        <div class="statistics-item">今日收益:{{statistic.a6}}</div>
+        <div class="statistics-item">下级代理:{{statistic.a7}}</div>
+        <div class="statistics-item">非直属代理:{{statistic.a8}}</div>
       </div>
     </el-card>
     <br>
@@ -47,63 +47,70 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'promote',
-  computed: {
-    ...mapGetters(['name', 'roles'])
-  },
-  mounted() {
-
-  },
   data() {
     return {
+      statistic: {
+      },
       editorContent: '',
       show: false,
       loading: false,
       centerDialogVisible: false,
       tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        },
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        }
+
       ]
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init() {
+      this.queryStatistic()
+      this.queryReport()
+    },
+    queryStatistic() {
+      this.loading = true
+      this.$store.dispatch('GetUserInfo').then((res) => {
+        if (res) {
+          setTimeout(() => {
+            this.statistic = {
+              a1: parseInt(Math.random() * 10000).toLocaleString(),
+              a2: parseInt(Math.random() * 10000).toLocaleString(),
+              a3: parseInt(Math.random() * 10000).toLocaleString(),
+              a4: parseInt(Math.random() * 10000).toLocaleString(),
+              a5: parseInt(Math.random() * 10000).toLocaleString(),
+              a6: parseInt(Math.random() * 10000).toLocaleString(),
+              a7: parseInt(Math.random() * 10000).toLocaleString(),
+              a8: parseInt(Math.random() * 10000).toLocaleString()
+            }
+            this.loading = false
+          }, 1000)
+        }
+      }).catch(() => {
+
+      })
+    },
+    queryReport() {
+      this.$store.dispatch('GetUserInfo').then((res) => {
+        if (res) {
+          this.tableData = [{
+            name: 'this is title',
+            date: '2018-05-22'
+          }, {
+            name: 'this is title',
+            date: '2018-05-22'
+          }, {
+            name: 'this is title',
+            date: '2018-05-22'
+          }]
+        }
+      }).catch(() => {
+
+      })
+    },
     showReport(row) {
       console.log(row)
     },

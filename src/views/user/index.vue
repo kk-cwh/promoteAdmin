@@ -4,17 +4,17 @@
     <el-row>
       <el-col :span="24">
         <div class="form-content">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
             <el-form-item>
-              <el-button icon="el-icon-circle-plus" size="small" type="danger" @click="showAddDialog">新增</el-button>
+              <el-button icon="el-icon-circle-plus"  type="danger" @click="showAddDialog">新增</el-button>
             </el-form-item>
 
             <el-form-item label="手机号">
-              <el-input v-model="formInline.phone"  size="small" placeholder="输入手机号" style="width:180px;"></el-input>
+              <el-input v-model="formInline.phone"   placeholder="输入手机号" style="width:180px;"></el-input>
             </el-form-item>
 
             <el-form-item label="状态">
-              <el-select v-model="formInline.status" placeholder="状态" size="small" style="width:100px;">
+              <el-select v-model="formInline.status" placeholder="状态"  style="width:100px;">
                 <el-option label="全部" value="0"></el-option>
                 <el-option label="正常" value="1"></el-option>
                 <el-option label="已封" value="2"></el-option>
@@ -23,7 +23,7 @@
 
         
             <el-form-item>
-              <el-button type="primary" size="small" icon="el-icon-search" @click="init" :loading="loading">查询</el-button>
+              <el-button type="primary"  icon="el-icon-search" @click="init" :loading="loading">查询</el-button>
             </el-form-item>
 
           </el-form>
@@ -34,7 +34,7 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <div class="table-content">
-          <el-table border :data="tableData" size="mini" row-class-name="report-row-item" cell-class-name="report-cell-item">
+          <el-table border v-loading="loading" :data="tableData" size="mini" row-class-name="report-row-item" cell-class-name="report-cell-item">
             <el-table-column prop="id" label="用户ID" width="180">
             </el-table-column>
             <el-table-column prop="name" label="用户名">
@@ -56,7 +56,7 @@
         </div>
       </el-col>
       <el-col :span="24" style="text-align:right;padding-right:30px;">
-        <el-pagination @size-change="handleSizeChange"
+        <el-pagination background @size-change="handleSizeChange"
          @current-change="handleCurrentChange"
           :current-page="currentPage" 
          :page-sizes="[2,10, 20, 30, 40, 50]" 
@@ -99,7 +99,7 @@ export default {
   data() {
     return {
       currentPage: 1,
-      per_page: 2,
+      per_page: 15,
       total: 0,
       loading: false,
       formInline: {},
@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     init() {
-      this.per_page = 2
+      this.per_page = 15
       this.currentPage = 1
       this.queryList()
     },
@@ -151,6 +151,7 @@ export default {
         }
         if (res.meta && res.meta.pagination) {
           this.total = res.meta.pagination.total
+          this.per_page = res.meta.pagination.per_page
         }
         this.loading = false
       }).catch(() => {

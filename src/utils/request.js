@@ -6,6 +6,7 @@ import { getToken, setToken, getKey, setKey } from '@/utils/auth'
 // 创建axios实例
 const service = axios.create({
   // baseURL: process.env.BASE_API, // api的base_url
+  // baseURL: 'http://dev.agency.com',
   timeout: 15000 // 请求超时时间
 })
 

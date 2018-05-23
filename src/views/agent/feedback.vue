@@ -3,9 +3,9 @@
     <el-row>
       <el-col :span="23">
         <div class="form-content">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
             <el-form-item>
-              <el-button icon="el-icon-circle-plus" size="medium" type="danger" @click="centerDialogVisible = true">新增</el-button>
+              <el-button icon="el-icon-circle-plus"  type="danger" @click="centerDialogVisible = true">新增</el-button>
             </el-form-item>
             <el-form-item label="留言类别">
               <el-select v-model="formInline.region" placeholder="留言类别" style="width:100px;">
@@ -21,7 +21,7 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="showReport">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="queryList" :loading="loading">查询</el-button>
             </el-form-item>
             <el-form-item>
               <el-button type="info" plain>清空查询</el-button>
@@ -36,7 +36,7 @@
 
       <el-col :span="23">
         <div class="table-content">
-          <el-table border :data="tableData" style="width: 100%">
+          <el-table border v-loading="loading" :data="tableData" style="width: 100%" size="mini">
             <el-table-column prop="date" label="时间" width="200">
             </el-table-column>
             <el-table-column prop="city" label="信息ID" width="120">
@@ -51,7 +51,7 @@
       </el-col>
     </el-row>
 
-    <el-dialog title="新增商人" :visible.sync="centerDialogVisible" width="30%" center>
+    <el-dialog title="新增商人" :visible.sync="centerDialogVisible" width="30%" center >
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="代理ID">
           <el-input v-model="form.name"></el-input>
@@ -153,7 +153,39 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init() {
+      this.queryList()
+    },
+    queryList() {
+      this.loading = true
+      this.tableData = []
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.tableData.push(
+            {
+              date: '2016-05-03',
+              name: '王小虎',
+              province: '上海',
+              city: i + 1,
+              address: '上海市普陀区金沙江路 1518 弄',
+              zip: 200333,
+              tag: '家'
+            }
+          )
+        }
+        this.loading = false
+      }, 1000)
+
+      // this.$store.dispatch('Login', this.loginForm).then(() => {
+      //   this.loading = false
+      // }).catch(() => {
+      //   this.loading = false
+      // })
+    },
     showReport(row) {
       console.log(row)
     },

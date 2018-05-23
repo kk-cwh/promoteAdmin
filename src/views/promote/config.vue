@@ -4,7 +4,7 @@
     <el-row>
       <el-col :span="24">
         <div class="form-content">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
             <el-form-item label="配置ID">
               <el-input v-model="formInline.user" placeholder="配置ID" style="width:100px;"></el-input>
             </el-form-item>
@@ -12,13 +12,13 @@
               <el-input v-model="formInline.user" placeholder="名称" style="width:150px;"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="showReport">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="queryList" :loading="loading">查询</el-button>
             </el-form-item>
             <el-form-item>
               <el-button type="info" plain>清空查询</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button icon="el-icon-circle-plus" size="medium" type="danger" @click="centerDialogVisible = true">新增</el-button>
+              <el-button icon="el-icon-circle-plus"  type="danger" @click="centerDialogVisible = true">新增</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -28,7 +28,7 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <div class="table-content">
-          <el-table border :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item">
+          <el-table border  v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
             <el-table-column prop="name" label="推广ID">
             </el-table-column>
             <el-table-column prop="city" label="名称">
@@ -49,8 +49,8 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
+                <el-button @click="showReport(scope.row)" type="text" size="mini">查看</el-button>
+                <el-button type="text" size="mini">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -91,46 +91,44 @@ export default {
       form: {},
       centerDialogVisible: false,
       tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        },
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        }
+
       ]
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init() {
+      this.queryList()
+    },
+    queryList() {
+      this.loading = true
+      this.tableData = []
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.tableData.push(
+            {
+              date: '2016-05-03',
+              name: '王小虎',
+              province: '上海',
+              city: i + 1,
+              address: '上海市普陀区金沙江路 1518 弄',
+              zip: 200333,
+              tag: '家'
+            }
+          )
+        }
+
+        this.loading = false
+      }, 1000)
+
+      // this.$store.dispatch('Login', this.loginForm).then(() => {
+      //   this.loading = false
+      // }).catch(() => {
+      //   this.loading = false
+      // })
+    },
     showReport(row) {
       console.log(row)
     }

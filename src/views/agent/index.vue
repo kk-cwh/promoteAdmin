@@ -4,8 +4,8 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <div class="agent-count">
-          <span style="display:inline-block;margin-right:20px;"> 下级代理数：6666 </span>
-          <el-button icon="el-icon-circle-plus" size="medium" type="danger" @click="centerDialogVisible = true">新增</el-button>
+          <span style="display:inline-block;margin-right:20px;"> 下级代理数：{{number}} </span>
+          <el-button icon="el-icon-circle-plus" size="small" type="danger" @click="centerDialogVisible = true">新增</el-button>
         </div>
       </el-col>
     </el-row>
@@ -13,7 +13,7 @@
     <el-row>
       <el-col :span="24">
         <div class="form-content">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
             <el-form-item label="状态">
               <el-select v-model="formInline.region" placeholder="状态" style="width:100px;">
                 <el-option label="全部" value="0"></el-option>
@@ -44,7 +44,7 @@
               <el-date-picker type="date" placeholder="结束日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="showReport">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="queryList" :loading="loading">查询</el-button>
             </el-form-item>
 
           </el-form>
@@ -55,7 +55,7 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <div class="table-content">
-          <el-table border :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item">
+          <el-table border v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
             <el-table-column prop="name" label="代理ID">
             </el-table-column>
             <el-table-column prop="city" label="账号状态">
@@ -93,8 +93,8 @@
       </el-col>
     </el-row>
 
-    <el-dialog title="添加推广链接" :visible.sync="centerDialogVisible" width="30%" center>
-      <el-form ref="form" :model="form" label-width="80px">
+    <el-dialog title="添加推广链接" :visible.sync="centerDialogVisible" width="480px" center>
+      <el-form ref="form" :model="form" label-width="100px" size="small">
         <el-form-item label="配置名称">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
@@ -109,8 +109,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">保 存</el-button>
+        <el-button @click="centerDialogVisible = false" size="small">关 闭</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false" size="small">保 存</el-button>
       </span>
     </el-dialog>
 
@@ -122,50 +122,49 @@ export default {
   data() {
     return {
       loading: false,
+      number: 0,
       formInline: {},
       form: {},
       centerDialogVisible: false,
       tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        },
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        }
+
       ]
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init() {
+      this.number = parseInt(Math.random() * 1000)
+      this.queryList()
+    },
+    queryList() {
+      this.loading = true
+      this.tableData = []
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.tableData.push(
+            {
+              date: '2016-05-03',
+              name: '王小虎',
+              province: '上海',
+              city: i + 1,
+              address: '上海市普陀区金沙江路 1518 弄',
+              zip: 200333,
+              tag: '家'
+            }
+          )
+        }
+        this.loading = false
+      }, 1000)
+
+      // this.$store.dispatch('Login', this.loginForm).then(() => {
+      //   this.loading = false
+      // }).catch(() => {
+      //   this.loading = false
+      // })
+    },
     showReport(row) {
       console.log(row)
     }

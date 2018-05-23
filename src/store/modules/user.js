@@ -41,15 +41,15 @@ const user = {
       })
     },
     // 获取登陆用户信息
-    GetInfo({ commit, state }) {
+    GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         http({
           url: '/api/user',
           method: 'get'
         }).then(response => {
-          if (response.user) {
-            commit('SET_NAME', response.user.name)
-            resolve()
+          if (response.agency_user) {
+            commit('SET_NAME', response.agency_user.name)
+            resolve(response)
           }
         }).catch(error => {
           reject(error)

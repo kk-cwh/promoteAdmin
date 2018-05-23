@@ -4,7 +4,7 @@
     <el-row>
       <el-col :span="23">
         <div class="form-content">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="medium">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
 
             <el-form-item label="状态">
               <el-select v-model="formInline.region" placeholder="状态" style="width:100px;">
@@ -27,13 +27,13 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="queryList" :loading="loading">查询</el-button>
             </el-form-item>
             <el-form-item>
               <el-button type="info" plain>清空查询</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button icon="el-icon-circle-plus" size="medium" type="danger" @click="centerDialogVisible = true">新增</el-button>
+              <el-button icon="el-icon-circle-plus" type="danger" @click="centerDialogVisible = true">新增</el-button>
             </el-form-item>
 
           </el-form>
@@ -45,7 +45,7 @@
 
       <el-col :span="23">
         <div class="table-content">
-          <el-table border :data="tableData" style="width: 100%">
+          <el-table border  v-loading="loading" :data="tableData" style="width: 100%" size="mini">
             <el-table-column prop="name" label="商人ID" width="140">
             </el-table-column>
             <el-table-column prop="city" label="状态" width="120">
@@ -129,46 +129,44 @@ export default {
       formInline: {},
       form: {},
       tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        },
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        }
+
       ]
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
+    init() {
+      this.queryList()
+    },
+    queryList() {
+      this.loading = true
+      this.tableData = []
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.tableData.push(
+            {
+              date: '2016-05-03',
+              name: '王小虎',
+              province: '上海',
+              city: i + 1,
+              address: '上海市普陀区金沙江路 1518 弄',
+              zip: 200333,
+              tag: '家'
+            }
+          )
+        }
+
+        this.loading = false
+      }, 1000)
+
+      // this.$store.dispatch('Login', this.loginForm).then(() => {
+      //   this.loading = false
+      // }).catch(() => {
+      //   this.loading = false
+      // })
+    },
     onSubmit(row) {
       console.log(row)
     },
