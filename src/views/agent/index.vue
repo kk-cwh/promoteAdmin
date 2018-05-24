@@ -201,7 +201,7 @@ export default {
                 balance: item.balance,
                 children: item.children,
                 grade: item.grade,
-                rate: item.rate,
+                rate: item.rate + '%',
                 history_sum: item.history_sum,
                 players: item.players,
                 son: item.son,

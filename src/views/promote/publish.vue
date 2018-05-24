@@ -12,7 +12,7 @@
                         <div ref="editor" class="text"></div>
                     </div>
                     <div style="text-align:right;padding:10px;">
-                        <el-button size="small" type="primary" @click="getContent">发布</el-button>
+                        <el-button size="small" type="primary" @click="addPublicReport">发布</el-button>
                     </div>
                     <div v-html="editorContent"></div>
                 </el-card>
@@ -38,6 +38,22 @@ export default {
   methods: {
     getContent: function() {
       alert(this.editorContent)
+    },
+    addPublicReport() {
+      const form = {
+        title: this.title,
+        content: this.editorContent
+      }
+      this.$store.dispatch('addPublicReport', form).then((res) => {
+        console.log(res)
+      }).catch((err) => {
+        this.$message({
+          showClose: true,
+          message: err.response.data.message,
+          type: 'error',
+          duration: 5 * 1000
+        })
+      })
     }
   },
   mounted() {

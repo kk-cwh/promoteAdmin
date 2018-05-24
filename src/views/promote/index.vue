@@ -44,6 +44,19 @@
       </el-col>
       
     </el-row>
+
+<el-dialog
+  :title="title"
+  :visible.sync="centerDialogVisible"
+  width="720px"
+  center>
+  <span v-html="content"></span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">关闭</el-button>
+    <!-- <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button> -->
+  </span>
+</el-dialog>
+
   </div>
 </template>
 
@@ -55,7 +68,8 @@ export default {
     return {
       statistic: {
       },
-      editorContent: '',
+      title: '',
+      content: '',
       show: false,
       loading: false,
       centerDialogVisible: false,
@@ -143,7 +157,9 @@ export default {
       }
     },
     showReport(row) {
-      console.log(row)
+      this.centerDialogVisible = true
+      this.title = row.title
+      this.content = row.content
     },
     toRoute() {
       this.$router.push({ name: 'promote_publish' })

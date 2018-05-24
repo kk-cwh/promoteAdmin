@@ -18,7 +18,7 @@
               <el-button type="info" plain>清空查询</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button icon="el-icon-circle-plus"  type="danger" @click="centerDialogVisible = true">新增</el-button>
+              <el-button icon="el-icon-circle-plus"  type="danger" @click="toAdd">新增</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -29,53 +29,66 @@
       <el-col :span="24">
         <div class="table-content">
           <el-table border  v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
-            <el-table-column prop="name" label="推广ID">
+            <el-table-column prop="id" label="推广ID">
             </el-table-column>
-            <el-table-column prop="city" label="名称">
+            <el-table-column prop="name" label="名称">
             </el-table-column>
-            <el-table-column prop="province" label="推广模板">
+            <el-table-column prop="template_name" label="推广模板">
             </el-table-column>
-            <el-table-column prop="date" label="宣传页下载">
+            <el-table-column prop="down_url" label="宣传页下载">
             </el-table-column>
-            <el-table-column prop="date" label="推广二维码">
+            <el-table-column prop="qrcode_url" label="推广二维码">
             </el-table-column>
-            <el-table-column prop="province" label="推广落地页">
+            <el-table-column prop="down_url" label="推广落地页">
             </el-table-column>
-            <el-table-column prop="date" label="下载地址二维码">
+            <el-table-column prop="qrcode_url" label="下载地址二维码">
             </el-table-column>
-            <el-table-column prop="date" label="安装包地址">
+            <el-table-column prop="down_url" label="安装包地址">
             </el-table-column>
-            <el-table-column prop="date" label="创建时间">
+            <el-table-column prop="created_at" label="创建时间">
             </el-table-column>
-            <el-table-column label="操作">
+            <!-- <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button @click="showReport(scope.row)" type="text" size="mini">查看</el-button>
                 <el-button type="text" size="mini">编辑</el-button>
               </template>
-            </el-table-column>
+            </el-table-column> -->
           </el-table>
         </div>
       </el-col>
+       <el-col :span="24" style="text-align:right;padding-right:30px;">
+        <el-pagination background @size-change="handleSizeChange"
+         @current-change="handleCurrentChange"
+          :current-page="currentPage" 
+         :page-sizes="[2,10, 20, 30, 40, 50]" 
+         :page-size="per_page" 
+         layout="   total , prev, pager, next, jumper" 
+         :total="total">
+          </el-pagination>
+          </el-col>
     </el-row>
 
-    <el-dialog title="添加推广链接" :visible.sync="centerDialogVisible" width="30%" center>
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="配置名称">
-          <el-input v-model="form.name"></el-input>
+    <el-dialog title="添加推广链接" :visible.sync="addDialogVisible" width="480px" center>
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
+          <el-form-item label="代理ID" prop="agency_id">
+          <el-input v-model="ruleForm.agency_id" style="width:240px"></el-input>
         </el-form-item>
-        <el-form-item label="推广模板">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="推广名称" prop="name">
+          <el-input v-model="ruleForm.name" style="width:240px"></el-input>
         </el-form-item>
-        <el-form-item label="二维码模板">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="二维码地址" prop="qrcode_url">
+          <el-input v-model="ruleForm.qrcode_url" style="width:240px"></el-input>
         </el-form-item>
-        <el-form-item label="备注">
-          <el-input type="textarea" v-model="form.desc"></el-input>
+        <el-form-item label="下载地址" prop="down_url">
+          <el-input v-model="ruleForm.down_url" style="width:240px"></el-input>
         </el-form-item>
+        <!-- <el-form-item label="备注">
+          <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+        </el-form-item> -->
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">保 存</el-button>
+        <el-button @click="addDialogVisible = false">关 闭</el-button>
+        <el-button type="primary" @click="addPromotionConfig">保 存</el-button>
       </span>
     </el-dialog>
 
@@ -88,8 +101,30 @@ export default {
     return {
       loading: false,
       formInline: {},
-      form: {},
-      centerDialogVisible: false,
+      total: 0,
+      per_page: 15,
+      currentPage: 1,
+      addDialogVisible: false,
+      ruleForm: {
+        name: '',
+        agency_id: '',
+        qrcode_url: '',
+        down_url: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入推广名称', trigger: 'blur' }
+        ],
+        qrcode_url: [
+          { required: true, type: 'url', message: '请输入合法的二维码地址', trigger: 'change' }
+        ],
+        down_url: [
+          { required: true, type: 'url', message: '请输入合法的下载地址', trigger: 'blur' }
+        ],
+        agency_id: [
+          { required: true, message: '请输入代理ID', trigger: 'blur' }
+        ]
+      },
       tableData: [
 
       ]
@@ -100,34 +135,78 @@ export default {
   },
   methods: {
     init() {
+      this.per_page = 15
+      this.currentPage = 1
+      this.queryList()
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`)
+      this.per_page = val
+      this.currentPage = 1
+      this.queryList()
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`)
+      this.currentPage = val
       this.queryList()
     },
     queryList() {
       this.loading = true
       this.tableData = []
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.tableData.push(
-            {
-              date: '2016-05-03',
-              name: '王小虎',
-              province: '上海',
-              city: i + 1,
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333,
-              tag: '家'
-            }
-          )
+      this.$store.dispatch('PromotionConfig', this.formInline).then((res) => {
+        this.tableData = []
+        if (res.data && res.data.length) {
+          res.data.forEach((item, index) => {
+            this.tableData.push(
+              {
+                id: item.id,
+                name: item.name,
+                agency_id: item.agency_id,
+                template_id: item.template_id,
+                template_name: item.template_name,
+                qrcode_img: item.qrcode_img,
+                qrcode_url: item.qrcode_url,
+                down_img: item.down_img,
+                down_url: item.down_url,
+                updated_at: item.updated_at,
+                created_at: item.created_at
+              }
+            )
+          })
         }
-
+        if (res.meta && res.meta.pagination) {
+          this.total = res.meta.pagination.total
+          this.per_page = res.meta.pagination.per_page
+        }
         this.loading = false
-      }, 1000)
-
-      // this.$store.dispatch('Login', this.loginForm).then(() => {
-      //   this.loading = false
-      // }).catch(() => {
-      //   this.loading = false
-      // })
+        this.loading = false
+      }).catch(() => {
+        this.loading = false
+      })
+    },
+    toAdd() {
+      this.addDialogVisible = true
+      // this.ruleForm = {}
+    },
+    addPromotionConfig() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.addDialogVisible = false
+          this.$store.dispatch('addPromotionConfig', this.ruleForm).then((res) => {
+            console.log(res)
+          }).catch((err) => {
+            this.$message({
+              showClose: true,
+              message: err.response.data.message,
+              type: 'error',
+              duration: 5 * 1000
+            })
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
     showReport(row) {
       console.log(row)

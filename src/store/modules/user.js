@@ -69,6 +69,7 @@ const user = {
         })
       })
     },
+    // 代理列表
     AgencyList({ commit, state }, query) {
       return new Promise((resolve, reject) => {
         http({
@@ -82,6 +83,7 @@ const user = {
         })
       })
     },
+    // 添加代理
     AddAgency({ commit, state }, query) {
       return new Promise((resolve, reject) => {
         http({
@@ -102,6 +104,48 @@ const user = {
           url: '/api/agencies/home',
           method: 'get',
           params: query
+        }).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 推广配置列表
+    PromotionConfig({ commit, state }, query) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: '/api/agencies/promotion',
+          method: 'get',
+          params: query
+        }).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 添加推广配置
+    addPromotionConfig({ commit, state }, data) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: '/api/agencies/promotion',
+          method: 'post',
+          data: data
+        }).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 添加发布公告
+    addPublicReport({ commit, state }, data) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: '/api/notice/create',
+          method: 'post',
+          data: data
         }).then(response => {
           resolve(response)
         }).catch(error => {
