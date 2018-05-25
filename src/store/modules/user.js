@@ -4,7 +4,7 @@ const user = {
   state: {
     token: getToken(),
     name: '',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+    avatar: 'https://avatars1.githubusercontent.com/u/16732754?s=40&v=4'
   },
 
   mutations: {
