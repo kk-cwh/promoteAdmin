@@ -9,17 +9,17 @@
       </div>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="small" label-width="120px" class="demo-ruleForm">
         <el-form-item label="结算支付宝账户:" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
+          <el-input v-model="ruleForm.name" style="width:180px;"></el-input>
         </el-form-item>
         <el-form-item label="支付宝实名:" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
+          <el-input v-model="ruleForm.name" style="width:180px;"></el-input>
         </el-form-item>
         <el-form-item label="绑定手机:" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
+          <el-input v-model="ruleForm.name" style="width:180px;"></el-input>
         </el-form-item>
 
         <el-form-item label="" prop="desc">
-          <el-input v-model="ruleForm.desc" style="width:180px;"></el-input>
+          <el-input v-model="ruleForm.desc" style="width:180px;" placeholder="请输入验证码"></el-input>
           <el-button type="warning" @click="getIdentifyCode">{{gettingIdentifyCodeBtnContent}}</el-button>
         </el-form-item>
         <el-form-item>
