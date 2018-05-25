@@ -18,7 +18,7 @@
               <el-button type="info" plain>清空查询</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button icon="el-icon-circle-plus"  type="danger" @click="toAdd">新增</el-button>
+              <el-button icon="el-icon-circle-plus" type="danger" @click="toAdd">新增</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -28,7 +28,7 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <div class="table-content">
-          <el-table border  v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
+          <el-table border v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
             <el-table-column prop="id" label="推广ID">
             </el-table-column>
             <el-table-column prop="name" label="名称">
@@ -37,11 +37,54 @@
             </el-table-column>
             <el-table-column prop="down_url" label="宣传页下载">
             </el-table-column>
-            <el-table-column prop="qrcode_url" label="推广二维码">
+            <el-table-column label="推广二维码">
+
+              <template slot-scope="scope">
+                <el-row>
+                  <el-col :span="10">
+                    <div>
+                      <qrcode :val="scope.row.qrcode_url" size="50">
+                      </qrcode>
+                    </div>
+                  </el-col>
+                  <el-col :span="14">
+                    <el-popover trigger="click" placement="left">
+                      <qrcode :val="scope.row.qrcode_url">
+                      </qrcode>
+                      <div slot="reference" class="name-wrapper">
+                        <el-tag size="small">查看大图</el-tag>
+                      </div>
+                    </el-popover>
+                  </el-col>
+                </el-row>
+
+              </template>
+
             </el-table-column>
             <el-table-column prop="down_url" label="推广落地页">
             </el-table-column>
-            <el-table-column prop="qrcode_url" label="下载地址二维码">
+            <el-table-column  label="下载地址二维码">
+              <template slot-scope="scope">
+                <el-row>
+                  <el-col :span="10">
+                    <div>
+                      <qrcode :val="scope.row.down_url" size="50">
+                      </qrcode>
+                    </div>
+                  </el-col>
+                  <el-col :span="14">
+                    <el-popover trigger="click" placement="left">
+                      <qrcode :val="scope.row.down_url">
+                      </qrcode>
+                      <div slot="reference" class="name-wrapper">
+                        <el-tag size="small">查看大图</el-tag>
+                      </div>
+                    </el-popover>
+                  </el-col>
+                </el-row>
+
+              </template>
+
             </el-table-column>
             <el-table-column prop="down_url" label="安装包地址">
             </el-table-column>
@@ -56,22 +99,16 @@
           </el-table>
         </div>
       </el-col>
-       <el-col :span="24" style="text-align:right;padding-right:30px;">
-        <el-pagination background @size-change="handleSizeChange"
-         @current-change="handleCurrentChange"
-          :current-page="currentPage" 
-         :page-sizes="[2,10, 20, 30, 40, 50]" 
-         :page-size="per_page" 
-         layout="   total , prev, pager, next, jumper" 
-         :total="total">
-          </el-pagination>
-          </el-col>
+      <el-col :span="24" style="text-align:right;padding-right:30px;">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[2,10, 20, 30, 40, 50]" :page-size="per_page" layout="   total , prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </el-col>
     </el-row>
 
-    <el-dialog  :visible.sync="addDialogVisible" width="480px" center>
-       <div slot="title" style="font-size:15px;font-weight:bold;">添加推广配置</div>
+    <el-dialog :visible.sync="addDialogVisible" width="480px" center>
+      <div slot="title" style="font-size:15px;font-weight:bold;">添加推广配置</div>
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
-          <el-form-item label="代理ID" prop="agency_id">
+        <el-form-item label="代理ID" prop="agency_id">
           <el-input v-model="ruleForm.agency_id" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="推广名称" prop="name">
@@ -84,8 +121,8 @@
           <el-input v-model="ruleForm.down_url" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="">
-         <el-button @click="addDialogVisible = false">关 闭</el-button>
-         <el-button type="primary" @click="addPromotionConfig">保 存</el-button>
+          <el-button @click="addDialogVisible = false">关 闭</el-button>
+          <el-button type="primary" @click="addPromotionConfig">保 存</el-button>
         </el-form-item>
         <!-- <el-form-item label="备注">
           <el-input type="textarea" v-model="ruleForm.desc"></el-input>
@@ -97,7 +134,12 @@
 </template>
 
 <script>
+import qrcode from '@/components/Qrcode'
+
 export default {
+  components: {
+    qrcode: qrcode
+  },
   data() {
     return {
       loading: false,
