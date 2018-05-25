@@ -14,7 +14,7 @@
                     <div style="text-align:right;padding:10px;">
                         <el-button size="small" type="primary" @click="addPublicReport">发布</el-button>
                     </div>
-                    <div v-html="editorContent"></div>
+                    <!-- <div v-html="editorContent"></div> -->
                 </el-card>
 
             </el-col>

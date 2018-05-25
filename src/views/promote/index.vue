@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
-
+  <el-collapse-transition>
+<div v-show="!show">
     <!-- 统计信息 -->
     <el-card class="box-card">
       <div slot="header">
@@ -27,7 +28,7 @@
           <div class="report-title"> 公告信息 </div>
           <div class="report-publish">
             <el-button type="text" @click="moreReport">更多公告</el-button>
-            <el-button @click="toRoute">发布公告</el-button>
+            <el-button @click="toPublish">发布公告</el-button>
           </div>
         </div>
 
@@ -40,10 +41,56 @@
 
           <el-table-column prop="created_at" label="日期" width="180">
           </el-table-column>
+          <el-table-column label="操作" width="60">
+              <template slot-scope="scope">
+                <span @click="editReport(scope.row)" class="eidt-span">  <svg-icon icon-class="edit" /></span>
+              </template>
+            </el-table-column>
         </el-table>
       </el-col>
       
     </el-row>
+</div>
+  </el-collapse-transition>
+<!-- 发布公告编辑 -->
+  <el-collapse-transition>
+     <el-row v-show="show">
+            <el-col :span="16" :offset="4">
+                <el-card class="editor-card">
+                    <div slot="header">
+                        标题：
+                        <el-input v-model="publish.title" style="width:200px;"></el-input>
+                    </div>
+                    <div class="editor-box">
+                        <div ref="toolbar" class="toolbar"></div>
+                        <div ref="editor" class="text"></div>
+                    </div>
+                    <div style="text-align:right;padding:10px;">
+                        <el-button size="small" type="primary" @click="addOrEditPublicReport">发布</el-button>
+                         <el-button size="small"  @click="show=false">返回</el-button>
+                    </div>
+                   
+                </el-card>
+
+            </el-col>
+      </el-row>
+  </el-collapse-transition>
+
+
+<el-dialog
+  :title="title"
+  :visible.sync="centerDialogVisible"
+  width="720px"
+  center>
+  <span v-html="content"></span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">关闭</el-button>
+    <!-- <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button> -->
+  </span>
+</el-dialog>
+
+
+
 
 <el-dialog
   :title="title"
@@ -61,7 +108,7 @@
 </template>
 
 <script>
-
+import E from 'wangeditor'
 export default {
   name: 'promote',
   data() {
@@ -76,10 +123,20 @@ export default {
       current_page: 1,
       total_pages: 1,
       tableData: [
-      ]
+      ],
+      publish: {
+        title: '',
+        content: ''
+      },
+      editor: ''
     }
   },
   mounted() {
+    this.editor = new E(this.$refs.toolbar, this.$refs.editor)
+    this.editor.customConfig.onchange = (html) => {
+      this.publish.content = html
+    }
+    this.editor.create()
     this.init()
   },
   methods: {
@@ -128,22 +185,6 @@ export default {
       })
     },
     queryReport() {
-      // this.$store.dispatch('GetUserInfo').then((res) => {
-      //   if (res) {
-      //     this.tableData = [{
-      //       name: 'this is title',
-      //       date: '2018-05-22'
-      //     }, {
-      //       name: 'this is title',
-      //       date: '2018-05-22'
-      //     }, {
-      //       name: 'this is title',
-      //       date: '2018-05-22'
-      //     }]
-      //   }
-      // }).catch(() => {
-
-      // })
     },
     moreReport() {
       this.current_page += 1
@@ -161,8 +202,102 @@ export default {
       this.title = row.title
       this.content = row.content
     },
+    editReport(row) {
+      this.publish = row
+      console.log(this.editor.txt)
+      this.editor.txt.html(row.content)
+      this.show = true
+    },
     toRoute() {
       this.$router.push({ name: 'promote_publish' })
+    },
+    toPublish() {
+      this.show = true
+      this.editor.txt.html('')
+      this.publish = {
+        title: '',
+        content: ''
+      }
+    },
+    addOrEditPublicReport() {
+      if (this.publish.id) {
+        console.log('update')
+        this.updatePublicReport()
+      } else {
+        console.log('add')
+        this.addPublicReport()
+      }
+    },
+    addPublicReport() {
+      const form = {
+        title: this.publish.title,
+        content: this.publish.content
+      }
+      if (form.title === '' && form.title.trim() === '') {
+        this.$message({
+          showClose: true,
+          message: '标题不能为空!',
+          type: 'error',
+          duration: 3 * 1000
+        })
+        return
+      }
+      if (form.content === '' && form.content.trim() === '') {
+        this.$message({
+          showClose: true,
+          message: '公告内容不能为空!',
+          type: 'error',
+          duration: 3 * 1000
+        })
+        return
+      }
+      this.$store.dispatch('addPublicReport', form).then((res) => {
+        this.show = false
+      }).catch((err) => {
+        this.$message({
+          showClose: true,
+          message: err.response.data.message,
+          type: 'error',
+          duration: 5 * 1000
+        })
+        this.show = false
+      })
+    },
+    updatePublicReport() {
+      const form = {
+        id: this.publish.id,
+        title: this.publish.title,
+        content: this.publish.content
+      }
+      if (form.title === '' && form.title.trim() === '') {
+        this.$message({
+          showClose: true,
+          message: '标题不能为空!',
+          type: 'error',
+          duration: 3 * 1000
+        })
+        return
+      }
+      if (form.content === '' && form.content.trim() === '') {
+        this.$message({
+          showClose: true,
+          message: '公告内容不能为空!',
+          type: 'error',
+          duration: 3 * 1000
+        })
+        return
+      }
+      this.$store.dispatch('updatePublicReport', form).then((res) => {
+        this.show = false
+      }).catch((err) => {
+        this.$message({
+          showClose: true,
+          message: err.response.data.message,
+          type: 'error',
+          duration: 5 * 1000
+        })
+        this.show = false
+      })
     }
   }
 }
@@ -182,7 +317,17 @@ export default {
   padding: 10px 5px;
   font-size: 14px;
 }
-
+.editor-box .toolbar {
+    padding: 5px;
+ border: 1px solid #ccc; 
+}
+.editor-box .text {
+ border: 1px solid #ccc;
+ height: 400px;
+}
+.eidt-span{
+  cursor: pointer;
+}
 .public-report {
   background: #d7d7d7;
   padding: 2px;

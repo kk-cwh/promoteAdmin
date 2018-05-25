@@ -153,6 +153,20 @@ const user = {
         })
       })
     },
+    // 更新发布公告
+    updatePublicReport({ commit, state }, data) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: `/api/notice/update/${data.id}`,
+          method: 'patch',
+          data: data
+        }).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
 
     // 登出
     LogOut({ commit, state }) {
