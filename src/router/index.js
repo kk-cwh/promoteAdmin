@@ -179,6 +179,39 @@ export const constantRouterMap = [
 
     ]
   },
+  {
+    path: '/accounts',
+    component: Layout,
+    name: 'accounts',
+    meta: { title: '财务管理', icon: 'manage' },
+    children: [
+      {
+        path: 'index',
+        name: 'accounts_record',
+        component: () => import('@/views/accounts/index'),
+        meta: { title: '结算记录', icon: 'manage' }
+      },
+      {
+        path: 'index1',
+        name: 'accounts_record1',
+        component: () => import('@/views/accounts/index1.vue'),
+        meta: { title: '结算账户', icon: 'user' }
+      },
+      {
+        path: 'index2',
+        name: 'accounts_record2',
+        component: () => import('@/views/accounts/index2.vue'),
+        meta: { title: '结算密码', icon: 'manage' }
+      },
+      {
+        path: 'index3',
+        name: 'accounts_record3',
+        component: () => import('@/views/accounts/index3.vue'),
+        meta: { title: '提交结算', icon: 'manage' }
+      }
+
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

@@ -188,7 +188,8 @@ export default {
     queryList() {
       this.loading = true
       this.tableData = []
-      this.$store.dispatch('AgencyList', this.formInline).then((res) => {
+      const query = { page: this.currentPage, per_page: this.per_page }
+      this.$store.dispatch('AgencyList', query).then((res) => {
         this.tableData = []
         if (res.data && res.data.length) {
           res.data.forEach((item, index) => {

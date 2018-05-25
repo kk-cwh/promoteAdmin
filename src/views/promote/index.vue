@@ -84,22 +84,7 @@
   center>
   <span v-html="content"></span>
   <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">关闭</el-button>
-    <!-- <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button> -->
-  </span>
-</el-dialog>
-
-
-
-
-<el-dialog
-  :title="title"
-  :visible.sync="centerDialogVisible"
-  width="720px"
-  center>
-  <span v-html="content"></span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">关闭</el-button>
+    <!-- <el-button @click="centerDialogVisible = false">关闭</el-button> -->
     <!-- <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button> -->
   </span>
 </el-dialog>
@@ -184,8 +169,6 @@ export default {
 
       })
     },
-    queryReport() {
-    },
     moreReport() {
       this.current_page += 1
       if (this.current_page <= this.total_pages) {
@@ -204,7 +187,6 @@ export default {
     },
     editReport(row) {
       this.publish = row
-      console.log(this.editor.txt)
       this.editor.txt.html(row.content)
       this.show = true
     },
