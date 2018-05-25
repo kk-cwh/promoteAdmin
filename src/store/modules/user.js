@@ -69,6 +69,20 @@ const user = {
         })
       })
     },
+    // 添加注册用户
+    AddUser({ commit, state }, data) {
+      return new Promise((resolve, reject) => {
+        http({
+          url: '/api/register',
+          method: 'post',
+          data: data
+        }).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
     // 代理列表
     AgencyList({ commit, state }, query) {
       return new Promise((resolve, reject) => {

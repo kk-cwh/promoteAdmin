@@ -68,28 +68,29 @@
           </el-col>
     </el-row>
 
-    <el-dialog title="添加推广链接" :visible.sync="addDialogVisible" width="480px" center>
-      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
+    <el-dialog  :visible.sync="addDialogVisible" width="480px" center>
+       <div slot="title" style="font-size:15px;font-weight:bold;">添加推广配置</div>
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
           <el-form-item label="代理ID" prop="agency_id">
-          <el-input v-model="ruleForm.agency_id" style="width:240px"></el-input>
+          <el-input v-model="ruleForm.agency_id" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="推广名称" prop="name">
-          <el-input v-model="ruleForm.name" style="width:240px"></el-input>
+          <el-input v-model="ruleForm.name" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="二维码地址" prop="qrcode_url">
-          <el-input v-model="ruleForm.qrcode_url" style="width:240px"></el-input>
+          <el-input v-model="ruleForm.qrcode_url" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="下载地址" prop="down_url">
-          <el-input v-model="ruleForm.down_url" style="width:240px"></el-input>
+          <el-input v-model="ruleForm.down_url" style="width:200px"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+         <el-button @click="addDialogVisible = false">关 闭</el-button>
+         <el-button type="primary" @click="addPromotionConfig">保 存</el-button>
         </el-form-item>
         <!-- <el-form-item label="备注">
           <el-input type="textarea" v-model="ruleForm.desc"></el-input>
         </el-form-item> -->
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="addPromotionConfig">保 存</el-button>
-      </span>
     </el-dialog>
 
   </div>

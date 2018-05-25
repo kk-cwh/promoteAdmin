@@ -104,26 +104,28 @@
     </el-row>
 
 <!-- 添加代理 dialog -->
-    <el-dialog title="添加代理" :visible.sync="addDialogVisible" width="500px" center>
-      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" size="small">
+    <el-dialog title="添加代理" :visible.sync="addDialogVisible" width="480px" center>
+        <div slot="title" style="font-size:15px;font-weight:bold;">添加代理</div>
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
         <el-form-item label="代理名称" prop="agency_name">
-          <el-input v-model="ruleForm.agency_name" name="agency_name"></el-input>
+          <el-input v-model="ruleForm.agency_name" name="agency_name" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="手机号" prop="phone">
-          <el-input v-model="ruleForm.phone" name="phone"></el-input>
+          <el-input v-model="ruleForm.phone" name="phone" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="代理用户密码" prop="password">
-          <el-input v-model="ruleForm.password" name="password"></el-input>
+          <el-input v-model="ruleForm.password" name="password" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="税率" prop="rate">
-          <el-input type="textarea" v-model="ruleForm.rate" name="rate"></el-input>
+          <el-input type="text" v-model="ruleForm.rate" name="rate" style="width:200px"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+         <el-button @click="addDialogVisible = false" size="small">关 闭</el-button>
+        <el-button type="primary" @click="addAgency('agency_form')" size="small">保 存</el-button>
         </el-form-item>
       </el-form>
       
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false" size="small">关 闭</el-button>
-        <el-button type="primary" @click="addAgency('agency_form')" size="small">保 存</el-button>
-      </span>
+  
     </el-dialog>
 
   </div>

@@ -45,7 +45,7 @@
 
       <el-col :span="23">
         <div class="table-content">
-          <el-table border  v-loading="loading" :data="tableData" style="width: 100%" size="mini">
+          <el-table border v-loading="loading" :data="tableData" style="width: 100%" size="mini">
             <el-table-column prop="name" label="商人ID" width="140">
             </el-table-column>
             <el-table-column prop="city" label="状态" width="120">
@@ -67,53 +67,56 @@
       </el-col>
     </el-row>
 
-    <el-dialog title="新增商人" :visible.sync="centerDialogVisible" width="30%" center>
-      <el-form ref="form" :model="form" label-width="80px">
+    <el-dialog :visible.sync="centerDialogVisible" width="480px" center>
+      <div slot="title" style="font-size:15px;font-weight:bold;">新增商人</div>
+      <el-form ref="form" :model="form" label-width="140px" size="small">
         <el-form-item label="代理ID">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.name" style="width:180px;"></el-input>
         </el-form-item>
         <el-form-item label="状态">
-          <el-radio-group v-model="form.resource">
+          <el-radio-group v-model="form.resource" style="width:140px;">
             <el-radio label="启用"></el-radio>
             <el-radio label="禁用"></el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="商人QQ">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.name" style="width:180px;"></el-input>
         </el-form-item>
         <el-form-item label="商人微信">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.name" style="width:180px;"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-button @click="centerDialogVisible = false">关 闭</el-button>
+          <el-button type="primary" @click="centerDialogVisible = false">保 存</el-button>
         </el-form-item>
 
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false">保 存</el-button>
-      </span>
+
     </el-dialog>
-    <el-dialog title="编辑商人" :visible.sync="editDialogVisible" width="30%" center>
-      <el-form ref="form" :model="form" label-width="80px">
+
+    <el-dialog :visible.sync="editDialogVisible" width="480px" center>
+      <div slot="title" style="font-size:15px;font-weight:bold;">编辑信息</div>
+      <el-form ref="form" :model="form" label-width="140px" size="mini">
         <el-form-item label="代理ID">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.name" style="width:180px;"></el-input>
         </el-form-item>
         <el-form-item label="状态">
-          <el-radio-group v-model="form.resource">
+          <el-radio-group v-model="form.resource" style="width:140px;">
             <el-radio label="启用"></el-radio>
             <el-radio label="禁用"></el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="商人QQ">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.name" style="width:180px;"></el-input>
         </el-form-item>
         <el-form-item label="商人微信">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.name" style="width:180px;"></el-input>
         </el-form-item>
-
+        <el-form-item label="">
+          <el-button @click="editDialogVisible = false">关 闭</el-button>
+          <el-button type="primary" @click="editDialogVisible = false">保 存</el-button>
+        </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="editDialogVisible = false">保 存</el-button>
-      </span>
     </el-dialog>
 
   </div>
@@ -128,6 +131,8 @@ export default {
       editDialogVisible: false,
       formInline: {},
       form: {},
+      rule: {},
+      ruleForm: {},
       tableData: [
 
       ]

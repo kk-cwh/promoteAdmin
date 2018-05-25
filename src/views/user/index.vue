@@ -48,7 +48,7 @@
 
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button>
+                <!-- <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button> -->
                 <el-button type="text" size="small">编辑</el-button>
               </template>
             </el-table-column>
@@ -67,28 +67,29 @@
           </el-col>
     </el-row>
 
-    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="420px" custom-class="dialog-me" center>
-      <el-form ref="form" :model="form" label-width="60px">
-        <el-form-item label="用户名">
-          <el-input v-model="form.name"></el-input>
+    <el-dialog  :visible.sync="addDialogVisible" width="480px" custom-class="dialog-me" center>
+      <div slot="title" style="font-size:15px;font-weight:bold;" >添加用户</div>
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
+        <el-form-item label="用户名:" prop="name">
+          <el-input v-model="ruleForm.name" style="width:180px"></el-input>
         </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="form.password"></el-input>
+        <el-form-item label="密码:" prop="password">
+          <el-input v-model="ruleForm.password" style="width:180px"></el-input>
         </el-form-item>
-        <el-form-item label="手机号">
-          <el-input v-model="form.phone"></el-input>
+        <el-form-item label="手机号:">
+          <el-input v-model="ruleForm.phone" style="width:180px"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="form.email"></el-input>
+        <el-form-item label="邮箱:">
+          <el-input v-model="ruleForm.email" style="width:180px"></el-input>
         </el-form-item>
-        <el-form-item label="备注">
-          <el-input type="textarea" v-model="form.remark"></el-input>
+        <el-form-item label="备注:">
+          <el-input type="textarea" v-model="ruleForm.remark" style="width:180px"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-button @click="addDialogVisible = false">关 闭</el-button>
+        <el-button type="primary" @click="addUser">保 存</el-button>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="addDialogVisible = false">保 存</el-button>
-      </span>
     </el-dialog>
   </div>
 </template>
@@ -105,6 +106,20 @@ export default {
       formInline: {},
       form: {},
       addDialogVisible: false,
+      ruleForm: {
+        name: '',
+        password: '',
+        phone: '',
+        email: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ]
+      },
       tableData: [
       ]
     }
@@ -164,10 +179,28 @@ export default {
       })
     },
     showAddDialog() {
+      this.ruleForm = {}
       this.addDialogVisible = true
     },
     addUser() {
-
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.addDialogVisible = false
+          this.$store.dispatch('AddUser', this.ruleForm).then((res) => {
+            console.log(res)
+          }).catch((err) => {
+            this.$message({
+              showClose: true,
+              message: err.response.data.message,
+              type: 'error',
+              duration: 5 * 1000
+            })
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     }
 
   }
