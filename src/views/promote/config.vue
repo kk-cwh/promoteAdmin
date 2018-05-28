@@ -43,13 +43,13 @@
                 <el-row :gutter="10">
                   <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10">
                     <div>
-                      <qrcode :val="scope.row.qrcode_url" size="50">
+                      <qrcode :val="scope.row.qrcode_url" :size="50">
                       </qrcode>
                     </div>
                   </el-col>
                   <el-col :xs="24" :sm="24" :md="14" :lg="14" :xl="14">
                     <el-popover trigger="click" placement="left">
-                      <qrcode :val="scope.row.qrcode_url" size="120">
+                      <qrcode :val="scope.row.qrcode_url" :size="120">
                       </qrcode>
                       <div slot="reference" class="name-wrapper">
                         <el-tag size="small">查看大图</el-tag>
@@ -68,13 +68,13 @@
                 <el-row :gutter="10">
                   <el-col :xs="24" :sm="24" :md="10" :lg="10" :xl="10">
                     <div>
-                      <qrcode :val="scope.row.down_url" size="50">
+                      <qrcode :val="scope.row.down_url" :size="50">
                       </qrcode>
                     </div>
                   </el-col>
                   <el-col :xs="24" :sm="24" :md="14" :lg="14" :xl="14">
                     <el-popover trigger="click" placement="left">
-                      <qrcode :val="scope.row.down_url" size="120">
+                      <qrcode :val="scope.row.down_url" :size="120">
                       </qrcode>
                       <div slot="reference" class="name-wrapper">
                         <el-tag size="small">查看大图</el-tag>

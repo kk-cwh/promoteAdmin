@@ -62,128 +62,90 @@ const user = {
       })
     },
     SysUserList({ commit, state }, query) {
-      return new Promise((resolve, reject) => {
-        http({
-          url: '/api/users',
-          method: 'get',
-          params: query
-        }).then(response => {
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+      return http({
+        url: '/api/users',
+        method: 'get',
+        params: query
       })
     },
     // 添加注册用户
     AddUser({ commit, state }, data) {
-      return new Promise((resolve, reject) => {
-        http({
-          url: '/api/register',
-          method: 'post',
-          data: data
-        }).then(response => {
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+      return http({
+        url: '/api/register',
+        method: 'post',
+        data: data
       })
     },
     // 代理列表
     AgencyList({ commit, state }, query) {
-      return new Promise((resolve, reject) => {
-        http({
-          url: '/api/agencies',
-          method: 'get',
-          params: query
-        }).then(response => {
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+      return http({
+        url: '/api/agencies',
+        method: 'get',
+        params: query
       })
     },
     // 添加代理
     AddAgency({ commit, state }, query) {
-      return new Promise((resolve, reject) => {
-        http({
-          url: '/api/agencies/create',
-          method: 'post',
-          data: query
-        }).then(response => {
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+      return http({
+        url: '/api/agencies/create',
+        method: 'post',
+        data: query
       })
     },
     // 推广首页数据
     GetAgencyHome({ commit, state }, query) {
-      return new Promise((resolve, reject) => {
-        http({
-          url: '/api/agencies/home',
-          method: 'get',
-          params: query
-        }).then(response => {
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+      return http({
+        url: '/api/agencies/home',
+        method: 'get',
+        params: query
       })
     },
     // 推广配置列表
     PromotionConfig({ commit, state }, query) {
-      return new Promise((resolve, reject) => {
-        http({
-          url: '/api/agencies/promotion',
-          method: 'get',
-          params: query
-        }).then(response => {
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+      return http({
+        url: '/api/agencies/promotion',
+        method: 'get',
+        params: query
       })
     },
     // 添加推广配置
     addPromotionConfig({ commit, state }, data) {
-      return new Promise((resolve, reject) => {
-        http({
-          url: '/api/agencies/promotion',
-          method: 'post',
-          data: data
-        }).then(response => {
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+      return http({
+        url: '/api/agencies/promotion',
+        method: 'post',
+        data: data
       })
     },
     // 添加发布公告
     addPublicReport({ commit, state }, data) {
-      return new Promise((resolve, reject) => {
-        http({
-          url: '/api/notice/create',
-          method: 'post',
-          data: data
-        }).then(response => {
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+      return http({
+        url: '/api/notice/create',
+        method: 'post',
+        data: data
       })
     },
     // 更新发布公告
     updatePublicReport({ commit, state }, data) {
-      return new Promise((resolve, reject) => {
-        http({
-          url: `/api/notice/update/${data.id}`,
-          method: 'patch',
-          data: data
-        }).then(response => {
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+      return http({
+        url: `/api/notice/update/${data.id}`,
+        method: 'patch',
+        data: data
+      })
+    },
+    // 收入统计
+    incomeList({ commit, state }, data) {
+      return http({
+        url: `/api/notice/update/${data.id}`,
+        method: 'patch',
+        data: data
+      })
+    },
+    // 推广统计
+    promotionList({ commit, state }, data) {
+      return http({
+        url: `/api/notice/update/${data.id}`,
+        method: 'patch',
+        data: data
       })
     },
 

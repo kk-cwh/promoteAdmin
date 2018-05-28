@@ -215,7 +215,7 @@ export const constantRouterMap = [
   {
     path: '/merchant-manage',
     component: Layout,
-    name: 'merchant_manage',
+    name: 'merchant_person_info',
     // meta: { title: '个人管理', icon: 'manage' },
     children: [
       {
@@ -248,7 +248,7 @@ export const constantRouterMap = [
   {
     path: '/merchant-manage',
     component: Layout,
-    name: 'merchant_manage',
+    name: 'merchant_transfer',
     // meta: { title: '个人管理', icon: 'manage' },
     children: [
       {
@@ -263,7 +263,7 @@ export const constantRouterMap = [
   {
     path: '/merchant-manage',
     component: Layout,
-    name: 'merchant_manage',
+    name: 'merchant_transfer_records',
     // meta: { title: '个人管理', icon: 'manage' },
     children: [
 
@@ -278,7 +278,7 @@ export const constantRouterMap = [
   }, {
     path: '/merchant-manage',
     component: Layout,
-    name: 'merchant_manage',
+    name: 'merchant_score_records',
     // meta: { title: '个人管理', icon: 'manage' },
     children: [
 

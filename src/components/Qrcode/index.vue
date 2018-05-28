@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas  @click='down'
+    <canvas
       :style="{height: size + 'px', width: size + 'px'}"
       :height="size"
       :width="size"
@@ -58,7 +58,6 @@ export default {
   },
   mounted() {
     this.update()
-    console.log(this.show)
   },
   methods: {
     download() {

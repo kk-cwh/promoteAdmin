@@ -148,7 +148,6 @@ export default {
       this.loading = true
       const query = { page: this.currentPage, per_page: this.per_page }
       this.$store.dispatch('SysUserList', query).then((res) => {
-        console.log('userlist', res)
         this.tableData = []
         if (res.data && res.data.length) {
           res.data.forEach((item, index) => {
