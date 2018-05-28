@@ -31,13 +31,13 @@
               <el-switch v-model="formInline.value2"></el-switch>
             </el-form-item>
 
-            <el-form-item label="绑定手机">
-              <el-input v-model="formInline.user" placeholder="绑定手机" style="width:150px;"></el-input>
+            <el-form-item label="绑定微信">
+              <el-input v-model="formInline.user" placeholder="绑定微信" style="width:150px;"></el-input>
             </el-form-item>
             <br>
             <el-form-item label="账户余额">
-              <el-input v-model="formInline.user" placeholder="绑定手机" style="width:100px;"></el-input>-
-              <el-input v-model="formInline.user" placeholder="绑定手机" style="width:100px;"></el-input>
+              <el-input v-model="formInline.user" placeholder="" style="width:100px;"></el-input>-
+              <el-input v-model="formInline.user" placeholder="" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="注册时间">
               <el-date-picker type="date" placeholder="开始日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>-
@@ -60,7 +60,7 @@
             </el-table-column>
             <el-table-column prop="status" label="账号状态" width="80px">
             </el-table-column>
-            <el-table-column prop="grade" label="等级" width="60px" >
+            <el-table-column prop="grade" label="等级" width="60px">
             </el-table-column>
             <el-table-column prop="agency_name" label="代理账号">
             </el-table-column>
@@ -68,7 +68,7 @@
             </el-table-column>
             <el-table-column prop="rate" label="提成比例" width="80px">
             </el-table-column>
-            <el-table-column prop="phone" label="绑定手机">
+            <el-table-column prop="phone" label="绑定微信">
             </el-table-column>
             <el-table-column prop="balance" label="账户余额">
             </el-table-column>
@@ -85,49 +85,72 @@
             <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
                 <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
+                <el-button type="text" size="small" @click="toEdit(scope.row)">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
         </div>
       </el-col>
       <el-col :span="24" style="text-align:right;padding-right:30px;">
-        <el-pagination background @size-change="handleSizeChange"
-         @current-change="handleCurrentChange"
-          :current-page="currentPage" 
-         :page-sizes="[10, 20, 30, 40, 50]" 
-         :page-size="per_page" 
-         layout="   total , prev, pager, next, jumper" 
-         :total="total">
-          </el-pagination>
-          </el-col>
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40, 50]" :page-size="per_page" layout="   total , prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </el-col>
     </el-row>
 
-<!-- 添加代理 dialog -->
+    <!-- 添加代理 dialog -->
     <el-dialog title="添加代理" :visible.sync="addDialogVisible" width="480px" center>
-        <div slot="title" style="font-size:15px;font-weight:bold;">添加代理</div>
+      <div slot="title" style="font-size:15px;font-weight:bold;">添加代理</div>
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
         <el-form-item label="代理名称" prop="agency_name">
           <el-input v-model="ruleForm.agency_name" name="agency_name" style="width:200px"></el-input>
         </el-form-item>
-        <el-form-item label="手机号" prop="phone">
+        <el-form-item label="代理账号" prop="phone">
           <el-input v-model="ruleForm.phone" name="phone" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="代理用户密码" prop="password">
           <el-input v-model="ruleForm.password" name="password" style="width:200px"></el-input>
         </el-form-item>
-        <el-form-item label="税率" prop="rate">
+        <el-form-item label="提成比率" prop="rate">
           <el-input type="text" v-model="ruleForm.rate" name="rate" style="width:200px"></el-input>
+          <el-popover placement="top-start" title="提成说明" width="300" trigger="hover" content="总代35%，1代33%，下面的代理，可自定义 。可设定范围：0-33，设置后比例只可上调不可下调！">
+            <el-button type="text" slot="reference" icon="el-icon-warning">提成说明</el-button>
+          </el-popover>
         </el-form-item>
         <el-form-item label="">
-         <el-button @click="addDialogVisible = false" size="small">关 闭</el-button>
-        <el-button type="primary" @click="addAgency('agency_form')" size="small">保 存</el-button>
+          <el-button @click="addDialogVisible = false" size="small">关 闭</el-button>
+          <el-button type="primary" @click="addAgency('agency_form')" size="small">保 存</el-button>
         </el-form-item>
       </el-form>
-      
-  
+
     </el-dialog>
 
+
+  <!-- 编辑代理 dialog -->
+    <el-dialog title="添加代理" :visible.sync="editDialogVisible" width="480px" center>
+      <div slot="title" style="font-size:15px;font-weight:bold;">编辑代理信息</div>
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
+        <el-form-item label="代理名称" prop="agency_name">
+          <el-input v-model="ruleForm.agency_name" name="agency_name" style="width:200px"></el-input>
+        </el-form-item>
+        <el-form-item label="代理账号" prop="phone">
+          <el-input v-model="ruleForm.phone" name="phone" style="width:200px"></el-input>
+        </el-form-item>
+        <el-form-item label="代理用户密码" prop="password">
+          <el-input v-model="ruleForm.password" name="password" style="width:200px"></el-input>
+        </el-form-item>
+        <el-form-item label="提成比率" prop="rate">
+          <el-input type="text" v-model="ruleForm.rate" name="rate" style="width:200px"></el-input>
+          <el-popover placement="top-start" title="提成说明" width="300" trigger="hover" content="总代35%，1代33%，下面的代理，可自定义 。可设定范围：0-33，设置后比例只可上调不可下调！">
+            <el-button type="text" slot="reference" icon="el-icon-warning">提成说明</el-button>
+          </el-popover>
+        </el-form-item>
+        <el-form-item label="">
+          <el-button @click="editDialogVisible = false" size="small">关 闭</el-button>
+          <el-button type="primary" @click="updateAgency('agency_form')" size="small">保 存</el-button>
+        </el-form-item>
+      </el-form>
+
+    </el-dialog>
   </div>
 </template>
 
@@ -152,22 +175,23 @@ export default {
           { required: true, message: '请输入代理名称', trigger: 'blur' }
         ],
         phone: [
-          { required: true, message: '请输入手机号', trigger: 'change' }
+          { required: true, message: '请输入代理账号', trigger: 'change' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' }
         ],
         rate: [
-          { required: true, message: '请输入税率', trigger: 'blur' }
+          { required: true, message: '请输入提成比率', trigger: 'blur' }
         ]
       },
       addDialogVisible: false,
+      editDialogVisible: false,
       tableData: [
       ]
     }
   },
   mounted() {
-    this.init()
+    // this.init()
   },
   methods: {
     init() {
@@ -229,7 +253,31 @@ export default {
       this.addDialogVisible = true
       // this.ruleForm = {}
     },
+    toEdit() {
+      this.editDialogVisible = true
+      // this.ruleForm = {}
+    },
     addAgency() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.addDialogVisible = false
+          this.$store.dispatch('AddAgency', this.ruleForm).then((res) => {
+            console.log(res)
+          }).catch((err) => {
+            this.$message({
+              showClose: true,
+              message: err.response.data.message,
+              type: 'error',
+              duration: 5 * 1000
+            })
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    updateAgency() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.addDialogVisible = false

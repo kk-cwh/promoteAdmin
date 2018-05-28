@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas
+    <canvas  @click='down'
       :style="{height: size + 'px', width: size + 'px'}"
       :height="size"
       :width="size"
@@ -61,6 +61,21 @@ export default {
     console.log(this.show)
   },
   methods: {
+    download() {
+      const option = { imgType: 'jpg' }
+      // 获取canvas
+      var myCanvas = this.$refs.qr
+      // 设置图片类型
+      var image = myCanvas.toDataURL('image/' + option.imgType).replace('image/' + option.imgType, 'image/octet-stream')
+      var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a')
+      save_link.href = image
+      // 设置下载图片的名称
+      save_link.download = 'qrcode' + '.' + option.imgType
+      // 下载图片
+      var event = document.createEvent('MouseEvents')
+      event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      save_link.dispatchEvent(event)
+    },
     update() {
       var size = this.size
       var bgColor = this.bgColor

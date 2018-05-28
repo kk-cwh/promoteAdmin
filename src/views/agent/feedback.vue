@@ -158,7 +158,7 @@ export default {
     }
   },
   mounted() {
-    this.init()
+    // this.init()
   },
   methods: {
     init() {

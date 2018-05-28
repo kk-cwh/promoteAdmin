@@ -6,11 +6,11 @@
                 <div class="form-content">
                     <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
 
-                        <el-form-item label="支付宝账号">
-                            <el-input v-model="formInline.user" placeholder="支付宝账号" style="width:160px;"></el-input>
+                        <el-form-item label="商人ID">
+                            <el-input v-model="formInline.user" placeholder="商人ID" style="width:160px;"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="结算金额">
+                        <el-form-item label="转账金额">
                             <el-input v-model="formInline.user" placeholder="金额" style="width:100px;"></el-input>-
                             <el-input v-model="formInline.user" placeholder="金额" style="width:100px;"></el-input>
                         </el-form-item>
@@ -37,30 +37,33 @@
         <el-row :gutter="20">
             <el-col :span="24">
                 <div class="table-content">
-                    <el-table border show-summary v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
-                        <el-table-column prop="id" label="结算ID" width="60px">
-                        </el-table-column>
-                        <el-table-column prop="created_at" label="创建时间">
-                        </el-table-column>
-                        <el-table-column prop="balance" label="结算余额">
+                    <el-table border  v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
+                        <el-table-column prop="id" label="总代ID" width="160px">
                         </el-table-column>
 
-                        <el-table-column prop="agency_name" label="支付宝账号">
+                        <el-table-column prop="balance" label="商人ID">
                         </el-table-column>
-                        <el-table-column prop="agency_name" label="姓名">
+
+                        <el-table-column prop="agency_name" label="转账前库存">
                         </el-table-column>
-                 
+                        <el-table-column prop="agency_name" label="转出金币">
+                        </el-table-column>
+
+                        <el-table-column prop="grade" label="转账后库存" width="180px">
+                        </el-table-column>
+
                         <el-table-column prop="grade" label="状态" width="80px">
                         </el-table-column>
-                        <el-table-column prop="created_at" label="结算时间">
+
+                        <el-table-column prop="created_at" label="创建时间">
                         </el-table-column>
 
-                        <!-- <el-table-column label="操作" width="120px">
-              <template slot-scope="scope">
-                <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
-              </template>
-            </el-table-column> -->
+                        <el-table-column label="操作" width="120px">
+                            <template slot-scope="scope">
+                                <el-button @click="showReport(scope.row)" type="text" size="small">撤回</el-button>
+                                <!-- <el-button type="text" size="small">编辑</el-button> -->
+                            </template>
+                        </el-table-column>
                     </el-table>
                 </div>
             </el-col>
@@ -69,8 +72,6 @@
                 </el-pagination>
             </el-col>
         </el-row>
-
-       
 
     </div>
 </template>

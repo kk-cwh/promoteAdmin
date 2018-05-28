@@ -4,7 +4,8 @@ const user = {
   state: {
     token: getToken(),
     name: '',
-    avatar: 'https://avatars1.githubusercontent.com/u/16732754?s=40&v=4'
+    avatar: 'https://avatars1.githubusercontent.com/u/16732754?s=40&v=4',
+    isAdmin: false
   },
 
   mutations: {
@@ -16,6 +17,9 @@ const user = {
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
+    },
+    SET_IS_ADMIN: (state, isAdmin) => {
+      state.isAdmin = isAdmin
     }
   },
 
@@ -49,6 +53,7 @@ const user = {
         }).then(response => {
           if (response.agency_user) {
             commit('SET_NAME', response.agency_user.name)
+            commit('SET_IS_ADMIN', !response.agency_user.isAdmin)
             resolve(response)
           }
         }).catch(error => {

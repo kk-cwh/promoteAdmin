@@ -2,7 +2,7 @@
   <div class="login-container">
 
     <div class="login-admin">
-      <h1> 鑫耀电玩-后台管理系统</h1>
+      <h1> 鑫耀电玩-代理系统</h1>
     </div>
 
     <div class="login-tab">

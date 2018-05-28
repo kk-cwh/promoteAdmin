@@ -22,7 +22,7 @@ import Layout from '../views/layout/Layout'
   }
 **/
 export const constantRouterMap = [
-  { path: '/login', component: () => import('@/views/login/index1'), hidden: true },
+  { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
   {
     path: '/',
@@ -208,6 +208,85 @@ export const constantRouterMap = [
         name: 'accounts_record3',
         component: () => import('@/views/accounts/index3.vue'),
         meta: { title: '提交结算', icon: 'manage' }
+      }
+
+    ]
+  },
+  {
+    path: '/merchant-manage',
+    component: Layout,
+    name: 'merchant_manage',
+    // meta: { title: '个人管理', icon: 'manage' },
+    children: [
+      {
+        path: 'personinfo',
+        name: 'person_info',
+        component: () => import('@/views/merchant/personinfo'),
+        meta: { title: '个人信息', icon: 'user' }
+      }
+      // {
+      //   path: 'transfer',
+      //   name: 'transfer',
+      //   component: () => import('@/views/merchant/transfer'),
+      //   meta: { title: '转账操作', icon: 'manage' }
+      // },
+      // {
+      //   path: 'transfer-records',
+      //   name: 'transfer_records',
+      //   component: () => import('@/views/merchant/transferRecords'),
+      //   meta: { title: '转账记录', icon: 'manage' }
+      // },
+      // {
+      //   path: 'score-records',
+      //   name: 'score_records',
+      //   component: () => import('@/views/merchant/scoreRecords'),
+      //   meta: { title: '进分记录', icon: 'manage' }
+      // }
+
+    ]
+  },
+  {
+    path: '/merchant-manage',
+    component: Layout,
+    name: 'merchant_manage',
+    // meta: { title: '个人管理', icon: 'manage' },
+    children: [
+      {
+        path: 'transfer',
+        name: 'transfer',
+        component: () => import('@/views/merchant/transfer'),
+        meta: { title: '转账操作', icon: 'manage' }
+      }
+
+    ]
+  },
+  {
+    path: '/merchant-manage',
+    component: Layout,
+    name: 'merchant_manage',
+    // meta: { title: '个人管理', icon: 'manage' },
+    children: [
+
+      {
+        path: 'transfer-records',
+        name: 'transfer_records',
+        component: () => import('@/views/merchant/transferRecords'),
+        meta: { title: '转账记录', icon: 'detail' }
+      }
+
+    ]
+  }, {
+    path: '/merchant-manage',
+    component: Layout,
+    name: 'merchant_manage',
+    // meta: { title: '个人管理', icon: 'manage' },
+    children: [
+
+      {
+        path: 'score-records',
+        name: 'score_records',
+        component: () => import('@/views/merchant/scoreRecords'),
+        meta: { title: '进分记录', icon: 'manage' }
       }
 
     ]

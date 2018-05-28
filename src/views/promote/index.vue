@@ -27,8 +27,8 @@
         <div class="public-report clearfloat">
           <div class="report-title"> 公告信息 </div>
           <div class="report-publish">
-            <el-button type="text" @click="moreReport">更多公告</el-button>
-            <el-button @click="toPublish">发布公告</el-button>
+            <el-button type="text" @click="moreReport">更多公告&nbsp;&nbsp;</el-button>
+            <el-button @click="toPublish" v-if="isAdmin">发布公告</el-button>
           </div>
         </div>
 
@@ -93,6 +93,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import E from 'wangeditor'
 export default {
   name: 'promote',
@@ -115,6 +116,11 @@ export default {
       },
       editor: ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'isAdmin'
+    ])
   },
   mounted() {
     this.editor = new E(this.$refs.toolbar, this.$refs.editor)

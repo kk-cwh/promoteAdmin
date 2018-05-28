@@ -6,7 +6,7 @@
         <div class="form-content">
           <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
 
-            <el-form-item label="状态">
+            <!-- <el-form-item label="状态">
               <el-select v-model="formInline.region" placeholder="状态" style="width:100px;">
                 <el-option label="全部" value="0"></el-option>
                 <el-option label="正常" value="1"></el-option>
@@ -31,7 +31,7 @@
             </el-form-item>
             <el-form-item>
               <el-button type="info" plain>清空查询</el-button>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
               <el-button icon="el-icon-circle-plus" type="danger" @click="centerDialogVisible = true">新增</el-button>
             </el-form-item>
@@ -68,22 +68,22 @@
     </el-row>
 
     <el-dialog :visible.sync="centerDialogVisible" width="480px" center>
-      <div slot="title" style="font-size:15px;font-weight:bold;">新增商人</div>
+      <div slot="title" style="font-size:15px;font-weight:bold;">新增联系方式</div>
       <el-form ref="form" :model="form" label-width="140px" size="small">
         <el-form-item label="代理ID">
-          <el-input v-model="form.name" style="width:180px;"></el-input>
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-radio-group v-model="form.resource" style="width:140px;">
-            <el-radio label="启用"></el-radio>
-            <el-radio label="禁用"></el-radio>
-          </el-radio-group>
+          <el-input v-model="form.name" style="width:180px;" placeholder="显示自己的ID，其为不可编译状态"></el-input>
         </el-form-item>
         <el-form-item label="商人QQ">
           <el-input v-model="form.name" style="width:180px;"></el-input>
         </el-form-item>
         <el-form-item label="商人微信">
           <el-input v-model="form.name" style="width:180px;"></el-input>
+        </el-form-item>
+             <el-form-item label="状态">
+          <el-radio-group v-model="form.resource" style="width:140px;">
+            <el-radio label="启用"></el-radio>
+            <el-radio label="禁用"></el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="">
           <el-button @click="centerDialogVisible = false">关 闭</el-button>
@@ -95,22 +95,22 @@
     </el-dialog>
 
     <el-dialog :visible.sync="editDialogVisible" width="480px" center>
-      <div slot="title" style="font-size:15px;font-weight:bold;">编辑信息</div>
+      <div slot="title" style="font-size:15px;font-weight:bold;">编辑联系方式</div>
       <el-form ref="form" :model="form" label-width="140px" size="mini">
         <el-form-item label="代理ID">
-          <el-input v-model="form.name" style="width:180px;"></el-input>
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-radio-group v-model="form.resource" style="width:140px;">
-            <el-radio label="启用"></el-radio>
-            <el-radio label="禁用"></el-radio>
-          </el-radio-group>
+          <el-input v-model="form.name" style="width:180px;"  placeholder="显示自己的ID，其为不可编译状态"></el-input>
         </el-form-item>
         <el-form-item label="商人QQ">
           <el-input v-model="form.name" style="width:180px;"></el-input>
         </el-form-item>
         <el-form-item label="商人微信">
           <el-input v-model="form.name" style="width:180px;"></el-input>
+        </el-form-item>
+          <el-form-item label="状态">
+          <el-radio-group v-model="form.resource" style="width:140px;">
+            <el-radio label="启用"></el-radio>
+            <el-radio label="禁用"></el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item label="">
           <el-button @click="editDialogVisible = false">关 闭</el-button>
@@ -139,7 +139,7 @@ export default {
     }
   },
   mounted() {
-    this.init()
+    // this.init()
   },
   methods: {
     init() {
