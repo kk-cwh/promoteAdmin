@@ -14,7 +14,7 @@
         <el-form-item label="支付宝实名:" prop="name">
           <el-input v-model="ruleForm.name" style="width:180px;"></el-input>
         </el-form-item>
-        <el-form-item label="绑定手机:" prop="name">
+        <el-form-item label="绑定微信:" prop="name">
           <el-input v-model="ruleForm.name" style="width:180px;"></el-input>
         </el-form-item>
 

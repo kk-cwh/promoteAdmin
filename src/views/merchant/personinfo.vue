@@ -7,45 +7,60 @@
                 <span>个人信息</span>
 
             </div>
+
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="small" label-width="120px" class="demo-ruleForm">
-                <el-form-item label="商人ID:" prop="name">
-                  {{ruleForm.id}}
-                </el-form-item>
-                <el-form-item label="后台账号:" prop="name">
-                    {{ruleForm.created_at}}
-                </el-form-item>
-                <el-form-item label="绑定游戏ID:" prop="name">
-                    {{ruleForm.count}}
-                </el-form-item>
-                <el-form-item label="绑定手机号:" prop="name">
-                    {{ruleForm.count}}
-                </el-form-item>
-                <el-form-item label="绑定QQ:" prop="name">
-                    {{ruleForm.count}}
-                </el-form-item>
-                <el-form-item label="绑定微信:" prop="name">
-                    {{ruleForm.count}}
-                </el-form-item>
-                <el-form-item label="注册时间:" prop="name">
-                    {{ruleForm.count}}
-                </el-form-item>
-                <el-form-item label="总拿货:" prop="name">
-                    {{ruleForm.count}}
-                </el-form-item>
-                <el-form-item label="总拿货:" prop="name">
-                    {{ruleForm.count}}
-                </el-form-item>
-                <el-form-item label="总售出:" prop="name">
-                    {{ruleForm.count}}
-                </el-form-item>
-                <el-form-item label="账号状态:" prop="name">
-                    {{ruleForm.count}}
-                </el-form-item>
-    
-                <el-form-item>
-                    <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
-                    <el-button type="primary" @click="submitForm('ruleForm')">确认转账</el-button>
-                </el-form-item>
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item label="商人ID:" prop="name">
+                            {{ruleForm.id}}
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="后台账号:" prop="name">
+                            {{ruleForm.created_at}}
+                        </el-form-item>
+                    </el-col>
+                       <el-col :span="12">
+                        <el-form-item label="绑定游戏ID:" prop="name">
+                            {{ruleForm.id}}
+                        </el-form-item>
+                    </el-col>
+                       <el-col :span="12">
+                        <el-form-item label="绑定手机号:" prop="name">
+                            {{ruleForm.id}}
+                        </el-form-item>
+                    </el-col>
+                       <el-col :span="12">
+                        <el-form-item label="绑定QQ:" prop="name">
+                            {{ruleForm.id}}
+                        </el-form-item>
+                    </el-col>
+                       <el-col :span="12">
+                        <el-form-item label="绑定微信:" prop="name">
+                            {{ruleForm.id}}
+                        </el-form-item>
+                    </el-col>
+                       <el-col :span="12">
+                        <el-form-item label="注册时间:" prop="name">
+                            {{ruleForm.id}}
+                        </el-form-item>
+                    </el-col>
+                       <el-col :span="12">
+                        <el-form-item label="总拿货:" prop="name">
+                            {{ruleForm.id}}
+                        </el-form-item>
+                    </el-col>
+                       <el-col :span="12">
+                        <el-form-item label="总售出:" prop="name">
+                            {{ruleForm.id}}
+                        </el-form-item>
+                    </el-col>
+                       <el-col :span="12">
+                        <el-form-item label="账号状态:" prop="name">
+                            {{ruleForm.id}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
             </el-form>
         </el-card>
     </div>
@@ -125,7 +140,7 @@ export default {
 
 <style scoped>
 .box-card {
-  width: 480px;
+  width: 600px;
 }
 .clearfloat {
   zoom: 1;

@@ -23,7 +23,7 @@
           <!-- <el-input type="text" v-model="ruleForm.name"></el-input> -->
           <el-tag type="info">{{ruleForm.name}}</el-tag>
         </el-form-item>
-        <el-form-item label="绑定手机:" prop="name">
+        <el-form-item label="绑定微信:" prop="name">
           <!-- <el-input  v-model="ruleForm.phone"></el-input> -->
           <el-tag type="info">{{ruleForm.phone}}</el-tag>
         </el-form-item>

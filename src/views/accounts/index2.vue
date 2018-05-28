@@ -19,7 +19,7 @@
           <el-form-item label="重复新密码:" prop="name">
             <el-input type="password" v-model="ruleForm.password" style="width:180px;"></el-input>
           </el-form-item>
-          <el-form-item label="绑定手机:" prop="name">
+          <el-form-item label="绑定微信:" prop="name">
             <el-input  v-model="ruleForm.mobile" style="width:180px;"></el-input>
           </el-form-item>
           <el-form-item label="验证码:" prop="desc">
