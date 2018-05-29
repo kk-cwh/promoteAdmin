@@ -151,63 +151,64 @@ export const constantRouterMap = [
 
     ]
   },
-  {
-    path: '/user',
-    component: Layout,
-    name: 'user',
-    children: [
-      {
-        path: 'index',
-        name: 'user_index',
-        component: () => import('@/views/user/index'),
-        meta: { title: '系统用户', icon: 'record' }
-      }
+  // {
+  //   path: '/user',
+  //   component: Layout,
+  //   name: 'user',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'user_index',
+  //       component: () => import('@/views/user/index'),
+  //       meta: { title: '系统用户', icon: 'record' }
+  //     }
 
-    ]
-  },
-  {
-    path: '/red-envelope-record',
-    component: Layout,
-    name: 'red_envelope_record',
-    children: [
-      {
-        path: 'index',
-        name: 'red_envelope_record_index',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '红包记录', icon: 'manage' }
-      }
+  //   ]
+  // },
+  // {
+  //   path: '/red-envelope-record',
+  //   component: Layout,
+  //   name: 'red_envelope_record',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'red_envelope_record_index',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: '红包记录', icon: 'manage' }
+  //     }
 
-    ]
-  },
+  //   ]
+  // },
   {
     path: '/accounts',
     component: Layout,
     name: 'accounts',
     meta: { title: '财务管理', icon: 'manage' },
     children: [
+
       {
-        path: 'index',
-        name: 'accounts_record',
-        component: () => import('@/views/accounts/index'),
-        meta: { title: '结算记录', icon: 'manage' }
-      },
-      {
-        path: 'index1',
-        name: 'accounts_record1',
-        component: () => import('@/views/accounts/index1.vue'),
+        path: 'settlement-account',
+        name: 'settlement_account',
+        component: () => import('@/views/accounts/settlement-account'),
         meta: { title: '结算账户', icon: 'user' }
       },
       {
-        path: 'index2',
-        name: 'accounts_record2',
-        component: () => import('@/views/accounts/index2.vue'),
+        path: 'settlement-pwd',
+        name: 'settlement_pwd',
+        component: () => import('@/views/accounts/settlement-pwd'),
         meta: { title: '结算密码', icon: 'password' }
       },
       {
-        path: 'index3',
-        name: 'accounts_record3',
-        component: () => import('@/views/accounts/index3.vue'),
+        path: 'settlement',
+        name: 'settlement',
+        component: () => import('@/views/accounts/settlement'),
         meta: { title: '提交结算', icon: 'money' }
+      },
+      {
+        path: 'settlement-records',
+        name: 'settlement_records',
+        component: () => import('@/views/accounts/settlement-records'),
+        meta: { title: '结算记录', icon: 'manage' }
       }
 
     ]

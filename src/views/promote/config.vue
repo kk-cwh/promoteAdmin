@@ -233,7 +233,7 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.addDialogVisible = false
-          this.$store.dispatch('addPromotionConfig', this.ruleForm).then((res) => {
+          this.$store.dispatch('AddPromotionConfig', this.ruleForm).then((res) => {
             console.log(res)
           }).catch((err) => {
             this.$message({

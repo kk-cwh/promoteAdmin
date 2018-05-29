@@ -109,7 +109,7 @@ const user = {
       })
     },
     // 添加推广配置
-    addPromotionConfig({ commit, state }, data) {
+    AddPromotionConfig({ commit, state }, data) {
       return http({
         url: '/api/agencies/promotion',
         method: 'post',
@@ -117,7 +117,7 @@ const user = {
       })
     },
     // 添加发布公告
-    addPublicReport({ commit, state }, data) {
+    AddPublicReport({ commit, state }, data) {
       return http({
         url: '/api/notice/create',
         method: 'post',
@@ -125,15 +125,7 @@ const user = {
       })
     },
     // 更新发布公告
-    updatePublicReport({ commit, state }, data) {
-      return http({
-        url: `/api/notice/update/${data.id}`,
-        method: 'patch',
-        data: data
-      })
-    },
-    // 收入统计
-    incomeList({ commit, state }, data) {
+    UpdatePublicReport({ commit, state }, data) {
       return http({
         url: `/api/notice/update/${data.id}`,
         method: 'patch',
@@ -141,11 +133,51 @@ const user = {
       })
     },
     // 推广统计
-    promotionList({ commit, state }, data) {
+    PromotionList({ commit, state }, data) {
       return http({
         url: `/api/notice/update/${data.id}`,
-        method: 'patch',
-        data: data
+        method: 'get',
+        params: data
+      })
+    },
+    // 收入统计
+    IncomeList({ commit, state }, data) {
+      return http({
+        url: `/api/notice/update/${data.id}`,
+        method: 'get',
+        params: data
+      })
+    },
+    // 收入明细
+    IncomeDetail({ commit, state }, data) {
+      return http({
+        url: `/api/notice/update/${data.id}`,
+        method: 'get',
+        params: data
+      })
+    },
+    // 代理反馈
+    FeedbackList({ commit, state }, data) {
+      return http({
+        url: `/api/notice/update/${data.id}`,
+        method: 'get',
+        params: data
+      })
+    },
+    // 商人绑定
+    MerchantInfo({ commit, state }, data) {
+      return http({
+        url: `/api/notice/update/${data.id}`,
+        method: 'get',
+        params: data
+      })
+    },
+    // 结算记录
+    SettlementRecords({ commit, state }, data) {
+      return http({
+        url: `/api/notice/update/${data.id}`,
+        method: 'get',
+        params: data
       })
     },
 

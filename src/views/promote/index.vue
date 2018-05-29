@@ -239,7 +239,7 @@ export default {
         })
         return
       }
-      this.$store.dispatch('addPublicReport', form).then((res) => {
+      this.$store.dispatch('AddPublicReport', form).then((res) => {
         this.show = false
       }).catch((err) => {
         this.$message({
@@ -275,7 +275,7 @@ export default {
         })
         return
       }
-      this.$store.dispatch('updatePublicReport', form).then((res) => {
+      this.$store.dispatch('UpdatePublicReport', form).then((res) => {
         this.show = false
       }).catch((err) => {
         this.$message({
