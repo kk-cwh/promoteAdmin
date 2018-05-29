@@ -180,7 +180,46 @@ const user = {
         params: data
       })
     },
-
+    // 转账操作
+    Transfer({ commit, state }, data) {
+      return http({
+        url: `/api/agencies/transformGold`,
+        method: 'post',
+        data: data
+      })
+    },
+    // 转账记录
+    TransferRecords({ commit, state }, data) {
+      return http({
+        url: `/api/agencies/transformPlayerList`,
+        method: 'get',
+        params: data
+      })
+    },
+    // 进分记录
+    ScoreRecords({ commit, state }, data) {
+      return http({
+        url: `/api/agencies/transformAgencyList`,
+        method: 'get',
+        params: data
+      })
+    },
+    // 个人信息 / 代理商信息
+    GetAgencyInfo({ commit, state }, data) {
+      return http({
+        url: `/api/agencies/info`,
+        method: 'get',
+        params: data
+      })
+    },
+    // 发送手机验证码
+    sendPhoneCode({ commit, state }, data) {
+      return http({
+        url: `/api/auth/getCode`,
+        method: 'post',
+        data: data
+      })
+    },
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {

@@ -8,23 +8,26 @@
 
             </div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="small" label-width="120px" class="demo-ruleForm">
-                <el-form-item label="商人ID:" prop="name">
-                  {{ruleForm.id}}
+                <el-form-item label="商人ID:" >
+                  {{obj.id}}
                 </el-form-item>
-                <el-form-item label="注册时间:" prop="name">
-                    {{ruleForm.created_at}}
+                <el-form-item label="注册时间:">
+                    {{obj.created_at}}
                 </el-form-item>
-                <el-form-item label="库存金币:" prop="name">
-                    {{ruleForm.count}}
+                <el-form-item label="库存金币:" >
+                    {{obj.count}}
                 </el-form-item>
                 
-                <el-form-item label="玩家ID:" prop="name">
-                    <el-input v-model="ruleForm.name" style="width:180px;" placeholder="收款玩家游戏ID"></el-input>
+                <el-form-item label="玩家ID:" prop="player_id">
+                    <el-input v-model="ruleForm.player_id" style="width:180px;" placeholder="收款玩家游戏ID"></el-input>
                 </el-form-item>
-                <el-form-item label="转入金币:" prop="name">
-                    <el-input v-model="ruleForm.name" style="width:180px;" placeholder="转入金币"></el-input>
+                <el-form-item label="转入金币:" prop="money">
+                    <el-input v-model="ruleForm.money" style="width:180px;" placeholder="转入金币数量"></el-input>
                 </el-form-item>
-                <el-form-item label="" prop="name">
+                <el-form-item label="密码:" prop="password">
+                    <el-input v-model="ruleForm.password" type="password" style="width:180px;" placeholder="请输入密码"></el-input>
+                </el-form-item>
+                <el-form-item label="">
                     <el-checkbox-group v-model="checkList">
                         <el-checkbox label="1" >玩家ID核对无误</el-checkbox>
                         <el-checkbox label="2" >转入金额核对无误</el-checkbox>
@@ -32,7 +35,7 @@
                 </el-form-item>
                 <el-form-item>
                     <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
-                    <el-button type="primary" @click="submitForm('ruleForm')">确认转账</el-button>
+                    <el-button type="primary" @click="transfer('ruleForm')" :loading="loading">确认转账</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -47,14 +50,28 @@ export default {
   data() {
     return {
       loading: false,
-      canGetIdentifyCode: true,
-      gettingIdentifyCodeBtnContent: '获取验证码',
-      ruleForm: {
+
+      obj: {
         id: '1312',
         created_at: '2018-01-20',
         count: '9999999'
       },
-      rules: {},
+      ruleForm: {
+        player_id: '',
+        password: '',
+        money: ''
+      },
+      rules: {
+        player_id: [
+          { required: true, message: '请输入玩家ID', trigger: 'blur' }
+        ],
+        money: [
+          { required: true, message: '请输入转入金币数量', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ]
+      },
       checkList: []
     }
   },
@@ -79,31 +96,40 @@ export default {
     resetForm() {
 
     },
-    submitForm() {
+    transfer() {
       console.log(this.checkList)
       if (this.checkList.length === 2) {
-        this.$message({
-          message: '转账成功！',
-          type: 'success'
-        })
-      }
-    },
-    getIdentifyCode() {
-      if (this.canGetIdentifyCode) {
-        this.canGetIdentifyCode = false
-        let timeLast = 59
-        const timer = setInterval(() => {
-          if (timeLast >= 0) {
-            this.gettingIdentifyCodeBtnContent = timeLast + '秒后重试'
-            timeLast -= 1
+        this.loading = true
+        this.$refs.ruleForm.validate(valid => {
+          if (valid) {
+            this.$store.dispatch('Transfer', this.ruleForm).then(() => {
+              this.loading = false
+              this.$message({
+                message: '转账成功！',
+                type: 'success'
+              })
+            }).catch(() => {
+              this.$message({
+                showClose: true,
+                center: true,
+                message: '转账失败！',
+                type: 'error'
+              })
+              this.loading = false
+            })
           } else {
-            clearInterval(timer)
-            this.gettingIdentifyCodeBtnContent = '获取验证码'
-            this.canGetIdentifyCode = true
+            this.loading = false
+            return false
           }
-        }, 1000)
-
-        // you can write ajax request here
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          center: true,
+          message: '请确认转玩家ID和转账金额,无误请勾选确认!',
+          type: 'error'
+        })
+        this.loading = false
       }
     }
 

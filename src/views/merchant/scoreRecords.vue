@@ -12,13 +12,13 @@
                             <el-input v-model="queryForm.minMoney" placeholder="最小" style="width:100px;"></el-input>-
                             <el-input v-model="queryForm.maxMoney" placeholder="最大" style="width:100px;"></el-input>
                         </el-form-item>
-                        <el-form-item label="状态">
+                        <!-- <el-form-item label="状态">
                             <el-select v-model="queryForm.status" placeholder="状态" style="width:100px;">
                                 <el-option label="全部" value="0"></el-option>
                                 <el-option label="结算成功" value="1"></el-option>
                                 <el-option label="未结算" value="2"></el-option>
                             </el-select>
-                        </el-form-item>
+                        </el-form-item> -->
                         <el-form-item label="时间">
                             <el-date-picker type="date" placeholder="开始日期" v-model="queryForm.date1" style="width: 140px;"></el-date-picker>-
                             <el-date-picker type="date" placeholder="结束日期" v-model="queryForm.date2" style="width: 140px;"></el-date-picker>
@@ -38,32 +38,32 @@
             <el-col :span="24">
                 <div class="table-content">
                     <el-table border v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
-                        <el-table-column prop="id" label="总代ID" width="160px">
+                        <el-table-column prop="agency_id" label="总代ID" width="160px">
                         </el-table-column>
 
-                        <el-table-column prop="balance" label="商人ID">
+                        <el-table-column prop="merchant_id" label="商人ID">
                         </el-table-column>
 
-                        <el-table-column prop="agency_name" label="转账前库存">
+                        <el-table-column prop="balance_before" label="转账前库存">
                         </el-table-column>
-                        <el-table-column prop="agency_name" label="转出金币">
-                        </el-table-column>
-
-                        <el-table-column prop="grade" label="转账后库存" width="180px">
+                        <el-table-column prop="money" label="转出金币">
                         </el-table-column>
 
-                        <el-table-column prop="grade" label="状态" width="80px">
+                        <el-table-column prop="balance" label="转账后库存" width="180px">
                         </el-table-column>
+
+                        <!-- <el-table-column prop="type" label="状态" width="80px">
+                        </el-table-column> -->
 
                         <el-table-column prop="created_at" label="创建时间">
                         </el-table-column>
 
-                        <el-table-column label="操作" width="120px">
+                        <!-- <el-table-column label="操作" width="120px">
                             <template slot-scope="scope">
                                 <el-button @click="showReport(scope.row)" type="text" size="small">撤回</el-button>
-                                <!-- <el-button type="text" size="small">编辑</el-button> -->
+                                <el-button type="text" size="small">编辑</el-button>
                             </template>
-                        </el-table-column>
+                        </el-table-column> -->
                     </el-table>
                 </div>
             </el-col>
@@ -122,13 +122,11 @@ export default {
       this.queryList()
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
       this.per_page = val
       this.currentPage = 1
       this.queryList()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
       this.currentPage = val
       this.queryList()
     },
@@ -136,26 +134,19 @@ export default {
       this.loading = true
       this.tableData = []
       const query = { page: this.currentPage, per_page: this.per_page }
-      this.$store.dispatch('AgencyList', query).then((res) => {
+      this.$store.dispatch('ScoreRecords', query).then((res) => {
         this.tableData = []
         if (res.data && res.data.length) {
           res.data.forEach((item, index) => {
             this.tableData.push(
               {
                 id: item.id,
-                agency_amount: item.agency_amount,
-                agency_name: item.agency_name,
-                phone: item.phone,
-                balance: item.balance,
-                children: item.children,
-                grade: item.grade,
-                rate: item.rate + '%',
-                history_sum: item.history_sum,
-                players: item.players,
-                son: item.son,
-                status: item.status ? '正常' : '已封',
-                today_new_member: item.today_new_member,
-                today_sum: item.today_sum,
+                agency_id: item.agency_from_id,
+                merchant_id: item.agency_to_id,
+                balance_before: item.balance_before,
+                balance: item.balance_before - item.money,
+                money: item.money,
+                type: item.type,
                 created_at: item.created_at
               }
             )
