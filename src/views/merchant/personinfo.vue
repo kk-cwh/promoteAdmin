@@ -85,7 +85,7 @@
                 </el-form-item>
                 <el-form-item label="">
                     <el-button @click="resetDialogVisible = false">关 闭</el-button>
-                    <el-button type="primary" @click="resetTransferPassword">确认重置</el-button>
+                    <el-button type="primary" @click="resetTransferPassword" >确认重置</el-button>
                 </el-form-item>
                 <!-- <el-form-item label="备注">
           <el-input type="textarea" v-model="ruleForm.desc"></el-input>
@@ -176,20 +176,19 @@ export default {
       this.resetDialogVisible = true
     },
     resetTransferPassword() {
-      this.rules = this.rules1
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
-          this.$store.dispatch('Transfer', this.ruleForm).then(() => {
+          this.$store.dispatch('ResetTransferPwd', this.ruleForm).then(() => {
             this.loading = false
             this.$message({
-              message: '转账成功！',
+              message: '密码重置成功！',
               type: 'success'
             })
           }).catch(() => {
             this.$message({
               showClose: true,
               center: true,
-              message: '转账失败！',
+              message: '重置失败！',
               type: 'error'
             })
             this.loading = false
@@ -233,6 +232,7 @@ export default {
           })
         }).catch(() => {
           clearInterval(timer)
+          this.canGetIdentifyCode = true
           this.$message({
             showClose: true,
             center: true,

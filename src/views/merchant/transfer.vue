@@ -108,6 +108,8 @@ export default {
                 message: '转账成功！',
                 type: 'success'
               })
+              this.ruleForm = {}
+              this.checkList = []
             }).catch(() => {
               this.$message({
                 showClose: true,

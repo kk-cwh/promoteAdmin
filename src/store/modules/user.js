@@ -212,6 +212,14 @@ const user = {
         params: data
       })
     },
+    // 重置转账密码
+    ResetTransferPwd({ commit, state }, data) {
+      return http({
+        url: `/api/agencies/transformPassword`,
+        method: 'post',
+        data: data
+      })
+    },
     // 发送手机验证码
     sendPhoneCode({ commit, state }, data) {
       return http({
