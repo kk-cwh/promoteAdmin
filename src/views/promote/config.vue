@@ -4,18 +4,18 @@
     <el-row>
       <el-col :span="24">
         <div class="form-content">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
+          <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
             <el-form-item label="配置ID">
-              <el-input v-model="formInline.user" placeholder="配置ID" style="width:100px;"></el-input>
+              <el-input v-model="queryForm.id" placeholder="配置ID" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="名称">
-              <el-input v-model="formInline.user" placeholder="名称" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.name" placeholder="名称" style="width:150px;"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" icon="el-icon-search" @click="queryList" :loading="loading">查询</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="info" plain>清空查询</el-button>
+              <el-button type="info" plain @click="clearData">清空查询</el-button>
             </el-form-item>
             <el-form-item>
               <el-button icon="el-icon-circle-plus" type="danger" @click="toAdd">新增</el-button>
@@ -52,7 +52,7 @@
                       <qrcode :val="scope.row.qrcode_url" :size="120">
                       </qrcode>
                       <div slot="reference" class="name-wrapper">
-                        <el-tag size="small">查看大图</el-tag>
+                        <el-tag size="small" style="cursor: pointer;">查看大图</el-tag>
                       </div>
                     </el-popover>
                   </el-col>
@@ -77,7 +77,7 @@
                       <qrcode :val="scope.row.down_url" :size="120">
                       </qrcode>
                       <div slot="reference" class="name-wrapper">
-                        <el-tag size="small">查看大图</el-tag>
+                        <el-tag size="small" style="cursor: pointer;">查看大图</el-tag>
                       </div>
                     </el-popover>
                   </el-col>
@@ -143,7 +143,7 @@ export default {
   data() {
     return {
       loading: false,
-      formInline: {},
+      queryForm: { id: '', name: '' },
       total: 0,
       per_page: 15,
       currentPage: 1,
@@ -183,20 +183,18 @@ export default {
       this.queryList()
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
       this.per_page = val
       this.currentPage = 1
       this.queryList()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
       this.currentPage = val
       this.queryList()
     },
     queryList() {
       this.loading = true
       this.tableData = []
-      this.$store.dispatch('PromotionConfig', this.formInline).then((res) => {
+      this.$store.dispatch('PromotionConfig', this.queryForm).then((res) => {
         this.tableData = []
         if (res.data && res.data.length) {
           res.data.forEach((item, index) => {
@@ -253,6 +251,14 @@ export default {
     },
     showReport(row) {
       console.log(row)
+    },
+    clearData() {
+      this.queryForm = {
+        id: '',
+        name: ''
+      }
+      this.tableData = []
+      this.total = 0
     }
   }
 }

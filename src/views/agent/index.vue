@@ -13,40 +13,42 @@
     <el-row>
       <el-col :span="24">
         <div class="form-content">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
+          <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
             <el-form-item label="状态">
-              <el-select v-model="formInline.region" placeholder="状态" style="width:100px;">
+              <el-select v-model="queryForm.status" placeholder="状态" style="width:100px;">
                 <el-option label="全部" value="0"></el-option>
                 <el-option label="正常" value="1"></el-option>
                 <el-option label="已封" value="2"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="代理ID">
-              <el-input v-model="formInline.user" placeholder="代理ID" style="width:100px;"></el-input>
+              <el-input v-model="queryForm.agency_id" placeholder="代理ID" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="代理账号">
-              <el-input v-model="formInline.user" placeholder="可开启模糊查询" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.account" placeholder="可开启模糊查询" style="width:150px;"></el-input>
             </el-form-item>
             <el-form-item label="模糊">
-              <el-switch v-model="formInline.value2"></el-switch>
+              <el-switch v-model="queryForm.value2"></el-switch>
             </el-form-item>
 
             <el-form-item label="绑定微信">
-              <el-input v-model="formInline.user" placeholder="绑定微信" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.weixin" placeholder="绑定微信" style="width:150px;"></el-input>
             </el-form-item>
             <br>
             <el-form-item label="账户余额">
-              <el-input v-model="formInline.user" placeholder="" style="width:100px;"></el-input>-
-              <el-input v-model="formInline.user" placeholder="" style="width:100px;"></el-input>
+              <el-input v-model="queryForm.balanceMin" placeholder="" style="width:100px;"></el-input>-
+              <el-input v-model="queryForm.balanceMax" placeholder="" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="注册时间">
-              <el-date-picker type="date" placeholder="开始日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date" placeholder="结束日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date" placeholder="结束日期" v-model="queryForm.dateEnd" style="width: 140px;"></el-date-picker>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" icon="el-icon-search" @click="init" :loading="loading">查询</el-button>
             </el-form-item>
-
+            <el-form-item>
+              <el-button type="info" plain @click="clearData">清空查询</el-button>
+            </el-form-item>
           </el-form>
         </div>
       </el-col>
@@ -124,8 +126,7 @@
 
     </el-dialog>
 
-
-  <!-- 编辑代理 dialog -->
+    <!-- 编辑代理 dialog -->
     <el-dialog title="添加代理" :visible.sync="editDialogVisible" width="480px" center>
       <div slot="title" style="font-size:15px;font-weight:bold;">编辑代理信息</div>
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
@@ -163,7 +164,7 @@ export default {
       total: 0,
       loading: false,
       number: 0,
-      formInline: {},
+      queryForm: {},
       ruleForm: {
         agency_name: '',
         phone: '',
@@ -201,20 +202,18 @@ export default {
       this.queryList()
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
       this.per_page = val
       this.currentPage = 1
       this.queryList()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
       this.currentPage = val
       this.queryList()
     },
     queryList() {
       this.loading = true
       this.tableData = []
-      const query = { page: this.currentPage, per_page: this.per_page }
+      const query = { page: this.currentPage, per_page: this.per_page, ...this.queryForm }
       this.$store.dispatch('AgencyList', query).then((res) => {
         this.tableData = []
         if (res.data && res.data.length) {
@@ -299,6 +298,11 @@ export default {
     },
     showReport(row) {
       console.log(row)
+    },
+    clearData() {
+      this.queryForm = {}
+      this.tableData = []
+      this.total = 0
     }
   }
 }

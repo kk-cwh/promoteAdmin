@@ -146,7 +146,7 @@ export const constantRouterMap = [
         path: 'index',
         name: 'merchant_binding_index',
         component: () => import('@/views/merchant/binding'),
-        meta: { title: '商人绑定', icon: 'table' }
+        meta: { title: '商人绑定', icon: 'merchant' }
       }
 
     ]
@@ -201,13 +201,13 @@ export const constantRouterMap = [
         path: 'index2',
         name: 'accounts_record2',
         component: () => import('@/views/accounts/index2.vue'),
-        meta: { title: '结算密码', icon: 'manage' }
+        meta: { title: '结算密码', icon: 'password' }
       },
       {
         path: 'index3',
         name: 'accounts_record3',
         component: () => import('@/views/accounts/index3.vue'),
-        meta: { title: '提交结算', icon: 'manage' }
+        meta: { title: '提交结算', icon: 'money' }
       }
 
     ]
@@ -286,7 +286,7 @@ export const constantRouterMap = [
         path: 'score-records',
         name: 'score_records',
         component: () => import('@/views/merchant/scoreRecords'),
-        meta: { title: '进分记录', icon: 'manage' }
+        meta: { title: '进分记录', icon: 'detail' }
       }
 
     ]

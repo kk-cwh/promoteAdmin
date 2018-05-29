@@ -1,78 +1,78 @@
 <template>
-    <div class="app-container">
+  <div class="app-container">
 
-        <el-row>
-            <el-col :span="24">
-                <div class="form-content">
-                    <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
+    <el-row>
+      <el-col :span="24">
+        <div class="form-content">
+          <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
 
-                        <el-form-item label="支付宝账号">
-                            <el-input v-model="formInline.user" placeholder="支付宝账号" style="width:160px;"></el-input>
-                        </el-form-item>
+            <el-form-item label="支付宝账号">
+              <el-input v-model="queryForm.zhifubao" placeholder="支付宝账号" style="width:160px;"></el-input>
+            </el-form-item>
 
-                        <el-form-item label="结算金额">
-                            <el-input v-model="formInline.user" placeholder="金额" style="width:100px;"></el-input>-
-                            <el-input v-model="formInline.user" placeholder="金额" style="width:100px;"></el-input>
-                        </el-form-item>
-                        <el-form-item label="状态">
-                            <el-select v-model="formInline.region" placeholder="状态" style="width:100px;">
-                                <el-option label="全部" value="0"></el-option>
-                                <el-option label="结算成功" value="1"></el-option>
-                                <el-option label="未结算" value="2"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="时间">
-                            <el-date-picker type="date" placeholder="开始日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>-
-                            <el-date-picker type="date" placeholder="结束日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" icon="el-icon-search" @click="init" :loading="loading">查询</el-button>
-                        </el-form-item>
+            <el-form-item label="结算金额">
+              <el-input v-model="queryForm.minMoney" placeholder="金额" style="width:100px;"></el-input>-
+              <el-input v-model="queryForm.maxMoney" placeholder="金额" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="状态">
+              <el-select v-model="queryForm.status" placeholder="状态" style="width:100px;">
+                <el-option label="全部" value="0"></el-option>
+                <el-option label="结算成功" value="1"></el-option>
+                <el-option label="未结算" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="时间">
+              <el-date-picker type="date" placeholder="开始日期" v-model="queryForm.date1" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date" placeholder="结束日期" v-model="queryForm.date2" style="width: 140px;"></el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" icon="el-icon-search" @click="init" :loading="loading">查询</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="info" plain @click="clearData">清空查询</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-col>
+    </el-row>
 
-                    </el-form>
-                </div>
-            </el-col>
-        </el-row>
+    <el-row :gutter="20">
+      <el-col :span="24">
+        <div class="table-content">
+          <el-table border show-summary v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
+            <el-table-column prop="id" label="结算ID" width="60px">
+            </el-table-column>
+            <el-table-column prop="created_at" label="创建时间">
+            </el-table-column>
+            <el-table-column prop="balance" label="结算余额">
+            </el-table-column>
 
-        <el-row :gutter="20">
-            <el-col :span="24">
-                <div class="table-content">
-                    <el-table border show-summary v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
-                        <el-table-column prop="id" label="结算ID" width="60px">
-                        </el-table-column>
-                        <el-table-column prop="created_at" label="创建时间">
-                        </el-table-column>
-                        <el-table-column prop="balance" label="结算余额">
-                        </el-table-column>
+            <el-table-column prop="agency_name" label="支付宝账号">
+            </el-table-column>
+            <el-table-column prop="agency_name" label="姓名">
+            </el-table-column>
 
-                        <el-table-column prop="agency_name" label="支付宝账号">
-                        </el-table-column>
-                        <el-table-column prop="agency_name" label="姓名">
-                        </el-table-column>
-                 
-                        <el-table-column prop="grade" label="状态" width="80px">
-                        </el-table-column>
-                        <el-table-column prop="created_at" label="结算时间">
-                        </el-table-column>
+            <el-table-column prop="grade" label="状态" width="80px">
+            </el-table-column>
+            <el-table-column prop="created_at" label="结算时间">
+            </el-table-column>
 
-                        <!-- <el-table-column label="操作" width="120px">
+            <!-- <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
                 <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button>
                 <el-button type="text" size="small">编辑</el-button>
               </template>
             </el-table-column> -->
-                    </el-table>
-                </div>
-            </el-col>
-            <el-col :span="24" style="text-align:right;padding-right:30px;">
-                <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40, 50]" :page-size="per_page" layout="   total , prev, pager, next, jumper" :total="total">
-                </el-pagination>
-            </el-col>
-        </el-row>
+          </el-table>
+        </div>
+      </el-col>
+      <el-col :span="24" style="text-align:right;padding-right:30px;">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40, 50]" :page-size="per_page" layout="   total , prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </el-col>
+    </el-row>
 
-       
-
-    </div>
+  </div>
 </template>
 
 <script>
@@ -84,7 +84,7 @@ export default {
       total: 0,
       loading: false,
       number: 0,
-      formInline: {},
+      queryForm: {},
       ruleForm: {
         agency_name: '',
         phone: '',
@@ -121,20 +121,18 @@ export default {
       this.queryList()
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
       this.per_page = val
       this.currentPage = 1
       this.queryList()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
       this.currentPage = val
       this.queryList()
     },
     queryList() {
       this.loading = true
       this.tableData = []
-      const query = { page: this.currentPage, per_page: this.per_page }
+      const query = { page: this.currentPage, per_page: this.per_page, ...this.queryForm }
       this.$store.dispatch('AgencyList', query).then((res) => {
         this.tableData = []
         if (res.data && res.data.length) {
@@ -195,6 +193,11 @@ export default {
     },
     showReport(row) {
       console.log(row)
+    },
+    clearData() {
+      this.queryForm = {}
+      this.tableData = []
+      this.total = 0
     }
   }
 }

@@ -24,7 +24,7 @@
               <el-button type="primary" icon="el-icon-search" @click="queryList" :loading="loading">查询</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="info" plain>清空查询</el-button>
+              <el-button type="info" plain @click="clearData">清空查询</el-button>
             </el-form-item>
 
           </el-form>
@@ -195,6 +195,10 @@ export default {
     },
     editRow(row) {
       this.editDialogVisible = true
+    },
+    clearData() {
+      this.queryForm = {}
+      this.tableData = []
     }
   }
 }

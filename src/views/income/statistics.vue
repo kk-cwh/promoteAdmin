@@ -3,21 +3,21 @@
     <el-row>
       <el-col :span="23">
         <div class="form-content">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
+          <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
             <el-form-item label="代理ID">
-              <el-input v-model="formInline.user" placeholder="代理ID" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.user" placeholder="代理ID" style="width:150px;"></el-input>
             </el-form-item>
 
             <el-form-item label="时间选择">
-              <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" v-model="queryForm.date1" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date" placeholder="选择日期" v-model="queryForm.date1" style="width: 140px;"></el-date-picker>
             </el-form-item>
 
             <el-form-item>
               <el-button type="primary" icon="el-icon-search" @click="queryList" :loading="loading">查询</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="info" plain>清空查询</el-button>
+              <el-button type="info" plain @click="clearData">清空查询</el-button>
             </el-form-item>
 
           </el-form>
@@ -61,7 +61,7 @@ export default {
       loading: false,
       centerDialogVisible: false,
       editDialogVisible: false,
-      formInline: {},
+      queryForm: {},
       form: {},
       tableData: [
       ]
@@ -106,6 +106,10 @@ export default {
     },
     editRow(row) {
       this.editDialogVisible = true
+    },
+    clearData() {
+      this.queryForm = {}
+      this.tableData = []
     }
   }
 }

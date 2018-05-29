@@ -3,16 +3,16 @@
     <el-row>
       <el-col :span="23">
         <div class="form-content">
-          <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
+          <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
             <el-form-item label="代理ID">
-              <el-input v-model="formInline.user" placeholder="代理ID" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.user" placeholder="代理ID" style="width:150px;"></el-input>
             </el-form-item>
             <el-form-item label="玩家ID">
-              <el-input v-model="formInline.user" placeholder="玩家ID" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.user" placeholder="玩家ID" style="width:150px;"></el-input>
             </el-form-item>
 
             <el-form-item label="游戏">
-              <el-select v-model="formInline.region" placeholder="游戏" style="width:100px;">
+              <el-select v-model="queryForm.region" placeholder="游戏" style="width:100px;">
                 <el-option label="全部" value="0"></el-option>
                 <el-option label="斗地主" value="1"></el-option>
                 <el-option label="炸金花" value="2"></el-option>
@@ -23,7 +23,7 @@
               <el-button type="primary" icon="el-icon-search" @click="queryList" :loading="loading">查询</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="info" plain>清空查询</el-button>
+              <el-button type="info" plain @click="clearData">清空查询</el-button>
             </el-form-item>
 
           </el-form>
@@ -68,7 +68,7 @@ export default {
       loading: false,
       centerDialogVisible: false,
       editDialogVisible: false,
-      formInline: {},
+      queryForm: {},
       form: {},
       tableData: [
         {
@@ -148,6 +148,10 @@ export default {
     },
     editRow(row) {
       this.editDialogVisible = true
+    },
+    clearData() {
+      this.queryForm = {}
+      this.tableData = []
     }
   }
 }
