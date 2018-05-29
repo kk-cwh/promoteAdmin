@@ -44,14 +44,14 @@
 
                     <el-col :span="12">
                         <el-form-item label="总拿货:" prop="name">
-                            {{userInfo.id}}
-                        </el-form-item>
-                    </el-col>
-                    <!-- <el-col :span="12">
-                        <el-form-item label="总售出:" prop="name">
                             {{userInfo.agency_amount}}
                         </el-form-item>
-                    </el-col> -->
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="总售出:" prop="name">
+                            {{userInfo.balance}}
+                        </el-form-item>
+                    </el-col>
                     <el-col :span="12">
                         <el-form-item label="账号状态:" prop="name">
                             {{userInfo.status}}
