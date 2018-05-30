@@ -9,13 +9,13 @@
             </div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="small" label-width="120px" class="demo-ruleForm">
                 <el-form-item label="商人ID:" >
-                  {{obj.id}}
+                  {{userInfo.id}}
                 </el-form-item>
                 <el-form-item label="注册时间:">
-                    {{obj.created_at}}
+                    {{userInfo.created_at}}
                 </el-form-item>
                 <el-form-item label="库存金币:" >
-                    {{obj.count}}
+                    {{userInfo.balance}}
                 </el-form-item>
                 
                 <el-form-item label="玩家ID:" prop="player_id">
@@ -50,12 +50,7 @@ export default {
   data() {
     return {
       loading: false,
-
-      obj: {
-        id: '1312',
-        created_at: '2018-01-20',
-        count: '9999999'
-      },
+      userInfo: {},
       ruleForm: {
         player_id: '',
         password: '',
@@ -76,19 +71,32 @@ export default {
     }
   },
   mounted() {
-    // this.init()
+    this.init()
   },
   methods: {
     init() {
-      this.current_page = 1
-      this.tableData = []
       this.queryStatistic()
     },
     queryStatistic() {
-      this.loading = true
-      const query = { page: this.current_page }
-      this.$store.dispatch('GetAgencyHome', query).then((res) => {
-        this.loading = false
+      this.$store.dispatch('GetAgencyInfo').then((res) => {
+        if (res && res.agency) {
+          var agency = res.agency
+          this.userInfo = {
+            id: agency.id,
+            agency_name: agency.agency_name,
+            agency_amount: agency.agency_amount,
+            grade: agency.grade,
+            balance: agency.balance,
+            status: agency.status,
+            phone: agency.phone,
+            rate: agency.rate,
+            QQ: agency.QQ,
+            weixin: agency.weixin,
+            remark: agency.remark,
+            created_at: agency.created_at
+          }
+          this.ruleForm.phone = agency.phone.replace(agency.phone.substr(3, 4), '****')
+        }
       }).catch(() => {
 
       })
@@ -110,6 +118,7 @@ export default {
               })
               this.ruleForm = {}
               this.checkList = []
+              this.init()
             }).catch(() => {
               this.$message({
                 showClose: true,
