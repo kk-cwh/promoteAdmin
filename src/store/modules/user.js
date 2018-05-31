@@ -143,7 +143,7 @@ const user = {
     // 推广统计
     PromotionList({ commit, state }, params) {
       return http({
-        url: `/api/notice/update/${params.id}`,
+        url: `/api/statement/promotion`,
         method: 'get',
         params
       })
@@ -151,7 +151,7 @@ const user = {
     // 收入统计
     IncomeList({ commit, state }, params) {
       return http({
-        url: `/api/notice/update/${params.id}`,
+        url: `/api/statement/income`,
         method: 'get',
         params
       })
@@ -159,7 +159,7 @@ const user = {
     // 收入明细
     IncomeDetail({ commit, state }, params) {
       return http({
-        url: `/api/notice/update/${params.id}`,
+        url: `/api/statement/income`,
         method: 'get',
         params
       })

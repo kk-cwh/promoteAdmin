@@ -66,47 +66,15 @@ export default {
   data() {
     return {
       loading: false,
+      total: 0,
+      per_page: 15,
+      currentPage: 1,
       centerDialogVisible: false,
       editDialogVisible: false,
       queryForm: {},
       form: {},
       tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        },
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        }
+
       ]
     }
   },
@@ -115,33 +83,52 @@ export default {
   },
   methods: {
     init() {
+      this.per_page = 15
+      this.currentPage = 1
+      this.queryList()
+    },
+    handleSizeChange(val) {
+      this.per_page = val
+      this.currentPage = 1
+      this.queryList()
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val
       this.queryList()
     },
     queryList() {
       this.loading = true
       this.tableData = []
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.tableData.push(
-            {
-              date: '2016-05-03',
-              name: '王小虎',
-              province: '上海',
-              city: i + 1,
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333,
-              tag: '家'
-            }
-          )
+      this.$store.dispatch('IncomeDetail', this.queryForm).then((res) => {
+        this.tableData = []
+        if (res.data && res.data.length) {
+          res.data.forEach((item, index) => {
+            this.tableData.push(
+              {
+                id: item.id,
+                name: item.name,
+                agency_id: item.agency_id,
+                template_id: item.template_id,
+                template_name: item.template_name,
+                qrcode_img: item.qrcode_img,
+                qrcode_url: item.qrcode_url,
+                down_img: item.down_img,
+                down_url: item.down_url,
+                updated_at: item.updated_at,
+                created_at: item.created_at
+              }
+            )
+          })
+        }
+        if (res.meta && res.meta.pagination) {
+          this.total = res.meta.pagination.total
+          this.per_page = res.meta.pagination.per_page
         }
         this.loading = false
-      }, 1000)
-
-      // this.$store.dispatch('Login', this.loginForm).then(() => {
-      //   this.loading = false
-      // }).catch(() => {
-      //   this.loading = false
-      // })
+        this.loading = false
+      }).catch(() => {
+        this.loading = false
+      })
     },
     onSubmit(row) {
       console.log(row)
