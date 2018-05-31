@@ -76,6 +76,14 @@ const user = {
         data
       })
     },
+    // 代理下的直属玩家
+    AgencyPlayer({ commit, state }, params) {
+      return http({
+        url: '/api/agencies/activePlayers',
+        method: 'get',
+        params
+      })
+    },
     // 代理列表
     AgencyList({ commit, state }, params) {
       return http({
@@ -176,6 +184,22 @@ const user = {
     MerchantBinding({ commit, state }, data) {
       return http({
         url: `/api/agencies/merchant`,
+        method: 'post',
+        data
+      })
+    },
+    // 结算账户
+    SettlementAccount({ commit, state }, data) {
+      return http({
+        url: `/api/agencies/payInfo`,
+        method: 'post',
+        data
+      })
+    },
+    // 结算密码
+    SettlementPwd({ commit, state }, data) {
+      return http({
+        url: `/api/agencies/payPassword`,
         method: 'post',
         data
       })

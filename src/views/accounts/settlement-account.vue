@@ -7,19 +7,19 @@
         <span>结算账户</span>
 
       </div>
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="small" label-width="120px" class="demo-ruleForm">
-        <el-form-item label="结算支付宝账户:" prop="name">
-          <el-input v-model="ruleForm.name" style="width:180px;"></el-input>
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="small" label-width="128px" class="demo-ruleForm">
+        <el-form-item label="结算支付宝账户:" prop="account">
+          <el-input v-model="ruleForm.account" style="width:180px;"></el-input>
         </el-form-item>
-        <el-form-item label="支付宝实名:" prop="name">
-          <el-input v-model="ruleForm.name" style="width:180px;"></el-input>
+        <el-form-item label="支付宝实名:" prop="real_name">
+          <el-input v-model="ruleForm.real_name" style="width:180px;"></el-input>
         </el-form-item>
         <el-form-item label="绑定微信:" prop="name">
           <el-input v-model="ruleForm.name" style="width:180px;"></el-input>
         </el-form-item>
 
-        <el-form-item label="" prop="desc">
-          <el-input v-model="ruleForm.desc" style="width:180px;" placeholder="请输入验证码"></el-input>
+        <el-form-item label="验证码:" prop="code">
+          <el-input v-model="ruleForm.code" style="width:180px;" placeholder="请输入验证码"></el-input>
           <el-button type="warning" @click="getIdentifyCode">{{gettingIdentifyCodeBtnContent}}</el-button>
         </el-form-item>
         <el-form-item>
@@ -43,7 +43,18 @@ export default {
       gettingIdentifyCodeBtnContent: '获取验证码',
       ruleForm: {
       },
-      rules: {}
+
+      rules: {
+        real_name: [
+          { required: true, message: '请输入支付宝实名', trigger: 'change' }
+        ],
+        account: [
+          { required: true, message: '请输入支付宝账户', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' }
+        ]
+      }
     }
   },
   mounted() {
@@ -68,7 +79,39 @@ export default {
 
     },
     submitForm() {
-
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$store.dispatch('SettlementAccount', this.ruleForm).then(() => {
+            this.loading = false
+            this.centerDialogVisible = false
+            this.$message({
+              message: '修改成功！',
+              type: 'success'
+            })
+            this.queryList()
+          }).catch((err) => {
+            if (err.response.status === 400) {
+              this.$message({
+                showClose: true,
+                center: true,
+                message: err.response.data.message,
+                type: 'error'
+              })
+            } else {
+              this.$message({
+                showClose: true,
+                center: true,
+                message: '系统繁忙！',
+                type: 'error'
+              })
+            }
+            this.loading = false
+          })
+        } else {
+          this.loading = false
+          return false
+        }
+      })
     },
     getIdentifyCode() {
       if (this.canGetIdentifyCode) {
@@ -86,6 +129,22 @@ export default {
         }, 1000)
 
         // you can write ajax request here
+        this.$store.dispatch('sendPhoneCode').then((res) => {
+          console.log('res:,', res)
+          this.$message({
+            message: '已发送！请注意查收!',
+            type: 'success'
+          })
+        }).catch(() => {
+          clearInterval(timer)
+          this.canGetIdentifyCode = true
+          this.$message({
+            showClose: true,
+            center: true,
+            message: '发送失败！',
+            type: 'error'
+          })
+        })
       }
     }
 

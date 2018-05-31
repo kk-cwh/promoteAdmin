@@ -66,6 +66,21 @@ export const constantRouterMap = [
       }
     ]
   },
+  {
+    path: '/player',
+    component: Layout,
+    redirect: '/player/index',
+    name: 'player',
+    // meta: { title: '代理管理', icon: 'example' },
+    children: [
+      {
+        path: 'index',
+        name: 'player_index',
+        component: () => import('@/views/player/index'),
+        meta: { title: '直属玩家', icon: 'manage' }
+      }
+    ]
+  },
 
   {
     path: '/promote-config',
