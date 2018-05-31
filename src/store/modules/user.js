@@ -61,11 +61,11 @@ const user = {
         })
       })
     },
-    SysUserList({ commit, state }, query) {
+    SysUserList({ commit, state }, params) {
       return http({
         url: '/api/users',
         method: 'get',
-        params: query
+        params
       })
     },
     // 添加注册用户
@@ -73,39 +73,39 @@ const user = {
       return http({
         url: '/api/register',
         method: 'post',
-        data: data
+        data
       })
     },
     // 代理列表
-    AgencyList({ commit, state }, query) {
+    AgencyList({ commit, state }, params) {
       return http({
         url: '/api/agencies',
         method: 'get',
-        params: query
+        params
       })
     },
     // 添加代理
-    AddAgency({ commit, state }, query) {
+    AddAgency({ commit, state }, data) {
       return http({
         url: '/api/agencies/create',
         method: 'post',
-        data: query
+        data
       })
     },
     // 推广首页数据
-    GetAgencyHome({ commit, state }, query) {
+    GetAgencyHome({ commit, state }, params) {
       return http({
         url: '/api/agencies/home',
         method: 'get',
-        params: query
+        params
       })
     },
     // 推广配置列表
-    PromotionConfig({ commit, state }, query) {
+    PromotionConfig({ commit, state }, params) {
       return http({
         url: '/api/agencies/promotion',
         method: 'get',
-        params: query
+        params
       })
     },
     // 添加推广配置
@@ -113,7 +113,7 @@ const user = {
       return http({
         url: '/api/agencies/promotion',
         method: 'post',
-        data: data
+        data
       })
     },
     // 添加发布公告
@@ -121,7 +121,7 @@ const user = {
       return http({
         url: '/api/notice/create',
         method: 'post',
-        data: data
+        data
       })
     },
     // 更新发布公告
@@ -129,55 +129,63 @@ const user = {
       return http({
         url: `/api/notice/update/${data.id}`,
         method: 'patch',
-        data: data
+        data
       })
     },
     // 推广统计
-    PromotionList({ commit, state }, data) {
+    PromotionList({ commit, state }, params) {
       return http({
-        url: `/api/notice/update/${data.id}`,
+        url: `/api/notice/update/${params.id}`,
         method: 'get',
-        params: data
+        params
       })
     },
     // 收入统计
-    IncomeList({ commit, state }, data) {
+    IncomeList({ commit, state }, params) {
       return http({
-        url: `/api/notice/update/${data.id}`,
+        url: `/api/notice/update/${params.id}`,
         method: 'get',
-        params: data
+        params
       })
     },
     // 收入明细
-    IncomeDetail({ commit, state }, data) {
+    IncomeDetail({ commit, state }, params) {
       return http({
-        url: `/api/notice/update/${data.id}`,
+        url: `/api/notice/update/${params.id}`,
         method: 'get',
-        params: data
+        params
       })
     },
     // 代理反馈
-    FeedbackList({ commit, state }, data) {
+    FeedbackList({ commit, state }, params) {
       return http({
-        url: `/api/notice/update/${data.id}`,
+        url: `/api/notice/update/${params.id}`,
         method: 'get',
-        params: data
+        params
+      })
+    },
+    // 商人绑定联系方式s
+    MerchantInfos({ commit, state }, params) {
+      return http({
+        url: `/api/agencies/merchant`,
+        method: 'get',
+        params
       })
     },
     // 商人绑定
-    MerchantInfo({ commit, state }, data) {
+    MerchantBinding({ commit, state }, data) {
       return http({
-        url: `/api/notice/update/${data.id}`,
-        method: 'get',
-        params: data
+        url: `/api/agencies/merchant`,
+        method: 'post',
+        data
       })
     },
     // 结算记录
-    SettlementRecords({ commit, state }, data) {
+    SettlementRecords({ commit, state }, params) {
       return http({
-        url: `/api/notice/update/${data.id}`,
+        url: `/api/notice/update/${params.id}`,
         method: 'get',
-        params: data
+        params
       })
     },
     // 转账操作
@@ -185,31 +193,31 @@ const user = {
       return http({
         url: `/api/agencies/transformGold`,
         method: 'post',
-        data: data
+        data
       })
     },
     // 转账记录
-    TransferRecords({ commit, state }, data) {
+    TransferRecords({ commit, state }, params) {
       return http({
         url: `/api/agencies/transformPlayerList`,
         method: 'get',
-        params: data
+        params
       })
     },
     // 进分记录
-    ScoreRecords({ commit, state }, data) {
+    ScoreRecords({ commit, state }, params) {
       return http({
         url: `/api/agencies/transformAgencyList`,
         method: 'get',
-        params: data
+        params
       })
     },
     // 个人信息 / 代理商信息
-    GetAgencyInfo({ commit, state }, data) {
+    GetAgencyInfo({ commit, state }, params) {
       return http({
         url: `/api/agencies/info`,
         method: 'get',
-        params: data
+        params
       })
     },
     // 重置转账密码
@@ -217,7 +225,7 @@ const user = {
       return http({
         url: `/api/agencies/transformPassword`,
         method: 'post',
-        data: data
+        data
       })
     },
     // 发送手机验证码
@@ -225,7 +233,7 @@ const user = {
       return http({
         url: `/api/auth/getCode`,
         method: 'post',
-        data: data
+        data
       })
     },
     // 登出

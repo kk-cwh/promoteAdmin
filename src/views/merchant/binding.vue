@@ -46,13 +46,13 @@
       <el-col :span="23">
         <div class="table-content">
           <el-table border v-loading="loading" :data="tableData" style="width: 100%" size="mini">
-            <el-table-column prop="name" label="商人ID" width="140">
+            <el-table-column prop="merchant_id" label="商人ID" width="140">
             </el-table-column>
-            <el-table-column prop="city" label="状态" width="120">
+            <el-table-column prop="statusTxt" label="状态" width="120">
             </el-table-column>
-            <el-table-column prop="province" label="商人QQ" width="240">
+            <el-table-column prop="merchant_qq" label="商人QQ" width="240">
             </el-table-column>
-            <el-table-column prop="date" label="商人微信" width="240">
+            <el-table-column prop="merchant_wechat" label="商人微信" width="240">
             </el-table-column>
 
             <el-table-column label="操作">
@@ -69,25 +69,25 @@
 
     <el-dialog :visible.sync="centerDialogVisible" width="480px" center>
       <div slot="title" style="font-size:15px;font-weight:bold;">新增联系方式</div>
-      <el-form ref="form" :model="form" label-width="140px" size="small">
+      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
         <el-form-item label="代理ID">
-          <el-input v-model="form.name" style="width:180px;" placeholder="显示自己的ID，其为不可编译状态"></el-input>
+          <el-input v-model="ruleForm.agency_id" style="width:180px;" disabled></el-input>
         </el-form-item>
-        <el-form-item label="商人QQ">
-          <el-input v-model="form.name" style="width:180px;"></el-input>
+        <el-form-item label="商人QQ" prop="merchant_qq">
+          <el-input v-model="ruleForm.merchant_qq" style="width:180px;"></el-input>
         </el-form-item>
-        <el-form-item label="商人微信">
-          <el-input v-model="form.name" style="width:180px;"></el-input>
+        <el-form-item label="商人微信" prop="merchant_wechat">
+          <el-input v-model="ruleForm.merchant_wechat" style="width:180px;"></el-input>
         </el-form-item>
-             <el-form-item label="状态">
-          <el-radio-group v-model="form.resource" style="width:140px;">
-            <el-radio label="启用"></el-radio>
-            <el-radio label="禁用"></el-radio>
+        <el-form-item label="状态">
+          <el-radio-group v-model="ruleForm.status" style="width:140px;">
+            <el-radio :label="1">启用</el-radio>
+            <el-radio :label="0">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="">
           <el-button @click="centerDialogVisible = false">关 闭</el-button>
-          <el-button type="primary" @click="centerDialogVisible = false">保 存</el-button>
+          <el-button type="primary" @click="merchantBinding" :loading="loading">保 存</el-button>
         </el-form-item>
 
       </el-form>
@@ -98,18 +98,18 @@
       <div slot="title" style="font-size:15px;font-weight:bold;">编辑联系方式</div>
       <el-form ref="form" :model="form" label-width="140px" size="mini">
         <el-form-item label="代理ID">
-          <el-input v-model="form.name" style="width:180px;"  placeholder="显示自己的ID，其为不可编译状态"></el-input>
+          <el-input v-model="form.agency_id" style="width:180px;" disabled></el-input>
         </el-form-item>
         <el-form-item label="商人QQ">
-          <el-input v-model="form.name" style="width:180px;"></el-input>
+          <el-input v-model="form.merchant_qq" style="width:180px;"></el-input>
         </el-form-item>
         <el-form-item label="商人微信">
-          <el-input v-model="form.name" style="width:180px;"></el-input>
+          <el-input v-model="form.merchant_wechat" style="width:180px;"></el-input>
         </el-form-item>
-          <el-form-item label="状态">
-          <el-radio-group v-model="form.resource" style="width:140px;">
-            <el-radio label="启用"></el-radio>
-            <el-radio label="禁用"></el-radio>
+        <el-form-item label="状态">
+          <el-radio-group v-model="form.status" style="width:140px;">
+            <el-radio :label="1">启用</el-radio>
+            <el-radio :label="0">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="">
@@ -131,8 +131,13 @@ export default {
       editDialogVisible: false,
       formInline: {},
       form: {},
-      rule: {},
-      ruleForm: {},
+      ruleForm: {
+        status: 1
+      },
+      rules: {
+        merchant_qq: [{ required: true, message: '请输入QQ号', trigger: 'blur' }],
+        merchant_wechat: [{ required: true, message: '请输入微信号', trigger: 'blur' }]
+      },
       tableData: [
 
       ]
@@ -143,28 +148,53 @@ export default {
   },
   methods: {
     init() {
+      this.getAgencyInfo()
       this.queryList()
+    },
+    getAgencyInfo() {
+      this.$store.dispatch('GetAgencyInfo').then((res) => {
+        if (res && res.agency) {
+          var agency = res.agency
+          this.ruleForm.agency_id = agency.id
+        }
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          center: true,
+          message: '系统繁忙,稍后再试！',
+          type: 'error'
+        })
+      })
     },
     queryList() {
       this.loading = true
-      this.tableData = []
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.tableData.push(
-            {
-              date: '2016-05-03',
-              name: '王小虎',
-              province: '上海',
-              city: i + 1,
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333,
-              tag: '家'
-            }
-          )
-        }
-
+      this.$store.dispatch('MerchantInfos').then((res) => {
         this.loading = false
-      }, 1000)
+        this.tableData = []
+        if (res.data && res.data.length) {
+          res.data.forEach((item, index) => {
+            this.tableData.push(
+              {
+                id: item.id,
+                agency_id: item.agency_id,
+                merchant_id: item.merchant_id,
+                merchant_qq: item.merchant_qq,
+                merchant_wechat: item.merchant_wechat,
+                status: item.status,
+                statusTxt: item.status === 1 ? '启用' : '禁用',
+                created_at: item.created_at
+              }
+            )
+          })
+        }
+      }).catch(() => {
+        this.$message({
+          showClose: true,
+          center: true,
+          message: '系统繁忙,稍后再试！',
+          type: 'error'
+        })
+      })
 
       // this.$store.dispatch('Login', this.loginForm).then(() => {
       //   this.loading = false
@@ -172,11 +202,38 @@ export default {
       //   this.loading = false
       // })
     },
+    merchantBinding() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          this.$store.dispatch('MerchantBinding', this.ruleForm).then(() => {
+            this.loading = false
+            this.centerDialogVisible = false
+            this.$message({
+              message: '添加成功！',
+              type: 'success'
+            })
+            this.queryList()
+          }).catch(() => {
+            this.$message({
+              showClose: true,
+              center: true,
+              message: '系统繁忙,添加失败！',
+              type: 'error'
+            })
+            this.loading = false
+          })
+        } else {
+          this.loading = false
+          return false
+        }
+      })
+    },
     onSubmit(row) {
       console.log(row)
     },
     editRow(row) {
       this.editDialogVisible = true
+      this.form = row
     }
   }
 }
