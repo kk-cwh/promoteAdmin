@@ -204,10 +204,26 @@ const user = {
         data
       })
     },
+    // 提交结算 get 提交结算base
+    SettlementBefore({ commit, state }, params) {
+      return http({
+        url: `/api/agencies/payCash`,
+        method: 'get',
+        params
+      })
+    },
+    // 提交结算
+    SettlementSubmit({ commit, state }, params) {
+      return http({
+        url: `/api/agencies/payCashStore`,
+        method: 'get',
+        params
+      })
+    },
     // 结算记录
     SettlementRecords({ commit, state }, params) {
       return http({
-        url: `/api/notice/update/${params.id}`,
+        url: `/api/agencies/payLog`,
         method: 'get',
         params
       })

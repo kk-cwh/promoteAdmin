@@ -85,27 +85,6 @@ export default {
       loading: false,
       number: 0,
       queryForm: {},
-      ruleForm: {
-        agency_name: '',
-        phone: '',
-        password: '',
-        rate: ''
-      },
-      rules: {
-        agency_name: [
-          { required: true, message: '请输入代理名称', trigger: 'blur' }
-        ],
-        phone: [
-          { required: true, message: '请输入手机号', trigger: 'change' }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
-        ],
-        rate: [
-          { required: true, message: '请输入税率', trigger: 'blur' }
-        ]
-      },
-      addDialogVisible: false,
       tableData: [
       ]
     }
@@ -133,7 +112,7 @@ export default {
       this.loading = true
       this.tableData = []
       const query = { page: this.currentPage, per_page: this.per_page, ...this.queryForm }
-      this.$store.dispatch('AgencyList', query).then((res) => {
+      this.$store.dispatch('SettlementRecords', query).then((res) => {
         this.tableData = []
         if (res.data && res.data.length) {
           res.data.forEach((item, index) => {
@@ -165,30 +144,6 @@ export default {
         this.loading = false
       }).catch(() => {
         this.loading = false
-      })
-    },
-    toAdd() {
-      this.addDialogVisible = true
-      // this.ruleForm = {}
-    },
-    addAgency() {
-      this.$refs.ruleForm.validate((valid) => {
-        if (valid) {
-          this.addDialogVisible = false
-          this.$store.dispatch('AddAgency', this.ruleForm).then((res) => {
-            console.log(res)
-          }).catch((err) => {
-            this.$message({
-              showClose: true,
-              message: err.response.data.message,
-              type: 'error',
-              duration: 5 * 1000
-            })
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
       })
     },
     showReport(row) {

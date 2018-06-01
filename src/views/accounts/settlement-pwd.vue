@@ -28,7 +28,7 @@
           </el-form-item>
           <el-form-item>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
-            <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" :loading="loading">保存</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -78,21 +78,18 @@ export default {
   },
   methods: {
     init() {
-      this.current_page = 1
-      this.tableData = []
-      this.queryStatistic()
     },
     queryStatistic() {
       this.loading = true
-      const query = { page: this.current_page }
-      this.$store.dispatch('GetAgencyHome', query).then((res) => {
+
+      this.$store.dispatch('GetAgencyHome').then((res) => {
         this.loading = false
       }).catch(() => {
 
       })
     },
-    resetForm() {
-
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
     },
     submitForm() {
       this.$refs.ruleForm.validate(valid => {
