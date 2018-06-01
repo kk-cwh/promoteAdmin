@@ -84,6 +84,14 @@ const user = {
         params
       })
     },
+    // 玩家明细
+    AgencyPlayerDetail({ commit, state }, params) {
+      return http({
+        url: `/api/agencies/activePlayersDetail/${params.id}`,
+        method: 'get',
+        params
+      })
+    },
     // 代理列表
     AgencyList({ commit, state }, params) {
       return http({

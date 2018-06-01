@@ -1,18 +1,18 @@
 <template>
   <div class="app-container">
 
-    <el-row>
+    <el-row v-show="show">
       <el-col :span="24">
         <div class="form-content">
           <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
-         
+
             <el-form-item label="玩家ID">
               <el-input v-model="queryForm.user_id" placeholder="玩家ID" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="昵称">
               <el-input v-model="queryForm.NickName" placeholder="昵称" style="width:100px;"></el-input>
             </el-form-item>
-      
+
             <el-form-item label="注册时间">
               <el-date-picker type="date" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
               <el-date-picker type="date" placeholder="结束日期" v-model="queryForm.dateEnd" style="width: 140px;"></el-date-picker>
@@ -32,35 +32,68 @@
       </el-col>
     </el-row>
 
-    <el-row :gutter="20">
+    <el-row :gutter="20" v-show="show">
       <el-col :span="24">
         <div class="table-content">
           <el-table border v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
-            <el-table-column prop="UserID" label="玩家ID" >
+            <el-table-column prop="UserID" label="玩家ID">
             </el-table-column>
-            <el-table-column prop="RegDate" label="注册时间" >
+            <el-table-column prop="RegDate" label="注册时间">
             </el-table-column>
-            <el-table-column prop="lastplaytime" label="最近游戏时间" >
+            <el-table-column prop="lastplaytime" label="最近游戏时间">
             </el-table-column>
             <el-table-column prop="NickName" label="昵称">
             </el-table-column>
             <el-table-column prop="agency_name" label="携带">
             </el-table-column>
-            <el-table-column prop="UnionCard" label="银行" >
+            <el-table-column prop="UnionCard" label="银行">
             </el-table-column>
             <el-table-column prop="Money" label="总税收">
             </el-table-column>
-       
-            <!-- <el-table-column label="操作" width="120px">
+            <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
-                <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button>
+                <el-button @click="showDetail(scope.row)" type="text" size="small">查看明细</el-button>
               </template>
-            </el-table-column> -->
+            </el-table-column>
           </el-table>
         </div>
       </el-col>
       <el-col :span="24" style="text-align:right;padding-right:30px;">
         <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40, 50]" :page-size="per_page" layout="   total , prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20" v-show="!show">
+      <el-col :span="24">
+        <div class="agent-count">
+          <span style="display:inline-block;margin-right:20px;"> 玩家明细 </span>
+          <el-button  size="small" @click="show=true"> 返 回 </el-button>
+        </div>
+      </el-col>
+
+      <el-col :span="24">
+        <div class="table-content">
+          <el-table border v-loading="loading" :data="tableDataDetail" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
+            <el-table-column prop="id" label="玩家ID">
+            </el-table-column>
+            <el-table-column prop="type" label="游戏类型">
+            </el-table-column>
+            <el-table-column prop="room_name" label="游戏房间">
+            </el-table-column>
+
+            <el-table-column prop="begin_time" label="游戏开始时间">
+            </el-table-column>
+            <el-table-column prop="end_time" label="游戏结束时间">
+            </el-table-column>
+
+            <el-table-column prop="tax" label="税收">
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-col>
+      <el-col :span="24" style="text-align:right;padding-right:30px;">
+        <el-pagination background @size-change="detailHandleSizeChange" @current-change="detailHandleCurrentChange" :current-page="detailCurrentPage" :page-sizes="[10, 20, 30, 40, 50]" :page-size="detail_per_page" layout="   total , prev, pager, next, jumper" :total="detail_total">
         </el-pagination>
       </el-col>
     </el-row>
@@ -71,14 +104,19 @@
 export default {
   data() {
     return {
+      show: true,
       currentPage: 1,
       per_page: 15,
       total: 0,
+      detailCurrentPage: 1,
+      detail_per_page: 15,
+      detail_total: 0,
       loading: false,
       number: 0,
       queryForm: {},
       tableData: [
-      ]
+      ],
+      tableDataDetail: []
     }
   },
   mounted() {
@@ -99,6 +137,15 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val
       this.queryList()
+    },
+    detailHandleSizeChange(val) {
+      this.detail_per_page = val
+      this.detailCurrentPage = 1
+      this.showDetail()
+    },
+    detailHandleCurrentChange(val) {
+      this.detailCurrentPage = val
+      this.showDetail()
     },
     queryList() {
       this.loading = true
@@ -149,7 +196,43 @@ export default {
         this.loading = false
       })
     },
-    showReport(row) {
+    showDetail(row) {
+      this.show = false
+      // const query = { id: row.UserID + '1' }
+      const query = { id: 100000011, page: this.detailCurrentPage, per_page: this.detail_per_page }
+      this.$store.dispatch('AgencyPlayerDetail', query).then((res) => {
+        this.tableDataDetail = []
+        if (res.data && res.data.length) {
+          res.data.forEach((item, index) => {
+            this.tableDataDetail.push(
+              {
+                id: item.id,
+                agency_id: item.agency_id,
+                game_id: item.game_id,
+                user_id: item.user_id,
+                add_gold: item.add_gold,
+                cur_gold: item.cur_gold,
+                begin_time: item.begin_time,
+                end_time: item.end_time,
+                last_play_time: item.last_play_time,
+                room_name: item.room_name,
+                tax: item.tax,
+                type: item.type,
+                created_at: item.created_at,
+                updated_at: item.updated_at
+
+              }
+            )
+          })
+        }
+        if (res.meta && res.meta.pagination) {
+          this.detail_total = res.meta.pagination.total
+          this.detail_per_page = res.meta.pagination.per_page
+        }
+        this.loading = false
+      }).catch(() => {
+        this.loading = false
+      })
     },
     clearData() {
       this.queryForm = {}
@@ -176,6 +259,7 @@ export default {
   min-height: 36px;
   line-height: 36px;
   padding-left: 20px;
+  margin: 2px  20px;
   background: #efefef;
 }
 </style>
