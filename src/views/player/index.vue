@@ -198,8 +198,7 @@ export default {
     },
     showDetail(row) {
       this.show = false
-      // const query = { id: row.UserID + '1' }
-      const query = { id: 100000011, page: this.detailCurrentPage, per_page: this.detail_per_page }
+      const query = { id: row.UserID, page: this.detailCurrentPage, per_page: this.detail_per_page }
       this.$store.dispatch('AgencyPlayerDetail', query).then((res) => {
         this.tableDataDetail = []
         if (res.data && res.data.length) {
