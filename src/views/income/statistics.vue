@@ -30,24 +30,26 @@
       <el-col :span="23">
         <div class="table-content">
           <el-table border v-loading="loading" :data="tableData" style="width: 100%" size="mini">
-            <el-table-column prop="date" label="日期">
+            <el-table-column prop="created_at" label="日期">
             </el-table-column>
-            <el-table-column prop="city" label="代理ID">
+            <el-table-column prop="id" label="代理ID">
             </el-table-column>
-            <el-table-column prop="province" label="结算比例" >
+            <el-table-column prop="rate" label="结算比例">
             </el-table-column>
-            <el-table-column prop="date" label="收入明细">
-            </el-table-column>
-            <el-table-column prop="date" label="产生税收">
+            <el-table-column prop="_tax" label="产生税收">
             </el-table-column>
             <el-table-column prop="date" label="下级分成比例">
             </el-table-column>
-            <el-table-column prop="date" label="您的收入">
+            <el-table-column prop="_income" label="您的收入">
             </el-table-column>
             <el-table-column prop="date" label="下级代理收入">
             </el-table-column>
-           </el-table>
+          </el-table>
         </div>
+      </el-col>
+      <el-col :span="24" style="text-align:right;padding-right:30px;">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40, 50]" :page-size="per_page" layout="   total , prev, pager, next, jumper" :total="total">
+        </el-pagination>
       </el-col>
     </el-row>
 
@@ -98,14 +100,16 @@ export default {
             this.tableData.push(
               {
                 id: item.id,
-                name: item.name,
-                agency_id: item.agency_id,
-                template_id: item.template_id,
-                template_name: item.template_name,
-                qrcode_img: item.qrcode_img,
-                qrcode_url: item.qrcode_url,
-                down_img: item.down_img,
-                down_url: item.down_url,
+                pid: item.pid,
+                agency_name: item.agency_name,
+                phone: item.phone,
+                balance: item.balance,
+                grade: item.grade,
+                rate: item.rate + '%',
+                status: item.status,
+                pay_account: item.pay_account,
+                _tax: item._tax,
+                _income: item._income,
                 updated_at: item.updated_at,
                 created_at: item.created_at
               }

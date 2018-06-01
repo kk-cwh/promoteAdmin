@@ -167,7 +167,7 @@ const user = {
     // 收入明细
     IncomeDetail({ commit, state }, params) {
       return http({
-        url: `/api/statement/income`,
+        url: `/api/statement/incomeDetail`,
         method: 'get',
         params
       })

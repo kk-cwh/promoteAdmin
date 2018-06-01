@@ -36,15 +36,13 @@
       <el-col :span="23">
         <div class="table-content">
           <el-table border v-loading="loading" :data="tableData" style="width: 100%" size="mini">
-            <el-table-column prop="date" label="时间">
+            <el-table-column prop="created_at" label="时间">
             </el-table-column>
-            <el-table-column prop="city" label="收入渠道">
+            <el-table-column prop="room_name" label="游戏房间">
             </el-table-column>
-            <el-table-column prop="province" label="游戏">
+            <el-table-column prop="id" label="玩家ID">
             </el-table-column>
-            <el-table-column prop="date" label="玩家ID">
-            </el-table-column>
-            <el-table-column prop="date" label="产生税收">
+            <el-table-column prop="tax" label="产生税收">
             </el-table-column>
             <el-table-column prop="date" label="提成比例">
             </el-table-column>
@@ -55,6 +53,10 @@
 
           </el-table>
         </div>
+      </el-col>
+           <el-col :span="24" style="text-align:right;padding-right:30px;">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40, 50]" :page-size="per_page" layout="   total , prev, pager, next, jumper" :total="total">
+        </el-pagination>
       </el-col>
     </el-row>
 
@@ -106,16 +108,19 @@ export default {
             this.tableData.push(
               {
                 id: item.id,
-                name: item.name,
                 agency_id: item.agency_id,
-                template_id: item.template_id,
-                template_name: item.template_name,
-                qrcode_img: item.qrcode_img,
-                qrcode_url: item.qrcode_url,
-                down_img: item.down_img,
-                down_url: item.down_url,
-                updated_at: item.updated_at,
-                created_at: item.created_at
+                game_id: item.game_id,
+                user_id: item.user_id,
+                add_gold: item.add_gold,
+                cur_gold: item.cur_gold,
+                begin_time: item.begin_time,
+                end_time: item.end_time,
+                last_play_time: item.last_play_time,
+                room_name: item.room_name,
+                tax: item.tax,
+                type: item.type,
+                created_at: item.created_at,
+                updated_at: item.updated_at
               }
             )
           })
