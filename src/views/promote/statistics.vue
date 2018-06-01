@@ -29,37 +29,42 @@
 
       <el-col :span="23">
         <div class="table-content">
-          <el-table border  v-loading="loading" :data="tableData" style="width: 100%" size="mini">
-            <el-table-column prop="date" label="日期">
+          <el-table border   :summary-method="getSummaries" show-summary v-loading="loading" :data="tableData" style="width: 100%" size="mini">
+           
+            <el-table-column prop="id" label="代理ID">
             </el-table-column>
-            <el-table-column prop="city" label="代理ID">
+            <el-table-column prop="agency_name" label="代理名称">
             </el-table-column>
-            <el-table-column prop="province" label="代理级别">
+            <el-table-column prop="grade" label="代理级别">
             </el-table-column>
-            <el-table-column prop="date" label="统计项目">
+            <!-- <el-table-column prop="date" label="统计项目">
+            </el-table-column> -->
+            <el-table-column prop="_counts" label="注册人数">
             </el-table-column>
-            <el-table-column prop="date" label="注册人数">
+            <el-table-column prop="phone" label="绑定手机">
             </el-table-column>
-            <el-table-column prop="date" label="绑定手机">
+            <el-table-column prop="_new_user_counts" label="新增注册">
             </el-table-column>
-            <el-table-column prop="date" label="新增注册">
+            <el-table-column prop="_amounts" label="充值金额">
             </el-table-column>
-            <el-table-column prop="date" label="充值金额">
+            <el-table-column prop="_amount_counts" label="充值人数">
             </el-table-column>
-            <el-table-column prop="date" label="充值人数">
+            <!-- <el-table-column prop="date" label="新增充值">
+            </el-table-column> -->
+
+            <el-table-column prop="_cash" label="提现金额">
             </el-table-column>
-            <el-table-column prop="date" label="新增充值">
+            <el-table-column prop="_cash_counts" label="提现人数">
             </el-table-column>
 
-            <el-table-column prop="date" label="提现金额">
-            </el-table-column>
-            <el-table-column prop="date" label="提现人数">
-            </el-table-column>
-
-            <el-table-column prop="date" label="产生税收">
+            <el-table-column prop="_tax" label="产生税收">
             </el-table-column>
           </el-table>
         </div>
+      </el-col>
+      <el-col :span="24" style="text-align:right;padding-right:30px;">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[2,10, 20, 30, 40, 50]" :page-size="per_page" layout="   total , prev, pager, next, jumper" :total="total">
+        </el-pagination>
       </el-col>
     </el-row>
 
@@ -111,15 +116,17 @@ export default {
             this.tableData.push(
               {
                 id: item.id,
-                name: item.name,
-                agency_id: item.agency_id,
-                template_id: item.template_id,
-                template_name: item.template_name,
-                qrcode_img: item.qrcode_img,
-                qrcode_url: item.qrcode_url,
-                down_img: item.down_img,
-                down_url: item.down_url,
-                updated_at: item.updated_at,
+                agency_amount: item.agency_amount,
+                agency_name: item.agency_name,
+                grade: item.grade,
+                phone: item.phone,
+                _amount_counts: item._amount_counts,
+                _amounts: item._amounts,
+                _cash: item._cash,
+                _cash_counts: item._cash_counts,
+                _counts: item._counts,
+                _new_user_counts: item._new_user_counts,
+                _tax: item._tax,
                 created_at: item.created_at
               }
             )
@@ -130,13 +137,12 @@ export default {
           this.per_page = res.meta.pagination.per_page
         }
         this.loading = false
-        this.loading = false
       }).catch(() => {
         this.loading = false
       })
     },
     showReport(row) {
-      console.log(row)
+
     },
     editRow(row) {
       this.editDialogVisible = true
@@ -144,6 +150,42 @@ export default {
     clearData() {
       this.queryForm = {}
       this.tableData = []
+    },
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计'
+          return
+        }
+        if (index === 1) {
+          sums[index] = '直属代理'
+          return
+        }
+
+        if (index === 2 || index === 4) {
+          sums[index] = ''
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+
+          sums[index] += ''
+        } else {
+          sums[index] = 'N/A'
+        }
+      })
+
+      return sums
     }
   }
 }

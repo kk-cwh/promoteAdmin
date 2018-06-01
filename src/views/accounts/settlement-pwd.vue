@@ -142,7 +142,6 @@ export default {
 
         // you can write ajax request here
         this.$store.dispatch('sendPhoneCode').then((res) => {
-          console.log('res:,', res)
           this.$message({
             message: '已发送！请注意查收!',
             type: 'success'

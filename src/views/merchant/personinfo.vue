@@ -200,7 +200,6 @@ export default {
       })
     },
     submitForm() {
-      console.log(this.checkList)
       if (this.checkList.length === 2) {
         this.$message({
           message: '转账成功！',
@@ -225,7 +224,6 @@ export default {
 
         // you can write ajax request here
         this.$store.dispatch('sendPhoneCode', { phone: this.userInfo.phone }).then((res) => {
-          console.log('res:,', res)
           this.$message({
             message: '已发送！请注意查收!',
             type: 'success'

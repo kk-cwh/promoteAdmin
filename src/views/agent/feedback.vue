@@ -191,7 +191,6 @@ export default {
       // })
     },
     showReport(row) {
-      console.log(row)
     },
     editRow(row) {
       this.editDialogVisible = true

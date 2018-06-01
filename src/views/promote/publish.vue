@@ -45,7 +45,7 @@ export default {
         content: this.editorContent
       }
       this.$store.dispatch('addPublicReport', form).then((res) => {
-        console.log(res)
+
       }).catch((err) => {
         this.$message({
           showClose: true,

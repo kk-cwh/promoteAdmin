@@ -68,7 +68,7 @@
             </el-table-column>
             <el-table-column prop="agency_name" label="代理名">
             </el-table-column>
-            <el-table-column prop="rate" label="提成比例" width="80px">
+            <el-table-column prop="rateTxt" label="提成比例" width="80px">
             </el-table-column>
             <el-table-column prop="phone" label="绑定微信">
             </el-table-column>
@@ -86,7 +86,7 @@
             </el-table-column>
             <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
-                <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button>
+                <!-- <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button> -->
                 <el-button type="text" size="small" @click="toEdit(scope.row)">编辑</el-button>
               </template>
             </el-table-column>
@@ -129,18 +129,18 @@
     <!-- 编辑代理 dialog -->
     <el-dialog title="添加代理" :visible.sync="editDialogVisible" width="480px" center>
       <div slot="title" style="font-size:15px;font-weight:bold;">编辑代理信息</div>
-      <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
+      <el-form ref="editForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
         <el-form-item label="代理名称" prop="agency_name">
-          <el-input v-model="ruleForm.agency_name" name="agency_name" style="width:200px"></el-input>
+          <el-input v-model="editForm.agency_name" name="agency_name" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="代理账号" prop="phone">
-          <el-input v-model="ruleForm.phone" name="phone" style="width:200px"></el-input>
+          <el-input v-model="editForm.phone" name="phone" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="代理用户密码" prop="password">
-          <el-input v-model="ruleForm.password" name="password" style="width:200px"></el-input>
+          <el-input v-model="editForm.password" name="password" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="提成比率" prop="rate">
-          <el-input type="text" v-model="ruleForm.rate" name="rate" style="width:200px"></el-input>
+          <el-input type="text" v-model="editForm.rate" name="rate" style="width:200px"></el-input>
           <el-popover placement="top-start" title="提成说明" width="300" trigger="hover" content="总代35%，1代33%，下面的代理，可自定义 。可设定范围：0-33，设置后比例只可上调不可下调！">
             <el-button type="text" slot="reference" icon="el-icon-warning">提成说明</el-button>
           </el-popover>
@@ -165,6 +165,9 @@ export default {
       loading: false,
       number: 0,
       queryForm: {},
+      editForm: {
+
+      },
       ruleForm: {
         agency_name: '',
         phone: '',
@@ -227,7 +230,8 @@ export default {
                 balance: item.balance,
                 children: item.children,
                 grade: item.grade,
-                rate: item.rate + '%',
+                rate: item.rate,
+                rateTxt: item.rate + '%',
                 history_sum: item.history_sum,
                 players: item.players,
                 son: item.son,
@@ -252,16 +256,15 @@ export default {
       this.addDialogVisible = true
       // this.ruleForm = {}
     },
-    toEdit() {
+    toEdit(row) {
       this.editDialogVisible = true
-      // this.ruleForm = {}
+      this.editForm = row
     },
     addAgency() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.addDialogVisible = false
           this.$store.dispatch('AddAgency', this.ruleForm).then((res) => {
-            console.log(res)
           }).catch((err) => {
             this.$message({
               showClose: true,
@@ -271,7 +274,6 @@ export default {
             })
           })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -281,7 +283,6 @@ export default {
         if (valid) {
           this.addDialogVisible = false
           this.$store.dispatch('AddAgency', this.ruleForm).then((res) => {
-            console.log(res)
           }).catch((err) => {
             this.$message({
               showClose: true,
@@ -291,13 +292,11 @@ export default {
             })
           })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
     },
     showReport(row) {
-      console.log(row)
     },
     clearData() {
       this.queryForm = {}

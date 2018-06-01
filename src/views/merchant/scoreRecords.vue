@@ -170,7 +170,6 @@ export default {
         if (valid) {
           this.addDialogVisible = false
           this.$store.dispatch('AddAgency', this.ruleForm).then((res) => {
-            console.log(res)
           }).catch((err) => {
             this.$message({
               showClose: true,
@@ -180,13 +179,11 @@ export default {
             })
           })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
     },
     showReport(row) {
-      console.log(row)
     },
     clearData() {
       this.queryForm = {}

@@ -39,21 +39,21 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <div class="table-content">
-          <el-table border show-summary v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
+          <el-table border show-summary :summary-method="getSummaries" v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
             <el-table-column prop="id" label="结算ID" width="60px">
             </el-table-column>
             <el-table-column prop="created_at" label="创建时间">
             </el-table-column>
-            <el-table-column prop="balance" label="结算余额">
+            <el-table-column prop="pay_money" label="结算余额">
             </el-table-column>
 
-            <el-table-column prop="agency_name" label="支付宝账号">
+            <el-table-column prop="pay_account" label="支付宝账号">
             </el-table-column>
-            <el-table-column prop="agency_name" label="姓名">
+            <el-table-column prop="pay_real_name" label="姓名">
             </el-table-column>
 
-            <el-table-column prop="grade" label="状态" width="80px">
-            </el-table-column>
+            <!-- <el-table-column prop="status" label="状态" width="80px">
+            </el-table-column> -->
             <el-table-column prop="created_at" label="结算时间">
             </el-table-column>
 
@@ -119,19 +119,12 @@ export default {
             this.tableData.push(
               {
                 id: item.id,
-                agency_amount: item.agency_amount,
+                agency_id: item.agency_id,
                 agency_name: item.agency_name,
-                phone: item.phone,
-                balance: item.balance,
-                children: item.children,
-                grade: item.grade,
-                rate: item.rate + '%',
-                history_sum: item.history_sum,
-                players: item.players,
-                son: item.son,
-                status: item.status ? '正常' : '已封',
-                today_new_member: item.today_new_member,
-                today_sum: item.today_sum,
+                pay_money: item.pay_money,
+                pay_account: item.pay_account,
+                status: item.status,
+                pay_real_name: item.pay_real_name,
                 created_at: item.created_at
               }
             )
@@ -147,12 +140,41 @@ export default {
       })
     },
     showReport(row) {
-      console.log(row)
     },
     clearData() {
       this.queryForm = {}
       this.tableData = []
       this.total = 0
+    },
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '合计'
+          return
+        }
+        if (index === 1 || index === 3 || index === 4) {
+          sums[index] = ''
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] += ' '
+        } else {
+          sums[index] = 'N/A'
+        }
+      })
+
+      return sums
     }
   }
 }

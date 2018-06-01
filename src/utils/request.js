@@ -32,7 +32,6 @@ service.interceptors.request.use(config => {
 
     if (needRefreshToken() && config.url.indexOf('/api/auth/refresh') === -1 && config.url.indexOf('/api/logout') === -1 && config.url.indexOf('/api/auth/login') === -1) {
       getRefreshToken().then(res => {
-        console.log(res, '---------------------======')
         // window.isRefreshing = false
         setKey('expired_at', res.expired_at)
         setToken(res.token)
@@ -50,14 +49,12 @@ service.interceptors.request.use(config => {
   return config
 }, error => {
   // Do something with request error
-  console.log(error) // for debug
   Promise.reject(error)
 })
 
 // respone拦截器
 service.interceptors.response.use(
   response => {
-    console.log(response)
     const status = response.status
     if (status === 200 || status === 201 || status === 204) {
       return response.data

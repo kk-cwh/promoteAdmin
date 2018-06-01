@@ -122,9 +122,6 @@ export default {
         this.loading = false
       })
     },
-    onSubmit(row) {
-      console.log(row)
-    },
     editRow(row) {
       this.editDialogVisible = true
     },

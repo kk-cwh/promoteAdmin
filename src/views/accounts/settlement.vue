@@ -83,7 +83,6 @@ export default {
     },
     querySettlementInfo() {
       this.$store.dispatch('SettlementBefore').then((res) => {
-        console.log(res)
         if (res && res.data) {
           var data = res.data
           this.ruleForm = {

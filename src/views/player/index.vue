@@ -51,11 +51,11 @@
             <el-table-column prop="Money" label="总税收">
             </el-table-column>
        
-            <el-table-column label="操作" width="120px">
+            <!-- <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
                 <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button>
               </template>
-            </el-table-column>
+            </el-table-column> -->
           </el-table>
         </div>
       </el-col>
@@ -150,7 +150,6 @@ export default {
       })
     },
     showReport(row) {
-      console.log(row)
     },
     clearData() {
       this.queryForm = {}

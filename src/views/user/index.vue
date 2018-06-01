@@ -134,13 +134,11 @@ export default {
       this.queryList()
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
       this.per_page = val
       this.currentPage = 1
       this.queryList()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
       this.currentPage = val
       this.queryList()
     },
@@ -186,7 +184,7 @@ export default {
         if (valid) {
           this.addDialogVisible = false
           this.$store.dispatch('AddUser', this.ruleForm).then((res) => {
-            console.log(res)
+
           }).catch((err) => {
             this.$message({
               showClose: true,
@@ -196,7 +194,6 @@ export default {
             })
           })
         } else {
-          console.log('error submit!!')
           return false
         }
       })

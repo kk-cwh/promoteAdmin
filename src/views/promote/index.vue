@@ -209,10 +209,8 @@ export default {
     },
     addOrEditPublicReport() {
       if (this.publish.id) {
-        console.log('update')
         this.updatePublicReport()
       } else {
-        console.log('add')
         this.addPublicReport()
       }
     },

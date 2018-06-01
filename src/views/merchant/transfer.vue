@@ -105,7 +105,6 @@ export default {
 
     },
     transfer() {
-      console.log(this.checkList)
       if (this.checkList.length === 2) {
         this.loading = true
         this.$refs.ruleForm.validate(valid => {
