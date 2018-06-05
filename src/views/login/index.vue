@@ -48,14 +48,12 @@
 </template>
 
 <script>
-import { isvalidUsername } from '@/utils/validate'
 
 export default {
   name: 'login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      callback()
-      if (!isvalidUsername(value)) {
+      if (value === '' || value.toString().trim() === '') {
         callback(new Error('请输入正确的账号'))
       } else {
         callback()

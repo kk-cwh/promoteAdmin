@@ -10,6 +10,7 @@ const service = axios.create({
   timeout: 15000 // 请求超时时间
 })
 
+// 是否需要刷新token
 function needRefreshToken() {
   const expired_at = getKey('expired_at')
   const oData = +new Date(expired_at) // 过期时间的戳
@@ -24,7 +25,6 @@ function getRefreshToken() {
   return service.get('/api/auth/refresh')
     .then((res) => { return Promise.resolve(res.data) })
 }
-
 // request拦截器
 service.interceptors.request.use(config => {
   if (store.getters.token) {

@@ -177,21 +177,6 @@ export const constantRouterMap = [
   //       component: () => import('@/views/user/index'),
   //       meta: { title: '系统用户', icon: 'record' }
   //     }
-
-  //   ]
-  // },
-  // {
-  //   path: '/red-envelope-record',
-  //   component: Layout,
-  //   name: 'red_envelope_record',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'red_envelope_record_index',
-  //       component: () => import('@/views/tree/index'),
-  //       meta: { title: '红包记录', icon: 'manage' }
-  //     }
-
   //   ]
   // },
   {
@@ -240,24 +225,6 @@ export const constantRouterMap = [
         component: () => import('@/views/merchant/personinfo'),
         meta: { title: '个人信息', icon: 'user' }
       }
-      // {
-      //   path: 'transfer',
-      //   name: 'transfer',
-      //   component: () => import('@/views/merchant/transfer'),
-      //   meta: { title: '转账操作', icon: 'manage' }
-      // },
-      // {
-      //   path: 'transfer-records',
-      //   name: 'transfer_records',
-      //   component: () => import('@/views/merchant/transferRecords'),
-      //   meta: { title: '转账记录', icon: 'manage' }
-      // },
-      // {
-      //   path: 'score-records',
-      //   name: 'score_records',
-      //   component: () => import('@/views/merchant/scoreRecords'),
-      //   meta: { title: '进分记录', icon: 'manage' }
-      // }
 
     ]
   },

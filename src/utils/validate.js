@@ -1,11 +1,3 @@
-/**
- * Created by jiachenpan on 16/11/18.
- */
-
-export function isvalidUsername(str) {
-  const valid_map = ['admin', 'editor']
-  return valid_map.indexOf(str.trim()) >= 0 || true
-}
 
 /* 合法uri*/
 export function validateURL(textval) {
@@ -31,6 +23,7 @@ export function validatAlphabets(str) {
   return reg.test(str)
 }
 
+// 合法手机号
 export function isPhoneNumber(str) {
   const reg = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/
   return reg.test(str)
