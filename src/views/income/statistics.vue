@@ -93,7 +93,8 @@ export default {
     queryList() {
       this.loading = true
       this.tableData = []
-      this.$store.dispatch('IncomeList', this.queryForm).then((res) => {
+      const query = { ...this.queryForm, page: this.currentPage }
+      this.$store.dispatch('IncomeList', query).then((res) => {
         this.tableData = []
         if (res.data && res.data.length) {
           res.data.forEach((item, index) => {

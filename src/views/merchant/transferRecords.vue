@@ -133,7 +133,7 @@ export default {
     queryList() {
       this.loading = true
       this.tableData = []
-      const query = { page: this.currentPage, per_page: this.per_page }
+      const query = { page: this.currentPage, per_page: this.per_page, ...this.queryForm }
       this.$store.dispatch('TransferRecords', query).then((res) => {
         this.tableData = []
         if (res.data && res.data.length) {

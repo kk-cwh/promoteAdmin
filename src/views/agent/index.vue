@@ -201,7 +201,6 @@ export default {
     init() {
       this.per_page = 15
       this.currentPage = 1
-      this.number = parseInt(Math.random() * 1000)
       this.queryList()
     },
     handleSizeChange(val) {
@@ -245,6 +244,7 @@ export default {
         }
         if (res.meta && res.meta.pagination) {
           this.total = res.meta.pagination.total
+          this.number = this.total - 1
           this.per_page = res.meta.pagination.per_page
         }
         this.loading = false

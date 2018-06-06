@@ -1,95 +1,89 @@
 <template>
-  <div class="app-container">
-  <el-collapse-transition>
-<div v-show="!show">
-    <!-- 统计信息 -->
-    <el-card class="box-card">
-      <div slot="header">
-        <span>统计信息</span>
-        <el-button style="float: right; padding: 3px 0" type="text" :loading="loading" @click="init">刷新</el-button>
-      </div>
-      <div class="statistics-box">
-        <div class="statistics-item">下属玩家:{{statistic.players}}</div>
-        <div class="statistics-item">历史收益:{{statistic.history_sum}}</div>
-        <div class="statistics-item">昨日注册:{{statistic.yesterday_member}}</div>
-        <div class="statistics-item">昨日收益:{{statistic.yesterday_sum}}</div>
-        <div class="statistics-item">今日注册:{{statistic.today_new_member}}</div>
-        <div class="statistics-item">今日收益:{{statistic.today_sum}}</div>
-        <div class="statistics-item">下级代理:{{statistic.son}}</div>
-        <div class="statistics-item">非直属代理:{{statistic.children}}</div>
-      </div>
-    </el-card>
-    <br>
-    <!-- 公告信息 -->
-    <el-row>
-      <el-col :span="16">
-
-        <div class="public-report clearfloat">
-          <div class="report-title"> 公告信息 </div>
-          <div class="report-publish">
-            <el-button type="text" @click="moreReport">更多公告&nbsp;&nbsp;</el-button>
-            <el-button @click="toPublish" v-if="isAdmin">发布公告</el-button>
-          </div>
-        </div>
-
-        <el-table :data="tableData" height="400" style="width: 100%" :show-header="false"  row-class-name="report-row-item" cell-class-name="report-cell-item">
-          <el-table-column prop="title" label="标题">
-            <template slot-scope="scope">
-              <a style="margin-left: 10px" href="javascript:void" @click="showReport(scope.row)">{{ scope.row.title }}</a>
-            </template>
-          </el-table-column>
-
-          <el-table-column prop="created_at" label="日期" width="180">
-          </el-table-column>
-          <el-table-column label="操作" width="60">
-              <template slot-scope="scope">
-                <span @click="editReport(scope.row)" class="eidt-span">  <svg-icon icon-class="edit" /></span>
-              </template>
-            </el-table-column>
-        </el-table>
-      </el-col>
-      
-    </el-row>
-</div>
-  </el-collapse-transition>
-<!-- 发布公告编辑 -->
-  <el-collapse-transition>
-     <el-row v-show="show">
-            <el-col :span="16" :offset="4">
-                <el-card class="editor-card">
+    <div class="app-container">
+        <el-collapse-transition>
+            <div v-show="!show">
+                <!-- 统计信息 -->
+                <el-card class="box-card">
                     <div slot="header">
-                        标题：
-                        <el-input v-model="publish.title" style="width:200px;"></el-input>
+                        <span>统计信息</span>
+                        <el-button style="float: right; padding: 3px 0;" type="text" :loading="loading" @click="init">刷新</el-button>
                     </div>
-                    <div class="editor-box">
-                        <div ref="toolbar" class="toolbar"></div>
-                        <div ref="editor" class="text"></div>
+                    <div class="statistics-box">
+                        <div class="statistics-item">下属玩家:{{statistic.players}}</div>
+                        <div class="statistics-item">历史收益:{{statistic.history_sum}}</div>
+                        <div class="statistics-item">昨日注册:{{statistic.yesterday_member}}</div>
+                        <div class="statistics-item">昨日收益:{{statistic.yesterday_sum}}</div>
+                        <div class="statistics-item">今日注册:{{statistic.today_new_member}}</div>
+                        <div class="statistics-item">今日收益:{{statistic.today_sum}}</div>
+                        <div class="statistics-item">下级代理:{{statistic.son}}</div>
+                        <div class="statistics-item">非直属代理:{{statistic.children}}</div>
                     </div>
-                    <div style="text-align:right;padding:10px;">
-                        <el-button size="small" type="primary" @click="addOrEditPublicReport">发布</el-button>
-                         <el-button size="small"  @click="show=false">返回</el-button>
-                    </div>
-                   
                 </el-card>
+                
+                <!-- 公告信息 -->
+                <el-row>
+                    <el-col :span="16">
 
-            </el-col>
-      </el-row>
-  </el-collapse-transition>
+                        <div class="public-report clearfloat">
+                            <div class="report-title"> 公告信息 </div>
+                            <div class="report-publish">
+                                <el-button type="text" @click="moreReport">更多公告&nbsp;&nbsp;</el-button>
+                                <el-button @click="toPublish" v-if="isAdmin">发布公告</el-button>
+                            </div>
+                        </div>
 
+                        <el-table :data="tableData" height="400" style="width: 100%" :show-header="false" row-class-name="report-row-item" cell-class-name="report-cell-item">
+                            <el-table-column prop="title" label="标题">
+                                <template slot-scope="scope">
+                                    <a style="margin-left: 10px" href="javascript:void(0);" @click="showReport(scope.row)">{{ scope.row.title }}</a>
+                                </template>
+                            </el-table-column>
 
-<el-dialog
-  :title="title"
-  :visible.sync="centerDialogVisible"
-  width="720px"
-  center>
-  <span v-html="content"></span>
-  <span slot="footer" class="dialog-footer">
-    <!-- <el-button @click="centerDialogVisible = false">关闭</el-button> -->
-    <!-- <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button> -->
-  </span>
-</el-dialog>
+                            <el-table-column prop="created_at" label="日期" width="180">
+                            </el-table-column>
+                            <el-table-column label="操作" width="60">
+                                <template slot-scope="scope">
+                                    <span @click="editReport(scope.row)" class="eidt-span">
+                                        <svg-icon icon-class="edit" />
+                                    </span>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-col>
 
-  </div>
+                </el-row>
+            </div>
+        </el-collapse-transition>
+        <!-- 发布公告编辑 -->
+        <el-collapse-transition>
+            <el-row v-show="show">
+                <el-col :span="16" :offset="4">
+                    <el-card class="editor-card">
+                        <div slot="header">
+                            标题：
+                            <el-input v-model="publish.title" style="width:200px;"></el-input>
+                        </div>
+                        <div class="editor-box">
+                            <div ref="toolbar" class="toolbar"></div>
+                            <div ref="editor" class="text"></div>
+                        </div>
+                        <div style="text-align:right;padding:10px;">
+                            <el-button size="small" type="primary" @click="addOrEditPublicReport">发布</el-button>
+                            <el-button size="small" @click="show=false">返回</el-button>
+                        </div>
+
+                    </el-card>
+
+                </el-col>
+            </el-row>
+        </el-collapse-transition>
+
+        <el-dialog :title="title" :visible.sync="centerDialogVisible" width="720px" center>
+            <div v-html="content"></div>
+            <span slot="footer" class="dialog-footer"></span>
+        </el-dialog>
+
+    </div>
 </template>
 
 <script>
