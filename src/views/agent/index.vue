@@ -64,13 +64,13 @@
             </el-table-column>
             <el-table-column prop="grade" label="等级" width="60px">
             </el-table-column>
-            <el-table-column prop="agency_name" label="代理账号">
+            <el-table-column prop="phone" label="代理账号">
             </el-table-column>
             <el-table-column prop="agency_name" label="代理名">
             </el-table-column>
             <el-table-column prop="rateTxt" label="提成比例" width="80px">
             </el-table-column>
-            <el-table-column prop="phone" label="绑定微信">
+            <el-table-column prop="wechat_uid" label="绑定微信">
             </el-table-column>
             <el-table-column prop="balance" label="账户余额">
             </el-table-column>
@@ -120,7 +120,7 @@
         </el-form-item>
         <el-form-item label="">
           <el-button @click="addDialogVisible = false" size="small">关 闭</el-button>
-          <el-button type="primary" @click="addAgency('agency_form')" size="small">保 存</el-button>
+          <el-button type="primary" @click="addAgency('ruleForm')" size="small">保 存</el-button>
         </el-form-item>
       </el-form>
 
@@ -129,25 +129,27 @@
     <!-- 编辑代理 dialog -->
     <el-dialog title="添加代理" :visible.sync="editDialogVisible" width="480px" center>
       <div slot="title" style="font-size:15px;font-weight:bold;">编辑代理信息</div>
-      <el-form ref="editForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
-        <el-form-item label="代理名称" prop="agency_name">
-          <el-input v-model="editForm.agency_name" name="agency_name" style="width:200px"></el-input>
+      <el-form ref="editForm" :model="editForm" :rules="editRules" label-width="140px" size="small">
+        <el-form-item label="代理名称">
+          <el-tag type="info" style="width:200px" >{{editForm.agency_name}}</el-tag>
         </el-form-item>
-        <el-form-item label="代理账号" prop="phone">
-          <el-input v-model="editForm.phone" name="phone" style="width:200px"></el-input>
+        <el-form-item label="代理账号">
+            <el-tag type="info" style="width:200px" >{{editForm.phone}}</el-tag>
+          <!-- <el-input v-model="editForm.phone" name="phone" style="width:200px"></el-input> -->
         </el-form-item>
-        <el-form-item label="代理用户密码" prop="password">
-          <el-input v-model="editForm.password" name="password" style="width:200px"></el-input>
+        <el-form-item label="代理用户密码">
+             <el-tag type="info" style="width:200px" >●●●●●●</el-tag>
+          <!-- <el-input v-model="editForm.password" name="password" style="width:200px"></el-input> -->
         </el-form-item>
         <el-form-item label="提成比率" prop="rate">
           <el-input type="text" v-model="editForm.rate" name="rate" style="width:200px"> <template slot="append">%</template></el-input>
-          <el-popover placement="top-start" title="提成说明" width="300" trigger="hover" content="总代35%，1代33%，下面的代理，可自定义 。可设定范围：0-33，设置后比例只可上调不可下调！">
+          <el-popover placement="top-start" title="提成说明" width="300" trigger="hover" content="可设定范围：0-33，设置后比例只可上调不可下调！">
             <el-button type="text" slot="reference" icon="el-icon-warning">提成说明</el-button>
           </el-popover>
         </el-form-item>
         <el-form-item label="">
           <el-button @click="editDialogVisible = false" size="small">关 闭</el-button>
-          <el-button type="primary" @click="updateAgency('agency_form')" size="small">保 存</el-button>
+          <el-button type="primary" @click="updateAgency('editForm')" size="small">保 存</el-button>
         </el-form-item>
       </el-form>
 
@@ -158,6 +160,15 @@
 <script>
 export default {
   data() {
+    const validateRate = (rule, value, callback) => {
+      if (value === '' || isNaN(value)) {
+        callback(new Error('格式不对，请输入数字'))
+      } else if (value > 33) {
+        callback(new Error('提成比率范围 0 - 33%'))
+      } else {
+        callback()
+      }
+    }
     return {
       currentPage: 1,
       per_page: 15,
@@ -185,7 +196,12 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' }
         ],
         rate: [
-          { required: true, message: '请输入提成比率', trigger: 'blur' }
+          { required: true, trigger: 'blur', validator: validateRate }
+        ]
+      },
+      editRules: {
+        rate: [
+          { required: true, trigger: 'blur', validator: validateRate }
         ]
       },
       addDialogVisible: false,
@@ -224,6 +240,7 @@ export default {
               {
                 id: item.id,
                 agency_amount: item.agency_amount,
+                wechat_uid: item.wechat_uid,
                 agency_name: item.agency_name,
                 phone: item.phone,
                 balance: item.balance,
@@ -260,11 +277,12 @@ export default {
       this.editDialogVisible = true
       this.editForm = row
     },
-    addAgency() {
-      this.$refs.ruleForm.validate((valid) => {
+    addAgency(formName) {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.addDialogVisible = false
           this.$store.dispatch('AddAgency', this.ruleForm).then((res) => {
+            this.init()
           }).catch((err) => {
             this.$message({
               showClose: true,
@@ -278,11 +296,11 @@ export default {
         }
       })
     },
-    updateAgency() {
-      this.$refs.ruleForm.validate((valid) => {
+    updateAgency(formName) {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.addDialogVisible = false
-          this.$store.dispatch('AddAgency', this.ruleForm).then((res) => {
+          this.editDialogVisible = false
+          this.$store.dispatch('updateAgencyRate', this.editForm).then((res) => {
           }).catch((err) => {
             this.$message({
               showClose: true,
