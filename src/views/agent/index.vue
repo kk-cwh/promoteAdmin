@@ -113,7 +113,7 @@
           <el-input v-model="ruleForm.password" name="password" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="提成比率" prop="rate">
-          <el-input type="text" v-model="ruleForm.rate" name="rate" style="width:200px"></el-input>
+          <el-input type="text" v-model="ruleForm.rate" name="rate" style="width:200px"><template slot="append">%</template></el-input>
           <el-popover placement="top-start" title="提成说明" width="300" trigger="hover" content="总代35%，1代33%，下面的代理，可自定义 。可设定范围：0-33，设置后比例只可上调不可下调！">
             <el-button type="text" slot="reference" icon="el-icon-warning">提成说明</el-button>
           </el-popover>
@@ -140,7 +140,7 @@
           <el-input v-model="editForm.password" name="password" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="提成比率" prop="rate">
-          <el-input type="text" v-model="editForm.rate" name="rate" style="width:200px"></el-input>
+          <el-input type="text" v-model="editForm.rate" name="rate" style="width:200px"> <template slot="append">%</template></el-input>
           <el-popover placement="top-start" title="提成说明" width="300" trigger="hover" content="总代35%，1代33%，下面的代理，可自定义 。可设定范围：0-33，设置后比例只可上调不可下调！">
             <el-button type="text" slot="reference" icon="el-icon-warning">提成说明</el-button>
           </el-popover>
