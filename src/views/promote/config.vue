@@ -61,7 +61,7 @@
               </template>
 
             </el-table-column>
-            <el-table-column prop="down_url" label="推广落地页">
+            <el-table-column prop="down_url" label="H5地址">
             </el-table-column>
             <el-table-column  label="下载地址二维码">
               <template slot-scope="scope">
@@ -109,16 +109,19 @@
       <div slot="title" style="font-size:15px;font-weight:bold;">添加推广配置</div>
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
         <el-form-item label="代理ID" prop="agency_id">
-          <el-input v-model="ruleForm.agency_id" style="width:200px"></el-input>
+          <el-input v-model="ruleForm.agency_id" style="width:240px"></el-input>
         </el-form-item>
         <el-form-item label="推广名称" prop="name">
-          <el-input v-model="ruleForm.name" style="width:200px"></el-input>
+          <el-input v-model="ruleForm.name" style="width:240px"></el-input>
+        </el-form-item>
+        <el-form-item label="H5地址" prop="h5_url">
+          <el-input v-model="ruleForm.h5_url" style="width:240px"></el-input>
         </el-form-item>
         <el-form-item label="二维码地址" prop="qrcode_url">
-          <el-input v-model="ruleForm.qrcode_url" style="width:200px"></el-input>
+          <el-input v-model="ruleForm.qrcode_url" style="width:240px"></el-input>
         </el-form-item>
         <el-form-item label="下载地址" prop="down_url">
-          <el-input v-model="ruleForm.down_url" style="width:200px"></el-input>
+          <el-input v-model="ruleForm.down_url" style="width:240px"></el-input>
         </el-form-item>
         <el-form-item label="">
           <el-button @click="addDialogVisible = false">关 闭</el-button>
@@ -161,6 +164,9 @@ export default {
         qrcode_url: [
           { required: true, type: 'url', message: '请输入合法的二维码地址', trigger: 'change' }
         ],
+        h5_url: [
+          { required: true, type: 'url', message: '请输入合法的H5地址', trigger: 'blur' }
+        ],
         down_url: [
           { required: true, type: 'url', message: '请输入合法的下载地址', trigger: 'blur' }
         ],
@@ -194,7 +200,8 @@ export default {
     queryList() {
       this.loading = true
       this.tableData = []
-      this.$store.dispatch('PromotionConfig', this.queryForm).then((res) => {
+      const query = { ...this.queryForm, page: this.currentPage }
+      this.$store.dispatch('PromotionConfig', query).then((res) => {
         this.tableData = []
         if (res.data && res.data.length) {
           res.data.forEach((item, index) => {
