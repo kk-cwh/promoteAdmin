@@ -61,7 +61,7 @@
               </template>
 
             </el-table-column>
-            <el-table-column prop="down_url" label="H5地址">
+            <el-table-column prop="h5_url" label="H5地址">
             </el-table-column>
             <el-table-column  label="下载地址二维码">
               <template slot-scope="scope">
@@ -215,6 +215,7 @@ export default {
                 qrcode_img: item.qrcode_img,
                 qrcode_url: item.qrcode_url,
                 down_img: item.down_img,
+                h5_url: item.h5_url,
                 down_url: item.down_url,
                 updated_at: item.updated_at,
                 created_at: item.created_at
