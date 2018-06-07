@@ -5,7 +5,7 @@
                 <div class="form-content">
                     <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
                         <el-form-item>
-                            <el-button icon="el-icon-circle-plus" type="danger" @click="centerDialogVisible = true">新增</el-button>
+                            <el-button icon="el-icon-circle-plus" type="danger" @click="addDialogVisible = true">新增</el-button>
                         </el-form-item>
                         <el-form-item label="留言类别">
                             <el-select v-model="formInline.type" style="width:140px;">
@@ -162,7 +162,7 @@ export default {
       this.queryList()
     },
     queryList() {
-      this.loading = true
+    //   this.loading = true
       this.tableData = []
     //   const query = { page: this.currentPage, per_page: this.per_page, ...this.queryForm }
     //   this.$store.dispatch('FeedbackList', query).then((res) => {
