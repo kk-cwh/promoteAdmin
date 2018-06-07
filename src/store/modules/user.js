@@ -183,9 +183,17 @@ const user = {
     // 代理反馈
     FeedbackList({ commit, state }, params) {
       return http({
-        url: `/api/notice/update/${params.id}`,
+        url: `/api/agencies/feedback`,
         method: 'get',
         params
+      })
+    },
+    // 代理反馈
+    AddFeedback({ commit, state }, data) {
+      return http({
+        url: `/api/agencies/feedback`,
+        method: 'post',
+        data
       })
     },
     // 商人绑定联系方式s
