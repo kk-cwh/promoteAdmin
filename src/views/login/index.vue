@@ -170,6 +170,7 @@ export default {
   height: 100%;
   width: 100%;
   background-color: #2d3a4b;
+  /* background:url(https://img.alicdn.com/tfs/TB1zsNhXTtYBeNjy1XdXXXXyVXa-2252-1500.png) */
 }
  .login-form {
     border-radius: 5px;

@@ -23,10 +23,9 @@
           <!-- <el-input type="text" v-model="ruleForm.name"></el-input> -->
           <el-tag type="info">{{ruleForm.pay_real_name}}</el-tag>
         </el-form-item>
-        <el-form-item label="绑定微信:">
-          <!-- <el-input  v-model="ruleForm.phone"></el-input> -->
+        <!-- <el-form-item label="绑定微信:">
           <el-tag type="info">{{ruleForm.weixin}}</el-tag>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="验证码:" prop="code">
           <el-input v-model="ruleForm.code" style="width:180px;" placeholder="请输入验证码"></el-input>
           <el-button type="warning" @click="getIdentifyCode">{{gettingIdentifyCodeBtnContent}}</el-button>

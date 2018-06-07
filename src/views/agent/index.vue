@@ -16,19 +16,19 @@
           <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
             <el-form-item label="状态">
               <el-select v-model="queryForm.status" placeholder="状态" style="width:100px;">
-                <el-option label="全部" value="0"></el-option>
+                <el-option label="全部" value=""></el-option>
                 <el-option label="正常" value="1"></el-option>
-                <el-option label="已封" value="2"></el-option>
+                <el-option label="已封" value="0"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="代理ID">
               <el-input v-model="queryForm.agency_id" placeholder="代理ID" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="代理账号">
-              <el-input v-model="queryForm.account" placeholder="可开启模糊查询" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.account" placeholder="代理账号" style="width:150px;"></el-input>
             </el-form-item>
-            <el-form-item label="模糊">
-              <el-switch v-model="queryForm.value2"></el-switch>
+            <!-- <el-form-item label="模糊">
+              <el-switch v-model="queryForm.value2"></el-switch> -->
             </el-form-item>
 
             <el-form-item label="绑定微信">
@@ -40,8 +40,8 @@
               <el-input v-model="queryForm.balanceMax" placeholder="" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="注册时间">
-              <el-date-picker type="date" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date" placeholder="结束日期" v-model="queryForm.dateEnd" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date"   value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date"   value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.dateEnd" style="width: 140px;"></el-date-picker>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" icon="el-icon-search" @click="init" :loading="loading">查询</el-button>
@@ -175,7 +175,9 @@ export default {
       total: 0,
       loading: false,
       number: 0,
-      queryForm: {},
+      queryForm: {
+        status: ''
+      },
       editForm: {
 
       },

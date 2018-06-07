@@ -9,8 +9,8 @@
             </el-form-item>
 
             <el-form-item label="时间选择">
-              <el-date-picker type="date" placeholder="选择日期" v-model="queryForm.date1" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date" placeholder="选择日期" v-model="queryForm.date1" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="选择日期" v-model="queryForm.start_date" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="选择日期" v-model="queryForm.end_date" style="width: 140px;"></el-date-picker>
             </el-form-item>
 
             <el-form-item>

@@ -14,12 +14,12 @@
             </el-form-item>
 
             <el-form-item label="注册时间">
-              <el-date-picker type="date" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date" placeholder="结束日期" v-model="queryForm.dateEnd" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.dateEnd" style="width: 140px;"></el-date-picker>
             </el-form-item>
             <el-form-item label="最近游戏时间">
-              <el-date-picker type="date" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date" placeholder="结束日期" v-model="queryForm.dateEnd" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.dateEnd" style="width: 140px;"></el-date-picker>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" icon="el-icon-search" @click="init" :loading="loading">查询</el-button>

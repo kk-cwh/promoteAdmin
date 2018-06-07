@@ -9,15 +9,15 @@
             </el-form-item>
             <el-form-item label="留言类别">
               <el-select v-model="formInline.region" placeholder="留言类别" style="width:100px;">
-                <el-option label="全部" value="0"></el-option>
+                <el-option label="全部" value=""></el-option>
                 <el-option label="正常" value="1"></el-option>
-                <el-option label="已封" value="2"></el-option>
+                <el-option label="已封" value="0"></el-option>
               </el-select>
             </el-form-item>
 
             <el-form-item label="留言时间">
-              <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date" placeholder="选择日期" v-model="formInline.date1" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="选择日期" v-model="formInline.start_date" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="选择日期" v-model="formInline.end_date" style="width: 140px;"></el-date-picker>
             </el-form-item>
 
             <el-form-item>
