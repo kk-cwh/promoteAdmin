@@ -70,7 +70,7 @@
             <div slot="title" style="font-size:15px;font-weight:bold;">重置转账密码</div>
             <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
                 <el-form-item label="手机号:">
-                    <el-tag style="width:180px;" type="info" >{{ruleForm.phone}}</el-tag>
+                    <el-tag style="width:180px;" type="info">{{ruleForm.phone}}</el-tag>
                 </el-form-item>
                 <el-form-item label="新密码:" prop="password">
                     <el-input type="password" v-model="ruleForm.password" style="width:180px;"></el-input>
@@ -85,7 +85,7 @@
                 </el-form-item>
                 <el-form-item label="">
                     <el-button @click="resetDialogVisible = false">关 闭</el-button>
-                    <el-button type="primary" @click="resetTransferPassword" >确认重置</el-button>
+                    <el-button type="primary" @click="resetTransferPassword">确认重置</el-button>
                 </el-form-item>
                 <!-- <el-form-item label="备注">
           <el-input type="textarea" v-model="ruleForm.desc"></el-input>
@@ -184,14 +184,26 @@ export default {
               message: '密码重置成功！',
               type: 'success'
             })
-          }).catch(() => {
-            this.$message({
-              showClose: true,
-              center: true,
-              message: '重置失败！',
-              type: 'error'
-            })
+            this.resetDialogVisible = false
+          }).catch((err) => {
+            if (err && err.response && err.response.data) {
+              this.$message({
+                showClose: true,
+                message: err.response.data.message,
+                type: 'error',
+                duration: 5 * 1000
+              })
+            } else {
+              this.$message({
+                showClose: true,
+                center: true,
+                message: '重置失败！',
+                type: 'error'
+              })
+            }
+
             this.loading = false
+            this.resetDialogVisible = false
           })
         } else {
           this.loading = false
@@ -228,15 +240,24 @@ export default {
             message: '已发送！请注意查收!',
             type: 'success'
           })
-        }).catch(() => {
+        }).catch((err) => {
           clearInterval(timer)
           this.canGetIdentifyCode = true
-          this.$message({
-            showClose: true,
-            center: true,
-            message: '发送失败！',
-            type: 'error'
-          })
+          if (err && err.response && err.response.data) {
+            this.$message({
+              showClose: true,
+              message: err.response.data.message,
+              type: 'error',
+              duration: 5 * 1000
+            })
+          } else {
+            this.$message({
+              showClose: true,
+              center: true,
+              message: '发送失败！',
+              type: 'error'
+            })
+          }
         })
       }
     }

@@ -90,7 +90,7 @@ export default {
             })
             this.queryList()
           }).catch((err) => {
-            if (err.response.status === 400) {
+            if (err && err.response && err.response.data) {
               this.$message({
                 showClose: true,
                 center: true,
