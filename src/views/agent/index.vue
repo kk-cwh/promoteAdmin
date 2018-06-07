@@ -28,8 +28,8 @@
               <el-input v-model="queryForm.phone" placeholder="代理账号" style="width:150px;"></el-input>
             </el-form-item>
             <!-- <el-form-item label="模糊">
-              <el-switch v-model="queryForm.value2"></el-switch> -->
-            </el-form-item>
+              <el-switch v-model="queryForm.value2"></el-switch>
+            </el-form-item> -->
 
             <el-form-item label="绑定微信">
               <el-input v-model="queryForm.wechat_uid" placeholder="绑定微信" style="width:150px;"></el-input>
