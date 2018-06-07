@@ -5,8 +5,8 @@
       <el-col :span="24">
         <div class="form-content">
           <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
-            <el-form-item label="配置ID">
-              <el-input v-model="queryForm.id" placeholder="配置ID" style="width:100px;"></el-input>
+            <el-form-item label="推广ID">
+              <el-input v-model="queryForm.id" placeholder="推广ID" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="名称">
               <el-input v-model="queryForm.name" placeholder="名称" style="width:150px;"></el-input>

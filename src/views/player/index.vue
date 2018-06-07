@@ -7,19 +7,19 @@
           <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
 
             <el-form-item label="玩家ID">
-              <el-input v-model="queryForm.user_id" placeholder="玩家ID" style="width:100px;"></el-input>
+              <el-input v-model="queryForm.userId" placeholder="玩家ID" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="昵称">
-              <el-input v-model="queryForm.NickName" placeholder="昵称" style="width:100px;"></el-input>
+              <el-input v-model="queryForm.nickName" placeholder="昵称" style="width:100px;"></el-input>
             </el-form-item>
 
             <el-form-item label="注册时间">
-              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.dateEnd" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.registerTimeStart" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.registerTimeEnd" style="width: 140px;"></el-date-picker>
             </el-form-item>
             <el-form-item label="最近游戏时间">
-              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.dateEnd" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.playTimeStart" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.playTimeEnd" style="width: 140px;"></el-date-picker>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" icon="el-icon-search" @click="init" :loading="loading">查询</el-button>

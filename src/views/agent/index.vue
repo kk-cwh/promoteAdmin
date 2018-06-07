@@ -22,17 +22,17 @@
               </el-select>
             </el-form-item>
             <el-form-item label="代理ID">
-              <el-input v-model="queryForm.agency_id" placeholder="代理ID" style="width:100px;"></el-input>
+              <el-input v-model="queryForm.id" placeholder="代理ID" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="代理账号">
-              <el-input v-model="queryForm.account" placeholder="代理账号" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.phone" placeholder="代理账号" style="width:150px;"></el-input>
             </el-form-item>
             <!-- <el-form-item label="模糊">
               <el-switch v-model="queryForm.value2"></el-switch> -->
             </el-form-item>
 
             <el-form-item label="绑定微信">
-              <el-input v-model="queryForm.weixin" placeholder="绑定微信" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.wechat_uid" placeholder="绑定微信" style="width:150px;"></el-input>
             </el-form-item>
             <br>
             <el-form-item label="账户余额">
