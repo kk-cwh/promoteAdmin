@@ -22,8 +22,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="绑定游戏ID:" prop="name">
-                            {{userInfo.id}}
+                        <el-form-item label="绑定游戏ID:" prop="game_user_id">
+                            {{userInfo.game_user_id}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -37,19 +37,19 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="绑定微信:" prop="name">
-                            {{userInfo.weixin}}
+                        <el-form-item label="绑定微信:" prop="wechat_uid">
+                            {{userInfo.wechat_uid}}
                         </el-form-item>
                     </el-col>
 
                     <el-col :span="12">
-                        <el-form-item label="总拿货:" prop="name">
-                            {{userInfo.agency_amount}}
+                        <el-form-item label="总拿货:" prop="stock">
+                            {{userInfo.stock}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="总售出:" prop="name">
-                            {{userInfo.balance}}
+                        <el-form-item label="总售出:" prop="sale">
+                            {{userInfo.sale}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -157,13 +157,17 @@ export default {
             agency_name: agency.agency_name,
             agency_amount: agency.agency_amount,
             grade: agency.grade,
+            game_user_id: agency.game_user_id,
             balance: agency.balance,
-            status: agency.status,
+            wechat_uid: agency.wechat_uid,
+            status: agency.status === 1 ? '正常' : '被封',
             phone: agency.phone,
             rate: agency.rate,
             QQ: agency.QQ,
             weixin: agency.weixin,
             remark: agency.remark,
+            sale: agency.sale,
+            stock: agency.stock,
             created_at: agency.created_at
           }
           this.ruleForm.phone = agency.phone.replace(agency.phone.substr(3, 4), '****')
