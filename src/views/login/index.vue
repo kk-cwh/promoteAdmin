@@ -68,7 +68,7 @@ export default {
     }
     return {
       loginForm: {
-        username: 'Ethelyn Swift',
+        username: '',
         password: ''
       },
       loginRules: {
