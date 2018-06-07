@@ -48,6 +48,13 @@
 export default {
   name: 'promote',
   data() {
+    const validateMoney = (rule, value, callback) => {
+      if (value === '' || value.toString().trim() === '' || isNaN(value)) {
+        callback(new Error('请输入合法的金币数量!'))
+      } else {
+        callback()
+      }
+    }
     return {
       loading: false,
       userInfo: {},
@@ -61,7 +68,7 @@ export default {
           { required: true, message: '请输入玩家ID', trigger: 'blur' }
         ],
         money: [
-          { required: true, message: '请输入转入金币数量', trigger: 'blur' }
+          { required: true, validator: validateMoney, trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' }
@@ -118,13 +125,23 @@ export default {
               this.ruleForm = {}
               this.checkList = []
               this.init()
-            }).catch(() => {
-              this.$message({
-                showClose: true,
-                center: true,
-                message: '转账失败！',
-                type: 'error'
-              })
+            }).catch((err) => {
+              if (err && err.response && err.response.data) {
+                this.$message({
+                  showClose: true,
+                  message: err.response.data.message,
+                  type: 'error',
+                  duration: 5 * 1000
+                })
+              } else {
+                this.$message({
+                  showClose: true,
+                  center: true,
+                  message: '转账失败！',
+                  type: 'error'
+                })
+              }
+
               this.loading = false
             })
           } else {

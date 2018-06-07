@@ -158,13 +158,14 @@
 </template>
 
 <script>
+import { getKey } from '@/utils/auth'
 export default {
   data() {
     const validateRate = (rule, value, callback) => {
       if (value === '' || isNaN(value)) {
         callback(new Error('格式不对，请输入数字'))
-      } else if (value > 33) {
-        callback(new Error('提成比率范围 0 - 33%'))
+      } else if (value > 35) {
+        callback(new Error('提成比率范围 0 - 35%'))
       } else {
         callback()
       }
@@ -174,12 +175,12 @@ export default {
       per_page: 15,
       total: 0,
       loading: false,
-      number: 0,
+      number: getKey('next_agency_num') || 0,
       queryForm: {
         status: ''
       },
       editForm: {
-
+        id: ''
       },
       ruleForm: {
         agency_name: '',
@@ -263,7 +264,6 @@ export default {
         }
         if (res.meta && res.meta.pagination) {
           this.total = res.meta.pagination.total
-          this.number = this.total - 1
           this.per_page = res.meta.pagination.per_page
         }
         this.loading = false
@@ -302,7 +302,15 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.editDialogVisible = false
-          this.$store.dispatch('updateAgencyRate', this.editForm).then((res) => {
+          const data = { id: this.editForm.id, rate: this.editForm.rate }
+          this.$store.dispatch('UpdateAgency', data).then((res) => {
+            this.$message({
+              showClose: true,
+              message: '税率修改成功!',
+              type: 'success',
+              duration: 3 * 1000
+            })
+            this.init()
           }).catch((err) => {
             this.$message({
               showClose: true,

@@ -108,6 +108,14 @@ const user = {
         data
       })
     },
+    // 更新代理稅率
+    UpdateAgency({ commit, state }, data) {
+      return http({
+        url: `/api/agencies/update/${data.id}`,
+        method: 'patch',
+        data
+      })
+    },
     // 推广首页数据
     GetAgencyHome({ commit, state }, params) {
       return http({

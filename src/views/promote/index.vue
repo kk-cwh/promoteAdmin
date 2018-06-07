@@ -88,6 +88,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { setKey } from '@/utils/auth'
 import E from 'wangeditor'
 export default {
   name: 'promote',
@@ -162,6 +163,7 @@ export default {
             yesterday_member: info.yesterday_member,
             yesterday_sum: '￥' + (info.yesterday_sum / 100)
           }
+          setKey('next_agency_num', info.son)
           this.total_pages = res.meta.pagination.total_pages
         }
         this.loading = false
