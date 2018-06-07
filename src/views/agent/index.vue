@@ -70,7 +70,9 @@
             </el-table-column>
             <el-table-column prop="rateTxt" label="提成比例" width="80px">
             </el-table-column>
-            <el-table-column prop="wechat_uid" label="绑定微信">
+            <!-- <el-table-column prop="wechat_uid" label="绑定微信">
+            </el-table-column> -->
+            <el-table-column prop="game_user_id" label="游戏账号">
             </el-table-column>
             <el-table-column prop="balance" label="账户余额">
             </el-table-column>
@@ -252,6 +254,7 @@ export default {
                 rate: item.rate,
                 rateTxt: item.rate + '%',
                 history_sum: item.history_sum,
+                game_user_id: item.game_user_id,
                 players: item.players,
                 son: item.son,
                 status: item.status ? '正常' : '已封',
