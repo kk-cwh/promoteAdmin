@@ -14,8 +14,8 @@ module.exports = {
        //匹配代理的url
      '/api': {
     // 目标服务器地址
-    target: "http://dev.agency.com",
-    // target: "http://zhuyu.lara",
+    // target: "http://dev.agency.com",
+    target: "http://zhuyu.lara",
     pathRewrite: {"^/api" : "/api"},
     secure: false, // 接受 运行在 https 上的服务
     changeOrigin: true
