@@ -5,19 +5,19 @@
         <div class="form-content">
           <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
             <el-form-item label="代理ID">
-              <el-input v-model="queryForm.user" placeholder="代理ID" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.agency_id" placeholder="代理ID" style="width:150px;"></el-input>
             </el-form-item>
             <el-form-item label="玩家ID">
-              <el-input v-model="queryForm.user" placeholder="玩家ID" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.user_id" placeholder="玩家ID" style="width:150px;"></el-input>
             </el-form-item>
 
-            <el-form-item label="游戏">
+            <!-- <el-form-item label="游戏">
               <el-select v-model="queryForm.region" placeholder="游戏" style="width:100px;">
                 <el-option label="全部" value="0"></el-option>
                 <el-option label="斗地主" value="1"></el-option>
                 <el-option label="炸金花" value="2"></el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
 
             <el-form-item>
               <el-button type="primary" icon="el-icon-search" @click="queryList" :loading="loading">查询</el-button>
@@ -36,11 +36,13 @@
       <el-col :span="23">
         <div class="table-content">
           <el-table border v-loading="loading" :data="tableData" style="width: 100%" size="mini">
+            <!-- <el-table-column prop="agency_id" label="代理ID">
+            </el-table-column> -->
             <el-table-column prop="created_at" label="时间">
             </el-table-column>
             <el-table-column prop="room_name" label="游戏房间">
             </el-table-column>
-            <el-table-column prop="id" label="玩家ID">
+            <el-table-column prop="user_id" label="玩家ID">
             </el-table-column>
             <el-table-column prop="tax" label="产生税收">
             </el-table-column>
@@ -48,7 +50,7 @@
             </el-table-column>
             <el-table-column prop="date" label="下级分成比例">
             </el-table-column>
-            <el-table-column prop="date" label="我的收入">
+            <el-table-column prop="agency_tax" label="我的收入">
             </el-table-column>
 
           </el-table>
@@ -112,6 +114,7 @@ export default {
                 agency_id: item.agency_id,
                 game_id: item.game_id,
                 user_id: item.user_id,
+                agency_tax: item.agency_tax,
                 add_gold: item.add_gold,
                 cur_gold: item.cur_gold,
                 begin_time: item.begin_time,

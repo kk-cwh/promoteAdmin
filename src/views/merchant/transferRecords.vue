@@ -6,15 +6,15 @@
                 <div class="form-content">
                     <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
                         <el-form-item label="玩家ID">
-                            <el-input v-model="queryForm.playerId" placeholder="玩家ID" style="width:160px;"></el-input>
+                            <el-input v-model="queryForm.player_id" placeholder="玩家ID" style="width:160px;"></el-input>
                         </el-form-item>
-                        <el-form-item label="商人ID">
-                            <el-input v-model="queryForm.id" placeholder="商人ID" style="width:160px;"></el-input>
-                        </el-form-item>
+                        <!-- <el-form-item label="商人ID">
+                            <el-input v-model="queryForm.merchant_id" placeholder="商人ID" style="width:160px;"></el-input>
+                        </el-form-item> -->
 
                         <el-form-item label="转账金额">
-                            <el-input v-model="queryForm.minMoney" placeholder="最小金额" style="width:100px;"></el-input>-
-                            <el-input v-model="queryForm.maxMoney" placeholder="最大金额" style="width:100px;"></el-input>
+                            <el-input v-model="queryForm.min_money" placeholder="最小金额" style="width:100px;"></el-input>-
+                            <el-input v-model="queryForm.max_money" placeholder="最大金额" style="width:100px;"></el-input>
                         </el-form-item>
                         <!-- <el-form-item label="状态">
                             <el-select v-model="queryForm.status" placeholder="状态" style="width:100px;">
@@ -24,8 +24,8 @@
                             </el-select>
                         </el-form-item> -->
                         <el-form-item label="时间">
-                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.date1" style="width: 140px;"></el-date-picker>-
-                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.date2" style="width: 140px;"></el-date-picker>
+                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.start_time" style="width: 140px;"></el-date-picker>-
+                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.end_time" style="width: 140px;"></el-date-picker>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" icon="el-icon-search" @click="init" :loading="loading">查询</el-button>

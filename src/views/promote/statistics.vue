@@ -5,12 +5,12 @@
         <div class="form-content">
           <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
             <el-form-item label="代理ID">
-              <el-input v-model="queryForm.agency_id" placeholder="代理ID" style="width:150px;"></el-input>
+              <el-input v-model="queryForm.agentId" placeholder="代理ID" style="width:150px;"></el-input>
             </el-form-item>
 
             <el-form-item label="时间选择">
-              <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.start_date" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.end_date" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.start" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.end" style="width: 140px;"></el-date-picker>
             </el-form-item>
 
             <el-form-item>

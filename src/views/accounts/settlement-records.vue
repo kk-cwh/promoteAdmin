@@ -7,23 +7,27 @@
           <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
 
             <el-form-item label="支付宝账号">
-              <el-input v-model="queryForm.zhifubao" placeholder="支付宝账号" style="width:160px;"></el-input>
+              <el-input v-model="queryForm.pay_account" placeholder="支付宝账号" style="width:160px;"></el-input>
             </el-form-item>
 
             <el-form-item label="结算金额">
-              <el-input v-model="queryForm.minMoney" placeholder="金额" style="width:100px;"></el-input>-
-              <el-input v-model="queryForm.maxMoney" placeholder="金额" style="width:100px;"></el-input>
+              <el-input v-model="queryForm.min_money" placeholder="金额" style="width:100px;"></el-input>-
+              <el-input v-model="queryForm.max_money" placeholder="金额" style="width:100px;"></el-input>
             </el-form-item>
-            <el-form-item label="状态">
+              <!-- 0,申请中1结算成功，2审核拒绝，3审核中，4转账失败 -->
+            <!-- <el-form-item label="状态">
               <el-select v-model="queryForm.status" placeholder="状态" style="width:100px;">
-                <el-option label="全部" value="0"></el-option>
-                <el-option label="结算成功" value="1"></el-option>
-                <el-option label="未结算" value="2"></el-option>
+                <el-option label="全部" :value="''"></el-option>
+                <el-option label="申请中" :value="0"></el-option>
+                <el-option label="结算成功" :value="1"></el-option>
+                <el-option label="审核拒绝" :value="2"></el-option>
+                <el-option label="审核中" :value="3"></el-option>
+                <el-option label="转账失败" :value="4"></el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="时间">
-              <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.date1" style="width: 140px;"></el-date-picker>-
-              <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.date2" style="width: 140px;"></el-date-picker>
+              <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.start_time" style="width: 140px;"></el-date-picker>-
+              <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="结束日期" v-model="queryForm.end_time" style="width: 140px;"></el-date-picker>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" icon="el-icon-search" @click="init" :loading="loading">查询</el-button>
