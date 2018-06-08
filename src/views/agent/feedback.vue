@@ -3,12 +3,12 @@
         <el-row>
             <el-col :span="23">
                 <div class="form-content">
-                    <el-form :inline="true" :model="formInline" class="demo-form-inline" size="small">
+                    <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
                         <el-form-item>
                             <el-button icon="el-icon-circle-plus" type="danger" @click="toAddFeedback('addForm')">新增</el-button>
                         </el-form-item>
                         <el-form-item label="留言类别">
-                            <el-select v-model="formInline.type" style="width:140px;">
+                            <el-select v-model="queryForm.type" style="width:140px;">
                                 <el-option :value="''" label="全部"></el-option>
                                 <el-option :value="1" label="建议"></el-option>
                                 <el-option :value="2" label="推广"></el-option>
@@ -18,8 +18,8 @@
                         </el-form-item>
 
                         <el-form-item label="留言时间">
-                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="formInline.startTime" style="width: 140px;"></el-date-picker>-
-                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="formInline.endTime" style="width: 140px;"></el-date-picker>
+                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="queryForm.startTime" style="width: 140px;"></el-date-picker>-
+                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-model="queryForm.endTime" style="width: 140px;"></el-date-picker>
                         </el-form-item>
 
                         <el-form-item>
@@ -132,7 +132,7 @@ export default {
       total: 0,
       addDialogVisible: false,
       editDialogVisible: false,
-      formInline: { type: '' },
+      queryForm: { type: '' },
       form: { type: 1 },
       tableData: [
 
@@ -172,7 +172,7 @@ export default {
     queryList() {
       this.loading = true
       this.tableData = []
-      const query = { page: this.currentPage, per_page: this.per_page, ...this.formInline }
+      const query = { page: this.currentPage, per_page: this.per_page, ...this.queryForm }
       this.$store.dispatch('FeedbackList', query).then((res) => {
         this.tableData = []
         if (res.data && res.data.length) {
