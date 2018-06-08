@@ -28,3 +28,8 @@ export function isPhoneNumber(str) {
   const reg = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/
   return reg.test(str)
 }
+
+// 金额 /100 toFix（2）
+export function return2Fix(num) {
+  return (num / 100).toFixed(2)
+}

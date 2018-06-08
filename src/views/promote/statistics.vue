@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { return2Fix } from '@/utils/validate'
 export default {
   data() {
     return {
@@ -122,12 +123,12 @@ export default {
                 grade: item.grade,
                 phone: item.phone,
                 _amount_counts: item._amount_counts,
-                _amounts: item._amounts,
-                _cash: item._cash,
+                _amounts: return2Fix(item._amounts),
+                _cash: return2Fix(item._cash),
                 _cash_counts: item._cash_counts,
                 _counts: item._counts,
                 _new_user_counts: item._new_user_counts,
-                _tax: item._tax,
+                _tax: return2Fix(item._tax),
                 created_at: item.created_at
               }
             )

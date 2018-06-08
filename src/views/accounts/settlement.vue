@@ -46,7 +46,7 @@
 </template>
 
 <script>
-
+import { return2Fix } from '@/utils/validate'
 export default {
   name: 'promote',
   data() {
@@ -87,7 +87,7 @@ export default {
           this.ruleForm = {
             pay_account: data.pay_account,
             pay_real_name: data.pay_real_name,
-            total: data.total,
+            total: return2Fix(data.total),
             phone: data.phone
           }
         }

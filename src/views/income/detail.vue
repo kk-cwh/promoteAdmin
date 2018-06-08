@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import { return2Fix } from '@/utils/validate'
 export default {
   data() {
     return {
@@ -114,14 +115,14 @@ export default {
                 agency_id: item.agency_id,
                 game_id: item.game_id,
                 user_id: item.user_id,
-                agency_tax: item.agency_tax,
+                agency_tax: return2Fix(item.agency_tax),
                 add_gold: item.add_gold,
                 cur_gold: item.cur_gold,
                 begin_time: item.begin_time,
                 end_time: item.end_time,
                 last_play_time: item.last_play_time,
                 room_name: item.room_name,
-                tax: item.tax,
+                tax: return2Fix(item.tax),
                 type: item.type,
                 created_at: item.created_at,
                 updated_at: item.updated_at

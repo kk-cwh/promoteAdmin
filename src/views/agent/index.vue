@@ -161,6 +161,7 @@
 
 <script>
 import { getKey } from '@/utils/auth'
+import { return2Fix } from '@/utils/validate'
 export default {
   data() {
     const validateRate = (rule, value, callback) => {
@@ -248,18 +249,18 @@ export default {
                 wechat_uid: item.wechat_uid,
                 agency_name: item.agency_name,
                 phone: item.phone,
-                balance: item.balance,
+                balance: return2Fix(item.balance),
                 children: item.children,
                 grade: item.grade,
                 rate: item.rate,
                 rateTxt: item.rate + '%',
-                history_sum: item.history_sum,
+                history_sum: return2Fix(item.history_sum),
                 game_user_id: item.game_user_id,
                 players: item.players,
                 son: item.son,
                 status: item.status ? '正常' : '已封',
                 today_new_member: item.today_new_member,
-                today_sum: item.today_sum,
+                today_sum: return2Fix(item.today_sum),
                 created_at: item.created_at
               }
             )

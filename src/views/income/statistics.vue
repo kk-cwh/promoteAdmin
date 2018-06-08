@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import { return2Fix } from '@/utils/validate'
 export default {
   data() {
     return {
@@ -109,8 +110,8 @@ export default {
                 rate: item.rate + '%',
                 status: item.status,
                 pay_account: item.pay_account,
-                _tax: item._tax,
-                _income: item._income,
+                _tax: return2Fix(item._tax),
+                _income: return2Fix(item._income),
                 updated_at: item.updated_at,
                 created_at: item.created_at
               }
