@@ -44,15 +44,15 @@
             </el-table-column>
             <el-table-column prop="NickName" label="昵称">
             </el-table-column>
-            <el-table-column prop="agency_name" label="携带">
+            <el-table-column prop="Money" label="携带金币">
             </el-table-column>
-            <el-table-column prop="UnionCard" label="银行">
+            <el-table-column prop="BankMoney" label="银行">
             </el-table-column>
-            <el-table-column prop="Money" label="总税收">
+            <el-table-column prop="taxes" label="总税收">
             </el-table-column>
             <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
-                <el-button @click="showDetail(scope.row)" type="text" size="small">查看明细</el-button>
+                <el-button @click="toShowDetail(scope.row)" type="text" size="small">查看明细</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -113,6 +113,7 @@ export default {
       detail_total: 0,
       loading: false,
       number: 0,
+      detailId: 0,
       queryForm: {},
       tableData: [
       ],
@@ -180,6 +181,7 @@ export default {
                 TotalWin: item.TotalWin,
                 TodayWin: item.TodayWin,
                 lastplaytime: item.lastplaytime,
+                taxes: item.taxes,
                 ParentId: item.ParentId,
                 AgentId: item.AgentId,
                 TotalTax: item.TotalTax
@@ -196,9 +198,13 @@ export default {
         this.loading = false
       })
     },
-    showDetail(row) {
+    toShowDetail(row) {
+      this.detailId = row.UserID
+      this.showDetail()
+    },
+    showDetail() {
       this.show = false
-      const query = { id: row.UserID, page: this.detailCurrentPage, per_page: this.detail_per_page }
+      const query = { id: this.detailId, page: this.detailCurrentPage, per_page: this.detail_per_page }
       this.$store.dispatch('AgencyPlayerDetail', query).then((res) => {
         this.tableDataDetail = []
         if (res.data && res.data.length) {
