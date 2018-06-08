@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import { return2Fix } from '@/utils/validate'
 export default {
   data() {
     return {
@@ -181,7 +182,7 @@ export default {
                 TotalWin: item.TotalWin,
                 TodayWin: item.TodayWin,
                 lastplaytime: item.lastplaytime,
-                taxes: item.taxes,
+                taxes: return2Fix(item.taxes),
                 ParentId: item.ParentId,
                 AgentId: item.AgentId,
                 TotalTax: item.TotalTax
