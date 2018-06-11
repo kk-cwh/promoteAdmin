@@ -44,7 +44,7 @@
 </template>
 
 <script>
-
+import { return2Fix } from '@/utils/validate'
 export default {
   name: 'promote',
   data() {
@@ -93,7 +93,7 @@ export default {
             agency_name: agency.agency_name,
             agency_amount: agency.agency_amount,
             grade: agency.grade,
-            balance: agency.balance,
+            balance: return2Fix(agency.balance),
             status: agency.status,
             phone: agency.phone,
             rate: agency.rate,
