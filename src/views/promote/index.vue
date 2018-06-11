@@ -28,7 +28,7 @@
                             <div class="report-title"> 公告信息 </div>
                             <div class="report-publish">
                                 <el-button type="text" @click="moreReport">更多公告&nbsp;&nbsp;</el-button>
-                                <el-button @click="toPublish" v-if="isAdmin">发布公告</el-button>
+                                <el-button @click="toPublish" v-show="ablePublish">发布公告</el-button>
                             </div>
                         </div>
 
@@ -41,9 +41,9 @@
 
                             <el-table-column prop="created_at" label="日期" width="180">
                             </el-table-column>
-                            <el-table-column label="操作" width="60">
+                            <el-table-column label="操作" width="60" >
                                 <template slot-scope="scope">
-                                    <span @click="editReport(scope.row)" class="eidt-span">
+                                    <span @click="editReport(scope.row)" class="eidt-span"  v-show="ablePublish">
                                         <svg-icon icon-class="edit" />
                                     </span>
                                 </template>
@@ -94,6 +94,8 @@ export default {
   name: 'promote',
   data() {
     return {
+      ablePublish: false,
+      publishTxt: '',
       statistic: {
       },
       title: '',
@@ -118,6 +120,7 @@ export default {
     ])
   },
   mounted() {
+    this.getAgencyInfo()
     this.editor = new E(this.$refs.toolbar, this.$refs.editor)
     this.editor.customConfig.onchange = (html) => {
       this.publish.content = html
@@ -279,6 +282,18 @@ export default {
           duration: 5 * 1000
         })
         this.show = false
+      })
+    },
+    getAgencyInfo() {
+      this.$store.dispatch('GetAgencyInfo').then((res) => {
+        if (res && res.agency) {
+          var agency = res.agency
+          var isAdmin = agency.grade === 1
+          this.ablePublish = isAdmin
+          this.$store.commit('SET_IS_ADMIN', isAdmin)
+        }
+      }).catch(() => {
+
       })
     }
   }
