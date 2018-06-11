@@ -50,10 +50,10 @@
             </el-table-column>
             <el-table-column prop="taxes" label="总税收">
             </el-table-column>
-            <el-table-column label="操作" width="220px">
+            <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
-                <el-button @click="toShowDetail(scope.row)" type="text" size="mini">查看明细</el-button>
-                <el-button @click="toTransfer(scope.row)" type="text" size="mini">转 账</el-button>
+                <!-- <el-button @click="toShowDetail(scope.row)" type="text" size="mini">查看明细</el-button> -->
+                <el-button @click="toTransfer(scope.row)" type="primary" size="mini">转 账</el-button>
               </template>
             </el-table-column>
           </el-table>

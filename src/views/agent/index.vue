@@ -66,7 +66,7 @@
             </el-table-column>
             <el-table-column prop="phone" label="账号">
             </el-table-column>
-            <el-table-column prop="agency_name" label="代理名">
+            <el-table-column prop="agency_name" label="代理昵称">
             </el-table-column>
             <el-table-column prop="rateTxt" label="提成比例" width="80px">
             </el-table-column>
@@ -194,7 +194,7 @@ export default {
       },
       rules: {
         agency_name: [
-          { required: true, message: '请输入代理名称', trigger: 'blur' }
+          { required: true, message: '请输入代理昵称', trigger: 'blur' }
         ],
         phone: [
           { required: true, message: '请输入代理账号', trigger: 'change' }

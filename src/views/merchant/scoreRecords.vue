@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import { return2Fix } from '@/utils/validate'
 export default {
   data() {
     return {
@@ -143,9 +144,9 @@ export default {
                 id: item.id,
                 agency_id: item.agency_from_id,
                 merchant_id: item.agency_to_id,
-                balance_before: item.balance_before,
-                balance: item.balance_before - item.money,
-                money: item.money,
+                balance_before: return2Fix(item.balance_before),
+                balance: return2Fix(item.balance_before - item.money),
+                money: return2Fix(item.money),
                 type: item.type,
                 created_at: item.created_at
               }
