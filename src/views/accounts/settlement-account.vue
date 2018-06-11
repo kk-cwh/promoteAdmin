@@ -88,8 +88,9 @@ export default {
               message: '修改成功！',
               type: 'success'
             })
-            this.queryList()
+            this.queryStatistic()
           }).catch((err) => {
+            console.log(err)
             if (err && err.response && err.response.data) {
               this.$message({
                 showClose: true,
