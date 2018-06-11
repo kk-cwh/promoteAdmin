@@ -78,6 +78,7 @@ export default {
     }
   },
   mounted() {
+    this.ruleForm.player_id = this.$route.params.player_id
     this.init()
   },
   methods: {

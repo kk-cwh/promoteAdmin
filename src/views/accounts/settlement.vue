@@ -115,7 +115,7 @@ export default {
               type: 'success'
             })
           }).catch((err) => {
-            if (err.response.status === 400) {
+            if (err && err.response && err.response.data) {
               this.$message({
                 showClose: true,
                 center: true,
@@ -123,6 +123,7 @@ export default {
                 type: 'error'
               })
             } else {
+              console.log(err.response)
               this.$message({
                 showClose: true,
                 center: true,

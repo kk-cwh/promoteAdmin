@@ -24,8 +24,8 @@
             <el-form-item label="代理ID">
               <el-input v-model="queryForm.id" placeholder="代理ID" style="width:100px;"></el-input>
             </el-form-item>
-            <el-form-item label="代理账号">
-              <el-input v-model="queryForm.phone" placeholder="代理账号" style="width:150px;"></el-input>
+            <el-form-item label="账号">
+              <el-input v-model="queryForm.phone" placeholder="账号" style="width:150px;"></el-input>
             </el-form-item>
             <!-- <el-form-item label="模糊">
               <el-switch v-model="queryForm.value2"></el-switch>
@@ -36,8 +36,8 @@
             </el-form-item>
             <br>
             <el-form-item label="账户余额">
-              <el-input v-model="queryForm.balanceMin" placeholder="" style="width:100px;"></el-input>-
-              <el-input v-model="queryForm.balanceMax" placeholder="" style="width:100px;"></el-input>
+              <el-input v-model="queryForm.min_money" placeholder="" style="width:100px;"></el-input>-
+              <el-input v-model="queryForm.max_money" placeholder="" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="注册时间">
               <el-date-picker type="date"   value-format="yyyy-MM-dd" placeholder="开始日期" v-model="queryForm.dateStart" style="width: 140px;"></el-date-picker>-
@@ -64,7 +64,7 @@
             </el-table-column>
             <el-table-column prop="gradeTxt" label="等级" width="70px">
             </el-table-column>
-            <el-table-column prop="phone" label="代理账号">
+            <el-table-column prop="phone" label="账号">
             </el-table-column>
             <el-table-column prop="agency_name" label="代理名">
             </el-table-column>
@@ -105,19 +105,19 @@
     <el-dialog title="添加代理" :visible.sync="addDialogVisible" width="480px" center>
       <div slot="title" style="font-size:15px;font-weight:bold;">添加代理</div>
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="140px" size="small">
-        <el-form-item label="代理名称" prop="agency_name">
+        <el-form-item label="代理昵称" prop="agency_name">
           <el-input v-model="ruleForm.agency_name" name="agency_name" style="width:200px"></el-input>
         </el-form-item>
-        <el-form-item label="代理账号" prop="phone">
+        <el-form-item label="账号" prop="phone">
           <el-input v-model="ruleForm.phone" name="phone" style="width:200px"></el-input>
         </el-form-item>
-        <el-form-item label="代理用户密码" prop="password">
+        <el-form-item label="密码" prop="password">
           <el-input v-model="ruleForm.password" name="password" style="width:200px"></el-input>
         </el-form-item>
-        <el-form-item label="提成比率" prop="rate">
+        <el-form-item label="返点比例" prop="rate">
           <el-input type="text" v-model="ruleForm.rate" name="rate" style="width:200px"><template slot="append">%</template></el-input>
-          <el-popover placement="top-start" title="提成说明" width="300" trigger="hover" content="总代35%，1代33%，下面的代理，可自定义 。可设定范围：0-33，设置后比例只可上调不可下调！">
-            <el-button type="text" slot="reference" icon="el-icon-warning">提成说明</el-button>
+          <el-popover placement="top-start" title="" width="300" trigger="hover" content="可设定范围：0-33，设置后比例只可上调不可下调！">
+            <el-button type="text" slot="reference" icon="el-icon-warning">返点说明</el-button>
           </el-popover>
         </el-form-item>
         <el-form-item label="">
@@ -129,24 +129,24 @@
     </el-dialog>
 
     <!-- 编辑代理 dialog -->
-    <el-dialog title="添加代理" :visible.sync="editDialogVisible" width="480px" center>
+    <el-dialog title="编辑代理" :visible.sync="editDialogVisible" width="480px" center>
       <div slot="title" style="font-size:15px;font-weight:bold;">编辑代理信息</div>
       <el-form ref="editForm" :model="editForm" :rules="editRules" label-width="140px" size="small">
-        <el-form-item label="代理名称">
+        <el-form-item label="代理昵称">
           <el-tag type="info" style="width:200px" >{{editForm.agency_name}}</el-tag>
         </el-form-item>
-        <el-form-item label="代理账号">
+        <el-form-item label="账号">
             <el-tag type="info" style="width:200px" >{{editForm.phone}}</el-tag>
           <!-- <el-input v-model="editForm.phone" name="phone" style="width:200px"></el-input> -->
         </el-form-item>
-        <el-form-item label="代理用户密码">
+        <el-form-item label="密码">
              <el-tag type="info" style="width:200px" >●●●●●●</el-tag>
           <!-- <el-input v-model="editForm.password" name="password" style="width:200px"></el-input> -->
         </el-form-item>
-        <el-form-item label="提成比率" prop="rate">
+        <el-form-item label="返点比例" prop="rate">
           <el-input type="text" v-model="editForm.rate" name="rate" style="width:200px"> <template slot="append">%</template></el-input>
-          <el-popover placement="top-start" title="提成说明" width="300" trigger="hover" content="可设定范围：0-33，设置后比例只可上调不可下调！">
-            <el-button type="text" slot="reference" icon="el-icon-warning">提成说明</el-button>
+          <el-popover placement="top-start" title="" width="300" trigger="hover" content="可设定范围：0-33，设置后比例只可上调不可下调！">
+            <el-button type="text" slot="reference" icon="el-icon-warning">返点说明</el-button>
           </el-popover>
         </el-form-item>
         <el-form-item label="">
@@ -283,7 +283,12 @@ export default {
     },
     toEdit(row) {
       this.editDialogVisible = true
-      this.editForm = row
+      this.editForm = {
+        id: row.id,
+        agency_name: row.agency_name,
+        phone: row.phone,
+        rate: row.rate
+      }
     },
     addAgency(formName) {
       this.$refs[formName].validate((valid) => {

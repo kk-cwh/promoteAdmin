@@ -38,21 +38,22 @@
           <el-table border v-loading="loading" :data="tableData" row-class-name="report-row-item" cell-class-name="report-cell-item" size="mini">
             <el-table-column prop="UserID" label="玩家ID">
             </el-table-column>
-            <el-table-column prop="RegDate" label="注册时间">
-            </el-table-column>
-            <el-table-column prop="lastplaytime" label="最近游戏时间">
-            </el-table-column>
             <el-table-column prop="NickName" label="昵称">
             </el-table-column>
-            <el-table-column prop="Money" label="携带金币">
+            <el-table-column prop="Money" label="携带余额">
             </el-table-column>
-            <el-table-column prop="BankMoney" label="银行">
+            <el-table-column prop="BankMoney" label="银行余额">
+            </el-table-column>
+            <el-table-column prop="RegDate" label="注册时间">
+            </el-table-column>
+            <el-table-column prop="lastplaytime" label="上次游戏时间">
             </el-table-column>
             <el-table-column prop="taxes" label="总税收">
             </el-table-column>
             <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
-                <el-button @click="toShowDetail(scope.row)" type="text" size="small">查看明细</el-button>
+                <!-- <el-button @click="toShowDetail(scope.row)" type="text" size="small">查看明细</el-button> -->
+                <el-button @click="toTransfer(scope.row)" type="primary" size="mini">转 账</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -244,6 +245,9 @@ export default {
       this.queryForm = {}
       this.tableData = []
       this.total = 0
+    },
+    toTransfer(row) {
+      this.$router.push({ name: 'transfer', params: { player_id: row.UserID }})
     }
   }
 }

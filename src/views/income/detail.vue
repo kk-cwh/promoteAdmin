@@ -4,9 +4,9 @@
       <el-col :span="23">
         <div class="form-content">
           <el-form :inline="true" :model="queryForm" class="demo-form-inline" size="small">
-            <el-form-item label="代理ID">
+            <!-- <el-form-item label="代理ID">
               <el-input v-model="queryForm.agency_id" placeholder="代理ID" style="width:150px;"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="玩家ID">
               <el-input v-model="queryForm.user_id" placeholder="玩家ID" style="width:150px;"></el-input>
             </el-form-item>
