@@ -223,7 +223,7 @@ export default {
                 end_time: item.end_time,
                 last_play_time: item.last_play_time,
                 room_name: item.room_name,
-                tax: item.tax,
+                tax: return2Fix(item.tax),
                 type: item.type,
                 created_at: item.created_at,
                 updated_at: item.updated_at

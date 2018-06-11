@@ -10,9 +10,9 @@
 
         </div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" size="small" label-width="120px" class="demo-ruleForm">
-          <el-form-item label="当前结算密码:" prop="name">
+          <!-- <el-form-item label="当前结算密码:" prop="name">
             <el-input type="password" v-model="ruleForm.oldpassword" style="width:180px;"></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="新密码:" prop="password">
             <el-input type="password" v-model="ruleForm.password" style="width:180px;"></el-input>
           </el-form-item>
@@ -96,13 +96,12 @@ export default {
         if (valid) {
           this.$store.dispatch('SettlementPwd', this.ruleForm).then(() => {
             this.loading = false
-            this.centerDialogVisible = false
             this.$message({
               message: '修改成功！',
               type: 'success'
             })
           }).catch((err) => {
-            if (err.response.status === 400) {
+            if (err && err.response && err.response.data) {
               this.$message({
                 showClose: true,
                 center: true,

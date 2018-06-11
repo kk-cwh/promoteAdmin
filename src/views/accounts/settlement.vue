@@ -109,7 +109,6 @@ export default {
           }
           this.$store.dispatch('Settlement', data).then(() => {
             this.loading = false
-            this.centerDialogVisible = false
             this.$message({
               message: '修改成功！',
               type: 'success'
@@ -123,7 +122,6 @@ export default {
                 type: 'error'
               })
             } else {
-              console.log(err.response)
               this.$message({
                 showClose: true,
                 center: true,
