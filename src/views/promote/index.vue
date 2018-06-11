@@ -16,10 +16,10 @@
                         <div class="statistics-item">今日注册:{{statistic.today_new_member}}</div>
                         <div class="statistics-item">今日收益:{{statistic.today_sum}}</div>
                         <div class="statistics-item">下级代理:{{statistic.son}}</div>
-                        <div class="statistics-item">非直属代理:{{statistic.children}}</div>
+                        <div class="statistics-item">非直属代理:{{statistic.children-statistic.son}}</div>
                     </div>
                 </el-card>
-                
+                <br>
                 <!-- 公告信息 -->
                 <el-row>
                     <el-col :span="16">

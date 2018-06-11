@@ -33,3 +33,16 @@ export function isPhoneNumber(str) {
 export function return2Fix(num) {
   return (num / 100).toFixed(2)
 }
+
+// 代理级别 num to str
+export function grade2Txt(key) {
+  const agencyKey2Name = {
+    1: '总代',
+    2: '一级代理',
+    3: '二级代理',
+    4: '三级代理',
+    5: '四级代理',
+    6: '五级代理'
+  }
+  return agencyKey2Name[key]
+}

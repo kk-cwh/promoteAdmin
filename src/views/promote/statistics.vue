@@ -35,7 +35,7 @@
             </el-table-column>
             <el-table-column prop="agency_name" label="代理名称">
             </el-table-column>
-            <el-table-column prop="grade" label="代理级别">
+            <el-table-column prop="gradeTxt" label="代理级别">
             </el-table-column>
             <!-- <el-table-column prop="date" label="统计项目">
             </el-table-column> -->
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { return2Fix } from '@/utils/validate'
+import { return2Fix, grade2Txt } from '@/utils/validate'
 export default {
   data() {
     return {
@@ -121,6 +121,7 @@ export default {
                 agency_amount: item.agency_amount,
                 agency_name: item.agency_name,
                 grade: item.grade,
+                gradeTxt: grade2Txt(item.grade),
                 phone: item.phone,
                 _amount_counts: item._amount_counts,
                 _amounts: return2Fix(item._amounts),

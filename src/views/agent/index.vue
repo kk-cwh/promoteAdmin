@@ -62,7 +62,7 @@
             </el-table-column>
             <el-table-column prop="status" label="账号状态" width="80px">
             </el-table-column>
-            <el-table-column prop="grade" label="等级" width="60px">
+            <el-table-column prop="gradeTxt" label="等级" width="70px">
             </el-table-column>
             <el-table-column prop="phone" label="代理账号">
             </el-table-column>
@@ -160,8 +160,9 @@
 </template>
 
 <script>
+
 import { getKey } from '@/utils/auth'
-import { return2Fix } from '@/utils/validate'
+import { return2Fix, grade2Txt } from '@/utils/validate'
 export default {
   data() {
     const validateRate = (rule, value, callback) => {
@@ -252,6 +253,7 @@ export default {
                 balance: return2Fix(item.balance),
                 children: item.children,
                 grade: item.grade,
+                gradeTxt: grade2Txt(item.grade),
                 rate: item.rate,
                 rateTxt: item.rate + '%',
                 history_sum: return2Fix(item.history_sum),
