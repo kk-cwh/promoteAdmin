@@ -120,14 +120,23 @@ export default {
             // this.$store.dispatch('GetInfo', this.loginForm).then(() => {
             this.$router.push({ path: '/' })
             // })
-          }).catch(() => {
+          }).catch((err) => {
+            if (err && err.response.status === 401) {
+              this.$message({
+                showClose: true,
+                center: true,
+                message: '账号或者密码有误!',
+                type: 'error'
+              })
+            } else {
+              this.$message({
+                showClose: true,
+                center: true,
+                message: '系统错误!',
+                type: 'error'
+              })
+            }
             this.loading = false
-            this.$message({
-              showClose: true,
-              center: true,
-              message: '账号或者密码有误!',
-              type: 'error'
-            })
           })
         } else {
           return false
