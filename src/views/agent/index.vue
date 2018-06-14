@@ -89,7 +89,7 @@
             <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
                 <!-- <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button> -->
-                <el-button type="text" size="small" @click="toEdit(scope.row)" :disabled=" grade === scope.row.grade ">编辑</el-button>
+                <el-button type="text" size="small" @click="toEdit(scope.row)" v-show="grade !== scope.row.grade">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
