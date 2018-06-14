@@ -89,7 +89,7 @@
             <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
                 <!-- <el-button @click="showReport(scope.row)" type="text" size="small">查看</el-button> -->
-                <el-button type="text" size="small" @click="toEdit(scope.row)">编辑</el-button>
+                <el-button type="text" size="small" @click="toEdit(scope.row)" :disabled=" grade === scope.row.grade ">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -161,7 +161,7 @@
 
 <script>
 
-import { getKey } from '@/utils/auth'
+import { getKey, setKey } from '@/utils/auth'
 import { return2Fix, grade2Txt } from '@/utils/validate'
 export default {
   data() {
@@ -178,6 +178,7 @@ export default {
       currentPage: 1,
       per_page: 15,
       total: 0,
+      grade: 0,
       loading: false,
       number: getKey('next_agency_num') || 0,
       queryForm: {
@@ -218,7 +219,7 @@ export default {
     }
   },
   mounted() {
-    // this.init()
+    this.getAgencyInfo()
   },
   methods: {
     init() {
@@ -234,6 +235,16 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val
       this.queryList()
+    },
+    getAgencyInfo() {
+      this.$store.dispatch('GetAgencyInfo').then((res) => {
+        if (res && res.agency) {
+          var agency = res.agency
+          this.grade = agency.grade
+        }
+      }).catch(() => {
+
+      })
     },
     queryList() {
       this.loading = true
@@ -271,6 +282,8 @@ export default {
         if (res.meta && res.meta.pagination) {
           this.total = res.meta.pagination.total
           this.per_page = res.meta.pagination.per_page
+          this.number = res.meta.son_agency_count ? res.meta.son_agency_count : 0
+          setKey('next_agency_num', this.number)
         }
         this.loading = false
       }).catch(() => {

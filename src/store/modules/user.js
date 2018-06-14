@@ -30,7 +30,7 @@ const user = {
         http({
           url: '/api/auth/login',
           method: 'post',
-          data: { name: userInfo.username, password: userInfo.password }
+          data: { name: userInfo.username, password: userInfo.password, code: userInfo.code }
         }).then(response => {
           if (response.data) {
             const data = response.data

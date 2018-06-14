@@ -41,9 +41,9 @@
 
                             <el-table-column prop="created_at" label="日期" width="180">
                             </el-table-column>
-                            <el-table-column label="操作" width="60" >
+                            <el-table-column label="操作" width="60">
                                 <template slot-scope="scope">
-                                    <span @click="editReport(scope.row)" class="eidt-span"  v-show="ablePublish">
+                                    <span @click="editReport(scope.row)" class="eidt-span" v-show="ablePublish">
                                         <svg-icon icon-class="edit" />
                                     </span>
                                 </template>
@@ -238,13 +238,29 @@ export default {
       }
       this.$store.dispatch('AddPublicReport', form).then((res) => {
         this.show = false
-      }).catch((err) => {
         this.$message({
           showClose: true,
-          message: err.response.data.message,
-          type: 'error',
-          duration: 5 * 1000
+          message: '发布成功!',
+          type: 'success',
+          duration: 3 * 1000
         })
+        this.init()
+      }).catch((err) => {
+        if (err && err.response && err.response.data) {
+          this.$message({
+            showClose: true,
+            message: err.response.data.message,
+            type: 'error',
+            duration: 5 * 1000
+          })
+        } else {
+          this.$message({
+            showClose: true,
+            message: '发布失败！',
+            type: 'error',
+            duration: 5 * 1000
+          })
+        }
         this.show = false
       })
     },
@@ -274,13 +290,30 @@ export default {
       }
       this.$store.dispatch('UpdatePublicReport', form).then((res) => {
         this.show = false
-      }).catch((err) => {
         this.$message({
           showClose: true,
-          message: err.response.data.message,
-          type: 'error',
-          duration: 5 * 1000
+          message: '更新发布成功!',
+          type: 'success',
+          duration: 3 * 1000
         })
+        this.init()
+      }).catch((err) => {
+        if (err && err.response && err.response.data) {
+          this.$message({
+            showClose: true,
+            message: err.response.data.message,
+            type: 'error',
+            duration: 5 * 1000
+          })
+        } else {
+          this.$message({
+            showClose: true,
+            message: '更新失败！',
+            type: 'error',
+            duration: 5 * 1000
+          })
+        }
+
         this.show = false
       })
     },

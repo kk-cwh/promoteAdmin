@@ -69,11 +69,13 @@ export default {
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        code: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+        password: [{ required: true, trigger: 'blur', validator: validatePass }],
+        code: [{ required: true, trigger: 'blur', message: '请填写验证码' }]
       },
       loading: false,
       pwdType: 'password',
@@ -121,11 +123,11 @@ export default {
             this.$router.push({ path: '/' })
             // })
           }).catch((err) => {
-            if (err && err.response.status === 401) {
+            if (err && err.response && err.response.data) {
               this.$message({
                 showClose: true,
                 center: true,
-                message: '账号或者密码有误!',
+                message: err.response.data.message,
                 type: 'error'
               })
             } else {
