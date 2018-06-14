@@ -44,12 +44,12 @@
             </el-table-column>
             <el-table-column prop="user_id" label="玩家ID">
             </el-table-column>
-            <el-table-column prop="tax" label="产生税收">
+            <el-table-column prop="tax" label="产生总税收">
             </el-table-column>
-            <el-table-column prop="date" label="提成比例">
+            <el-table-column prop="differ_rate" label="返点比例">
             </el-table-column>
-            <el-table-column prop="date" label="下级分成比例">
-            </el-table-column>
+            <!-- <el-table-column prop="date" label="下级分成比例">
+            </el-table-column> -->
             <el-table-column prop="agency_tax" label="我的收入">
             </el-table-column>
 
@@ -117,6 +117,7 @@ export default {
                 user_id: item.user_id,
                 agency_tax: return2Fix(item.agency_tax),
                 add_gold: item.add_gold,
+                differ_rate: item.differ_rate + '%',
                 cur_gold: item.cur_gold,
                 begin_time: item.begin_time,
                 end_time: item.end_time,
