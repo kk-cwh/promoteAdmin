@@ -140,7 +140,7 @@ export default {
     getIdentifyCode() {
       if (this.canGetIdentifyCode) {
         this.canGetIdentifyCode = false
-        let timeLast = 20
+        let timeLast = 59
         const timer = setInterval(() => {
           if (timeLast >= 0) {
             this.gettingIdentifyCodeBtnContent = timeLast + '秒后重试'
@@ -153,6 +153,30 @@ export default {
         }, 1000)
 
         // you can write ajax request here
+        this.$store.dispatch('sendPhoneCode').then((res) => {
+          this.$message({
+            message: '已发送！请注意查收!',
+            type: 'success'
+          })
+        }).catch((err) => {
+          clearInterval(timer)
+          this.canGetIdentifyCode = true
+          if (err && err.response && err.response.data) {
+            this.$message({
+              showClose: true,
+              message: err.response.data.message,
+              type: 'error',
+              duration: 5 * 1000
+            })
+          } else {
+            this.$message({
+              showClose: true,
+              center: true,
+              message: '发送失败！',
+              type: 'error'
+            })
+          }
+        })
       }
     }
 
